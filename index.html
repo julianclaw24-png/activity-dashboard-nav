@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activity Dashboard</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #fafbfc;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #111827;
+      --accent-soft: #eef2ff;
+      --blue: #3b82f6;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    h1, h2, h3, p { margin-top: 0; }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .hero,
+    .card,
+    .task-card,
+    .status-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 12px;
+      max-width: 11ch;
+    }
+
+    .intro {
+      max-width: 68ch;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-actions,
+    .inline-actions,
+    .filters,
+    .task-meta,
+    .card-head {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      min-height: 42px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn.small {
+      min-height: 34px;
+      padding: 7px 11px;
+      font-size: 0.92rem;
+    }
+
+    .summary-grid,
+    .content-grid,
+    .task-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 16px;
+    }
+
+    .status-box {
+      padding: 18px;
+    }
+
+    .label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .metric {
+      font-size: 1.9rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+    }
+
+    .subtext,
+    .muted {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .content-grid {
+      grid-template-columns: 360px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .card {
+      padding: 20px;
+    }
+
+    .card-head {
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .card-head h2,
+    .card-head h3 {
+      margin-bottom: 4px;
+    }
+
+    .field-grid,
+    .task-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .task-board {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .column {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 320px;
+    }
+
+    .column-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .count-pill,
+    .priority-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .count-pill {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-card {
+      padding: 14px;
+    }
+
+    .task-card h4 {
+      margin: 0 0 8px;
+      line-height: 1.3;
+      font-size: 1rem;
+    }
+
+    .task-card p {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .task-meta {
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .priority-high { background: #fef2f2; color: var(--red); }
+    .priority-medium { background: #fff7ed; color: var(--amber); }
+    .priority-low { background: #ecfdf3; color: var(--green); }
+
+    .empty {
+      padding: 14px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .status-banner {
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-weight: 600;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 1080px) {
+      .summary-grid,
+      .content-grid,
+      .task-board {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Activity dashboard</div>
+      <h1>Track your tasks simply.</h1>
+      <p class="intro">A clean single dashboard for your activities. Add tasks, move them through progress stages, and keep a lightweight note for what matters.</p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="focusTaskTitle()">Add task</button>
+        <button class="btn" onclick="exportTasks()">Export</button>
+        <button class="btn" onclick="document.getElementById('import-file').click()">Import</button>
+        <button class="btn" onclick="resetTasks()">Reset</button>
+      </div>
+      <input id="import-file" class="hidden" type="file" accept="application/json" onchange="importTasks(event)" />
+    </section>
+
+    <div id="status-banner" class="status-banner">Ready.</div>
+
+    <section id="summary-grid" class="summary-grid"></section>
+
+    <section class="content-grid">
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h2>Add or edit task</h2>
+            <p class="muted">Keep it short. One task = one activity you want to track.</p>
+          </div>
+        </div>
+
+        <form class="field-grid" onsubmit="saveTask(event)">
+          <input id="task-id" type="hidden" />
+          <div class="field">
+            <label for="task-title">Task</label>
+            <input id="task-title" type="text" placeholder="e.g. Finish Cycle Matter onboarding docs" required />
+          </div>
+
+          <div class="field">
+            <label for="task-status">Stage</label>
+            <select id="task-status">
+              <option value="todo">To do</option>
+              <option value="doing">Doing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="task-due">Due date</label>
+            <input id="task-due" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="task-notes">Notes</label>
+            <textarea id="task-notes" placeholder="Optional notes or next step"></textarea>
+          </div>
+
+          <div class="inline-actions">
+            <button class="btn primary" type="submit">Save task</button>
+            <button class="btn" type="button" onclick="clearForm()">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h2>Task board</h2>
+            <p class="muted">See everything in one place and move fast.</p>
+          </div>
+          <div class="filters">
+            <input id="search-input" type="search" placeholder="Search tasks" oninput="renderApp()" style="min-width: 180px; border:1px solid var(--line); border-radius:999px; padding:10px 12px;" />
+          </div>
+        </div>
+
+        <div id="task-board" class="task-board"></div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'activity-dashboard-v1';
+    const COLUMNS = [
+      { id: 'todo', name: 'To do' },
+      { id: 'doing', name: 'Doing' },
+      { id: 'done', name: 'Done' }
+    ];
+
+    const state = {
+      tasks: [],
+      selectedTaskId: null
+    };
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        state.tasks = Array.isArray(saved.tasks) ? saved.tasks : seedTasks();
+        state.selectedTaskId = saved.selectedTaskId || null;
+      } catch {
+        state.tasks = seedTasks();
+      }
+      if (!state.tasks.length) state.tasks = seedTasks();
+    }
+
+    function seedTasks() {
+      const now = new Date().toISOString();
+      return [
+        {
+          id: crypto.randomUUID(),
+          title: 'Review today\'s priorities',
+          status: 'todo',
+          priority: 'high',
+          dueDate: '',
+          notes: 'Pick the 1–3 things that really matter.',
+          createdAt: now,
+          updatedAt: now
+        },
+        {
+          id: crypto.randomUUID(),
+          title: 'Move active work into this dashboard',
+          status: 'doing',
+          priority: 'medium',
+          dueDate: '',
+          notes: 'Use this page as your single view of progress.',
+          createdAt: now,
+          updatedAt: now
+        }
+      ];
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        tasks: state.tasks,
+        selectedTaskId: state.selectedTaskId
+      }));
+    }
+
+    function setStatus(message) {
+      document.getElementById('status-banner').textContent = message;
+    }
+
+    function focusTaskTitle() {
+      clearForm();
+      document.getElementById('task-title').focus();
+    }
+
+    function clearForm() {
+      state.selectedTaskId = null;
+      document.getElementById('task-id').value = '';
+      document.getElementById('task-title').value = '';
+      document.getElementById('task-status').value = 'todo';
+      document.getElementById('task-priority').value = 'medium';
+      document.getElementById('task-due').value = '';
+      document.getElementById('task-notes').value = '';
+    }
+
+    function saveTask(event) {
+      event.preventDefault();
+      const id = document.getElementById('task-id').value || crypto.randomUUID();
+      const existing = state.tasks.find(task => task.id === id);
+      const now = new Date().toISOString();
+
+      const task = {
+        id,
+        title: document.getElementById('task-title').value.trim(),
+        status: document.getElementById('task-status').value,
+        priority: document.getElementById('task-priority').value,
+        dueDate: document.getElementById('task-due').value,
+        notes: document.getElementById('task-notes').value.trim(),
+        createdAt: existing?.createdAt || now,
+        updatedAt: now
+      };
+
+      if (!task.title) return;
+
+      if (existing) {
+        state.tasks = state.tasks.map(item => item.id === id ? task : item);
+        setStatus('Task updated.');
+      } else {
+        state.tasks.unshift(task);
+        setStatus('Task added.');
+      }
+
+      state.selectedTaskId = id;
+      saveState();
+      renderApp();
+    }
+
+    function editTask(id) {
+      const task = state.tasks.find(item => item.id === id);
+      if (!task) return;
+      state.selectedTaskId = id;
+      document.getElementById('task-id').value = task.id;
+      document.getElementById('task-title').value = task.title;
+      document.getElementById('task-status').value = task.status;
+      document.getElementById('task-priority').value = task.priority;
+      document.getElementById('task-due').value = task.dueDate || '';
+      document.getElementById('task-notes').value = task.notes || '';
+      setStatus('Editing task.');
+    }
+
+    function deleteTask(id) {
+      state.tasks = state.tasks.filter(task => task.id !== id);
+      if (state.selectedTaskId === id) clearForm();
+      saveState();
+      renderApp();
+      setStatus('Task deleted.');
+    }
+
+    function moveTask(id, direction) {
+      const task = state.tasks.find(item => item.id === id);
+      if (!task) return;
+      const index = COLUMNS.findIndex(column => column.id === task.status);
+      const nextIndex = Math.max(0, Math.min(COLUMNS.length - 1, index + direction));
+      task.status = COLUMNS[nextIndex].id;
+      task.updatedAt = new Date().toISOString();
+      saveState();
+      renderApp();
+      setStatus(`Moved to ${COLUMNS[nextIndex].name}.`);
+    }
+
+    function exportTasks() {
+      const blob = new Blob([JSON.stringify({ tasks: state.tasks }, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'activity-dashboard-export.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Tasks exported.');
+    }
+
+    function importTasks(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          state.tasks = Array.isArray(parsed.tasks) ? parsed.tasks : [];
+          saveState();
+          renderApp();
+          setStatus('Tasks imported.');
+        } catch {
+          setStatus('Import failed. Please use a valid JSON export file.');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function resetTasks() {
+      if (!confirm('Reset all tasks on this device?')) return;
+      state.tasks = seedTasks();
+      clearForm();
+      saveState();
+      renderApp();
+      setStatus('Dashboard reset.');
+    }
+
+    function filteredTasks() {
+      const query = document.getElementById('search-input')?.value?.trim().toLowerCase() || '';
+      if (!query) return state.tasks;
+      return state.tasks.filter(task => [task.title, task.notes, task.priority, task.status].join(' ').toLowerCase().includes(query));
+    }
+
+    function renderSummary() {
+      const tasks = state.tasks;
+      const todo = tasks.filter(task => task.status === 'todo').length;
+      const doing = tasks.filter(task => task.status === 'doing').length;
+      const done = tasks.filter(task => task.status === 'done').length;
+      const high = tasks.filter(task => task.priority === 'high').length;
+
+      document.getElementById('summary-grid').innerHTML = [
+        ['Total tasks', tasks.length, 'Everything you are tracking right now.'],
+        ['To do', todo, 'Tasks waiting to be started.'],
+        ['Doing', doing, 'Work currently in progress.'],
+        ['High priority', high, 'The activities that need the most attention.']
+      ].map(([label, number, note]) => `
+        <article class="status-box">
+          <span class="label">${label}</span>
+          <div class="metric">${number}</div>
+          <div class="subtext">${note}</div>
+        </article>
+      `).join('');
+    }
+
+    function renderBoard() {
+      const tasks = filteredTasks();
+      document.getElementById('task-board').innerHTML = COLUMNS.map(column => {
+        const columnTasks = tasks.filter(task => task.status === column.id)
+          .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+        return `
+          <section class="column">
+            <div class="column-head">
+              <h3>${column.name}</h3>
+              <span class="count-pill">${columnTasks.length}</span>
+            </div>
+            <div class="task-list">
+              ${columnTasks.length ? columnTasks.map(renderTaskCard).join('') : '<div class="empty">No tasks here.</div>'}
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    function renderTaskCard(task) {
+      return `
+        <article class="task-card">
+          <h4>${escapeHtml(task.title)}</h4>
+          <div class="task-meta">
+            <span class="priority-pill priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
+            ${task.dueDate ? `<span class="meta-chip">Due ${escapeHtml(task.dueDate)}</span>` : ''}
+          </div>
+          <p>${escapeHtml(task.notes || 'No notes yet.')}</p>
+          <div class="inline-actions">
+            <button class="btn small" onclick="editTask('${task.id}')">Edit</button>
+            <button class="btn small" onclick="moveTask('${task.id}', -1)">←</button>
+            <button class="btn small" onclick="moveTask('${task.id}', 1)">→</button>
+            <button class="btn small" onclick="deleteTask('${task.id}')">Delete</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function capitalise(value) {
+      return String(value || '').charAt(0).toUpperCase() + String(value || '').slice(1);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderApp() {
+      renderSummary();
+      renderBoard();
+      saveState();
+    }
+
+    loadState();
+    renderApp();
+  </script>
+</body>
+</html>
