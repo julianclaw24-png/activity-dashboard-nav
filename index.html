@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IDIOMEX OS V3</title>
+  <title>IDIOMEX MISSION CONTROL</title>
   <style>
     :root {
       --bg: #f4f7fb;
@@ -592,6 +592,108 @@
     .project-list,
     .activity-list { gap: 14px; }
 
+    .brain-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 12px 0 16px;
+    }
+
+    .brain-summary-card,
+    .brain-panel,
+    .brain-recommendation {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+    }
+
+    .brain-summary-card {
+      padding: 14px;
+    }
+
+    .brain-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .brain-summary-card strong {
+      display: block;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .brain-summary-card p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .brain-recommendations {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brain-recommendation {
+      padding: 16px;
+    }
+
+    .brain-recommendation-top,
+    .brain-panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .brain-recommendation h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .brain-recommendation p,
+    .brain-panel-item p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0;
+    }
+
+    .brain-subgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brain-panel {
+      padding: 16px;
+    }
+
+    .brain-watchlist,
+    .brain-ignore-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .brain-panel-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .brain-panel-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
     .progress-bar {
       width: 100%;
       height: 10px;
@@ -876,6 +978,304 @@
       background: rgba(255,255,255,0.96);
     }
 
+    .search-wrap {
+      position: relative;
+      min-width: 280px;
+      flex: 1 1 320px;
+      max-width: 420px;
+    }
+
+    .search-wrap .search {
+      width: 100%;
+      padding-right: 74px;
+    }
+
+    .shortcut-hint {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(16, 24, 40, 0.08);
+      background: rgba(255,255,255,0.96);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .command-shortcuts {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .quick-command-btn {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: none;
+    }
+
+    .floating-action-stack {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 40;
+      display: grid;
+      gap: 12px;
+      justify-items: end;
+    }
+
+    .quick-actions-panel {
+      width: min(320px, calc(100vw - 32px));
+      background: rgba(11, 18, 32, 0.96);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.24);
+      padding: 16px;
+      display: none;
+      backdrop-filter: blur(16px);
+    }
+
+    .quick-actions-panel.open {
+      display: block;
+    }
+
+    .quick-actions-panel h4,
+    .assistant-dock h4,
+    .command-palette-modal h3 {
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+    }
+
+    .quick-actions-panel p,
+    .assistant-dock p,
+    .command-palette-meta,
+    .palette-result p {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.9rem;
+    }
+
+    .quick-actions-list,
+    .assistant-actions,
+    .palette-results {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .quick-action-item,
+    .palette-result {
+      width: 100%;
+      text-align: left;
+      justify-content: space-between;
+      border-radius: 16px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .quick-action-copy,
+    .palette-result-copy {
+      min-width: 0;
+    }
+
+    .quick-action-copy strong,
+    .palette-result-copy strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .quick-action-item span:last-child,
+    .palette-result span:last-child {
+      color: rgba(255,255,255,0.56);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    .fab {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 1.7rem;
+      font-weight: 700;
+      box-shadow: 0 22px 44px rgba(79, 70, 229, 0.32);
+    }
+
+    .assistant-dock {
+      position: fixed;
+      left: 24px;
+      bottom: 24px;
+      z-index: 35;
+      width: min(340px, calc(100vw - 32px));
+      background: rgba(11, 18, 32, 0.96);
+      color: #fff;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 50px rgba(16, 24, 40, 0.24);
+      padding: 18px;
+      backdrop-filter: blur(16px);
+    }
+
+    .assistant-dock-head,
+    .assistant-primary,
+    .palette-result-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .assistant-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(124,58,237,0.45) 100%);
+      font-weight: 900;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .assistant-dock-head {
+      margin-bottom: 14px;
+    }
+
+    .assistant-status {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    .assistant-primary {
+      margin-bottom: 12px;
+    }
+
+    .assistant-primary strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .assistant-metrics {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .assistant-metrics .mini-chip {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.86);
+    }
+
+    .assistant-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .assistant-actions .btn {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .command-palette {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 80px 18px 24px;
+      background: rgba(11, 18, 32, 0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .command-palette.open {
+      display: flex;
+    }
+
+    .command-palette-modal {
+      width: min(760px, 100%);
+      background: #fff;
+      color: var(--text);
+      border-radius: 28px;
+      box-shadow: 0 28px 70px rgba(16, 24, 40, 0.24);
+      border: 1px solid rgba(228, 231, 236, 0.9);
+      overflow: hidden;
+    }
+
+    .command-palette-bar {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .command-palette-bar input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 1.02rem;
+      outline: none;
+      color: var(--text);
+    }
+
+    .command-palette-body {
+      padding: 16px;
+      max-height: min(70vh, 720px);
+      overflow: auto;
+    }
+
+    .command-palette-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .palette-result {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .palette-result p {
+      color: var(--muted);
+    }
+
+    .palette-result span:last-child {
+      color: var(--muted);
+    }
+
+    .palette-empty {
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      text-align: center;
+    }
+
     .decision-list,
     .agents-list {
       display: grid;
@@ -973,7 +1373,9 @@
       .board-grid,
       .analytics-grid,
       .focus-grid,
-      .executive-grid { grid-template-columns: 1fr; }
+      .executive-grid,
+      .brain-subgrid,
+      .brain-summary-grid { grid-template-columns: 1fr; }
       .executive-cards { grid-template-columns: 1fr 1fr; }
       .executive-panels { grid-template-columns: 1fr; }
     }
@@ -985,18 +1387,22 @@
       .mobile-nav { display: flex; }
       .topbar { flex-direction: column; align-items: stretch; }
       .top-actions { justify-content: flex-start; }
+      .assistant-dock { position: static; width: 100%; margin-top: 18px; }
+      .floating-action-stack { right: 18px; bottom: 18px; }
       .kanban-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
       .grid-kpis { grid-template-columns: 1fr; }
-      .search { min-width: 100%; width: 100%; }
+      .search,
+      .search-wrap { min-width: 100%; width: 100%; max-width: none; }
       .ring-wrap,
       .executive-cards,
       .command-meta-grid,
       .kanban-summary-grid,
       .task-summary-grid,
-      .project-milestone-grid { grid-template-columns: 1fr; }
+      .project-milestone-grid,
+      .assistant-actions { grid-template-columns: 1fr; }
       .crm-header,
       .crm-row { grid-template-columns: 1fr; }
       .task-row,
@@ -1007,6 +1413,8 @@
       .agent-row,
       .decision-row { flex-direction: column; }
       .task-row .task-actions { justify-content: flex-start; }
+      .floating-action-stack { left: 18px; right: 18px; justify-items: stretch; }
+      .fab { justify-self: end; }
     }
   </style>
 </head>
@@ -1016,8 +1424,8 @@
       <div class="brand">
         <div class="brand-badge">J</div>
         <div>
-          <h1>IDIOMEX OS V3</h1>
-          <p>Decision-first CEO cockpit · Version 3</p>
+          <h1>IDIOMEX MISSION CONTROL</h1>
+          <p>The operating system that runs AI-first service businesses.</p>
         </div>
       </div>
 
@@ -1057,18 +1465,23 @@
           </article>
         </div>
         <div class="top-actions">
-          <input id="global-search" class="search" type="search" placeholder="Search anything..." />
-          <button class="btn primary" onclick="scrollToSection('tasks')">Open today's tasks</button>
+          <div class="search-wrap">
+            <input id="global-search" class="search" type="search" placeholder="Search anything..." />
+            <span class="shortcut-hint">Ctrl+K</span>
+          </div>
+          <button class="btn quick-command-btn" type="button" onclick="openCommandPalette()">Open command palette</button>
+          <button class="btn primary" onclick="scrollToSection('tasks')">Continue Cycle Matter</button>
           <a class="btn" href="./guide.html">Hermes guide</a>
         </div>
+        <div class="command-shortcuts" id="command-shortcuts"></div>
       </section>
 
       <section class="executive-grid">
         <article class="card executive-brief" id="executive">
           <div class="section-head">
             <div>
-              <h3>Decision Centre</h3>
-              <p>Open the OS and see the exact moves that deserve attention first.</p>
+              <h3>Mission Control</h3>
+              <p>It isn’t a chatbot. It isn’t a dashboard. It behaves like a business partner.</p>
             </div>
             <span class="pill" id="decision-pill">Loading…</span>
           </div>
@@ -1094,8 +1507,8 @@
         <article class="card" id="dashboard">
           <div class="section-head">
             <div>
-              <h3>CRM priority pipeline</h3>
-              <p>Compact deal flow. See who makes money next without reading giant cards.</p>
+              <h3>Opportunities</h3>
+              <p>Not CRM. Opportunities. Score what matters and ignore low-value noise.</p>
             </div>
             <span class="pill" id="lead-headline-pill">Loading…</span>
           </div>
@@ -1106,8 +1519,8 @@
         <article class="card" id="projects">
           <div class="section-head">
             <div>
-              <h3>Projects timeline</h3>
-              <p>Track only the milestones, ETA, and blockers that affect delivery.</p>
+              <h3>Business Installations</h3>
+              <p>You do not run projects. You install systems into businesses.</p>
             </div>
             <span class="pill">Projects</span>
           </div>
@@ -1118,8 +1531,8 @@
         <article class="card" id="tasks">
           <div class="section-head">
             <div>
-              <h3>Priority tasks</h3>
-              <p>Compact operating queue with today’s counts first and task detail second.</p>
+              <h3>Immediate Moves</h3>
+              <p>The shortest high-leverage queue for today only.</p>
             </div>
             <span class="pill" id="task-summary-pill">Loading…</span>
           </div>
@@ -1131,8 +1544,8 @@
         <article class="card" id="automation">
           <div class="section-head">
             <div>
-              <h3>Workflows & automation</h3>
-              <p>Repeatable systems that keep the business moving without manual admin.</p>
+              <h3>Products</h3>
+              <p>Products, not services. Each one should compound into proposals, delivery, and ROI.</p>
             </div>
             <span class="pill" id="automation-pill">Loading…</span>
           </div>
@@ -1143,10 +1556,29 @@
         <article class="card" id="activity">
           <div class="section-head">
             <div>
-              <h3>Notifications</h3>
-              <p>Alerts that matter now, not a passive history feed.</p>
+              <h3>Company Brain</h3>
+              <p>A morning briefing that thinks before you do.</p>
             </div>
             <span class="pill" id="notifications-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="brain-headline">Loading company-brain thesis…</p>
+          <div id="brain-summary-grid" class="brain-summary-grid"></div>
+          <div id="brain-recommendations" class="brain-recommendations"></div>
+          <div class="brain-subgrid">
+            <div class="brain-panel">
+              <div class="brain-panel-head">
+                <strong>What the Brain is watching</strong>
+                <span class="mini-chip">Watchlist</span>
+              </div>
+              <div id="brain-watchlist" class="brain-watchlist"></div>
+            </div>
+            <div class="brain-panel">
+              <div class="brain-panel-head">
+                <strong>Ignore for now</strong>
+                <span class="mini-chip">Protected focus</span>
+              </div>
+              <div id="brain-ignore-list" class="brain-ignore-list"></div>
+            </div>
           </div>
           <div id="activity-list" class="activity-list"></div>
         </article>
@@ -1156,8 +1588,8 @@
         <article class="card">
           <div class="section-head">
             <div>
-              <h3>Today’s focus</h3>
-              <p>The shortest list that keeps momentum high.</p>
+              <h3>What should happen next?</h3>
+              <p>Clear AI-guided action, not a giant to-do list.</p>
             </div>
             <span class="pill">Focus</span>
           </div>
@@ -1167,8 +1599,8 @@
         <article class="card" id="calendar">
           <div class="section-head">
             <div>
-              <h3>Upcoming flow</h3>
-              <p>What’s now, and what’s next.</p>
+              <h3>Rooms</h3>
+              <p>Think of the OS as company headquarters, not a stack of pages.</p>
             </div>
             <span class="pill">Planning</span>
           </div>
@@ -1180,8 +1612,8 @@
         <article class="card" id="kanban">
           <div class="section-head">
             <div>
-              <h3>Kanban summary</h3>
-              <p>Dashboard shows counts only; deeper execution can expand later on a dedicated page.</p>
+              <h3>Outcome Pipeline</h3>
+              <p>Everything in the OS should fit one business outcome stage.</p>
             </div>
             <button class="btn small" onclick="resetLocalState()">Reset local changes</button>
           </div>
@@ -1192,6 +1624,50 @@
     </main>
   </div>
 
+  <div class="assistant-dock" id="assistant-dock">
+    <div class="assistant-dock-head">
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <div class="assistant-avatar">AI</div>
+        <div>
+          <h4 id="assistant-dock-title">AI Assistant Dock</h4>
+          <p id="assistant-dock-summary">Loading assistant guidance…</p>
+        </div>
+      </div>
+      <span class="pill assistant-status" id="assistant-dock-status">Loading…</span>
+    </div>
+    <div class="assistant-primary">
+      <div>
+        <strong id="assistant-primary-title">Loading next move…</strong>
+        <p id="assistant-primary-detail">Preparing AI recommendations…</p>
+      </div>
+      <button class="btn small" type="button" onclick="openCommandPalette()">Cmd</button>
+    </div>
+    <div class="assistant-metrics" id="assistant-metrics"></div>
+    <div class="assistant-actions" id="assistant-actions"></div>
+  </div>
+
+  <div class="floating-action-stack">
+    <div class="quick-actions-panel" id="quick-actions-panel">
+      <h4>Quick actions</h4>
+      <p id="quick-actions-summary">Loading quick actions…</p>
+      <div class="quick-actions-list" id="quick-actions-list"></div>
+    </div>
+    <button class="btn fab" id="fab-toggle" type="button" aria-label="Open quick actions" onclick="toggleQuickActions()">+</button>
+  </div>
+
+  <div class="command-palette" id="command-palette" aria-hidden="true">
+    <div class="command-palette-modal">
+      <div class="command-palette-bar">
+        <input id="command-palette-input" type="search" placeholder="Jump to a room, agent, task, or action…" />
+      </div>
+      <div class="command-palette-body">
+        <h3>Command Palette</h3>
+        <p class="command-palette-meta" id="command-palette-meta">Loading shortcuts…</p>
+        <div class="palette-results" id="command-palette-results"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const DATA_URL = './data/idiomex-os.json';
     const LOCAL_KEY = 'idiomex-os-local-v2';
@@ -1200,7 +1676,9 @@
       data: null,
       search: '',
       tasks: [],
-      view: 'ceo'
+      view: 'ceo',
+      paletteQuery: '',
+      quickActionsOpen: false
     };
 
     async function init() {
@@ -1239,12 +1717,33 @@
         state.search = event.target.value.trim().toLowerCase();
         render();
       });
+
+      document.getElementById('command-palette-input').addEventListener('input', (event) => {
+        state.paletteQuery = event.target.value.trim().toLowerCase();
+        renderCommandPalette();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          openCommandPalette();
+        }
+        if (event.key === 'Escape') {
+          closeCommandPalette();
+          closeQuickActions();
+        }
+      });
+
+      document.getElementById('command-palette').addEventListener('click', (event) => {
+        if (event.target.id === 'command-palette') closeCommandPalette();
+      });
     }
 
     function render() {
       if (!state.data) return;
       renderNav();
       renderTopbar();
+      renderCommandShortcuts();
       renderKpis();
       renderExecutiveBrief();
       renderAIWorkforce();
@@ -1255,6 +1754,9 @@
       renderKanban();
       renderActivity();
       renderFocus();
+      renderAssistantDock();
+      renderQuickActions();
+      renderCommandPalette();
     }
 
     function renderNav() {
@@ -1314,17 +1816,19 @@
     }
 
     function renderAIWorkforce() {
-      const items = filterItems(state.data.ai_workforce || [], ['name', 'status', 'mode', 'note']);
+      const items = filterItems(state.data.ai_workforce || [], ['name', 'status', 'mode', 'note', 'current_job', 'memory', 'performance']);
       const warningCount = items.filter(item => /warning|wait|error|failed/i.test(item.status || '')).length;
-      document.getElementById('agents-pill').textContent = `${Math.max(items.length - warningCount, 0)} healthy · ${warningCount} attention`;
+      document.getElementById('agents-pill').textContent = `${Math.max(items.length - warningCount, 0)}/${items.length} online`;
       document.getElementById('agents-list').innerHTML = items.length ? items.map(item => `
         <article class="agent-row">
           <div class="agent-main">
             <h4>${escapeHtml(item.name)}</h4>
-            <p>${escapeHtml(item.note || item.mode || '')}</p>
+            <p>${escapeHtml(item.current_job || item.note || item.mode || '')}</p>
             <div class="mini-meta">
-              ${item.mode ? `<span class="mini-chip">${escapeHtml(item.mode)}</span>` : ''}
-              ${item.last_run ? `<span class="mini-chip">${escapeHtml(item.last_run)}</span>` : ''}
+              ${item.memory ? `<span class="mini-chip">Memory: ${escapeHtml(item.memory)}</span>` : ''}
+              ${item.last_run ? `<span class="mini-chip">Last report: ${escapeHtml(item.last_run)}</span>` : ''}
+              ${item.cost ? `<span class="mini-chip">Cost: ${escapeHtml(item.cost)}</span>` : ''}
+              ${item.performance ? `<span class="mini-chip">Performance: ${escapeHtml(item.performance)}</span>` : ''}
             </div>
           </div>
           <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status || 'Unknown')}</span>
@@ -1333,28 +1837,29 @@
     }
 
     function renderAutomation() {
-      const automation = state.data.automation || {};
-      const items = filterItems(automation.items || [], ['agent', 'trigger', 'action', 'status', 'outcome']);
-      document.getElementById('automation-pill').textContent = `${items.filter(item => /live|active|running/i.test(item.status || '')).length} live`;
-      document.getElementById('automation-summary').textContent = automation.summary || 'No automation summary available.';
+      const products = state.data.products || {};
+      const items = filterItems(products.items || [], ['name', 'category', 'clients', 'roi', 'next_action']);
+      document.getElementById('automation-pill').textContent = `${items.length} products`;
+      document.getElementById('automation-summary').textContent = products.summary || 'No products loaded.';
       document.getElementById('automation-list').innerHTML = items.length ? items.map(item => `
         <article class="automation-row">
           <div class="automation-top">
             <div>
-              <h4>${escapeHtml(item.agent)}</h4>
-              <p class="meta">${escapeHtml(item.trigger)}</p>
+              <h4>${escapeHtml(item.name)}</h4>
+              <p class="meta">${escapeHtml(item.category || 'Product')}</p>
             </div>
-            <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status)}</span>
+            <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status || 'Active')}</span>
           </div>
           <div class="meta-stack">
             <div class="mini-meta">
-              <span class="mini-chip">Action: ${escapeHtml(item.action)}</span>
-              <span class="mini-chip">Owner: ${escapeHtml(item.owner || 'Navod')}</span>
+              ${item.revenue ? `<span class="mini-chip">Revenue: ${escapeHtml(item.revenue)}</span>` : ''}
+              ${item.clients ? `<span class="mini-chip">Clients: ${escapeHtml(item.clients)}</span>` : ''}
+              ${item.roi ? `<span class="mini-chip">ROI: ${escapeHtml(item.roi)}</span>` : ''}
             </div>
-            <p>${escapeHtml(item.outcome || '')}</p>
+            <p>${escapeHtml(item.next_action || '')}</p>
           </div>
         </article>
-      `).join('') : '<div class="empty">No matching automations.</div>';
+      `).join('') : '<div class="empty">No matching products.</div>';
     }
 
     function renderKpis() {
@@ -1497,54 +2002,233 @@
     }
 
     function renderKanban() {
-      const columns = [
-        { id: 'todo', label: 'To Do', note: 'Ready to start' },
-        { id: 'doing', label: 'Doing', note: 'Currently in motion' },
-        { id: 'blocked', label: 'Blocked', note: 'Needs a decision or asset' },
-        { id: 'done', label: 'Done Today', note: 'Momentum already captured' }
-      ];
-      const blockedCount = state.tasks.filter(task => /block|await|need/i.test(`${task.notes || ''} ${task.automation || ''}`) && task.status !== 'done').length;
-      document.getElementById('kanban-summary-grid').innerHTML = columns.map(column => {
-        let count = 0;
-        if (column.id === 'blocked') count = blockedCount;
-        else count = filterItems(state.tasks, ['title', 'project', 'notes']).filter(task => task.status === column.id).length;
-        return `
-          <article class="kanban-summary-card">
-            <span>${escapeHtml(column.label)}</span>
-            <strong>${escapeHtml(String(count))}</strong>
-            <p>${escapeHtml(column.note)}</p>
-          </article>
-        `;
-      }).join('');
+      const stages = state.data.outcome_pipeline || [];
+      document.getElementById('kanban-summary-grid').innerHTML = stages.map(stage => `
+        <article class="kanban-summary-card">
+          <span>${escapeHtml(stage.label)}</span>
+          <strong>${escapeHtml(stage.value || '')}</strong>
+          <p>${escapeHtml(stage.note || '')}</p>
+        </article>
+      `).join('');
       document.getElementById('kanban-grid').innerHTML = '';
     }
 
     function renderActivity() {
-      const items = filterItems(state.data.notifications || state.data.activity || [], ['title', 'detail', 'time', 'type']);
-      document.getElementById('notifications-pill').textContent = `${items.length} live`;
+      const brain = state.data.company_brain || {};
+      const items = filterItems(brain.briefing || state.data.notifications || [], ['title', 'detail', 'time', 'type']);
+      const summaryCards = brain.summary_cards || [];
+      const recommendations = brain.recommendations || [];
+      const watchlist = brain.watchlist || [];
+      const ignoreList = brain.ignore_for_now || [];
+
+      document.getElementById('notifications-pill').textContent = `${items.length} insights`;
+      document.getElementById('brain-headline').textContent = brain.headline || brain.thesis || 'The Company Brain turns raw activity into decisions.';
+
+      document.getElementById('brain-summary-grid').innerHTML = summaryCards.length ? summaryCards.map(card => `
+        <article class="brain-summary-card">
+          <span>${escapeHtml(card.label || 'Signal')}</span>
+          <strong>${escapeHtml(card.value || '—')}</strong>
+          <p>${escapeHtml(card.note || '')}</p>
+        </article>
+      `).join('') : '<div class="empty">No summary signals loaded.</div>';
+
+      document.getElementById('brain-recommendations').innerHTML = recommendations.length ? recommendations.map(item => `
+        <article class="brain-recommendation">
+          <div class="brain-recommendation-top">
+            <div>
+              <h4>${escapeHtml(item.title)}</h4>
+              <p>${escapeHtml(item.why || '')}</p>
+            </div>
+            ${item.confidence ? `<span class="status-badge status-doing">${escapeHtml(item.confidence)} confidence</span>` : ''}
+          </div>
+          <div class="mini-meta">
+            ${item.do_now ? `<span class="mini-chip">Do now: ${escapeHtml(item.do_now)}</span>` : ''}
+            ${item.outcome ? `<span class="mini-chip">Outcome: ${escapeHtml(item.outcome)}</span>` : ''}
+            ${item.timebox ? `<span class="mini-chip">Timebox: ${escapeHtml(item.timebox)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No recommendations loaded.</div>';
+
+      document.getElementById('brain-watchlist').innerHTML = watchlist.length ? watchlist.map(item => `
+        <article class="brain-panel-item">
+          <strong>${escapeHtml(item.title || 'Watch')}</strong>
+          <p>${escapeHtml(item.detail || '')}</p>
+          <div class="mini-meta">
+            ${item.trigger ? `<span class="mini-chip">Trigger: ${escapeHtml(item.trigger)}</span>` : ''}
+            ${item.owner ? `<span class="mini-chip">Owner: ${escapeHtml(item.owner)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No watchlist items loaded.</div>';
+
+      document.getElementById('brain-ignore-list').innerHTML = ignoreList.length ? ignoreList.map(item => `
+        <article class="brain-panel-item">
+          <strong>${escapeHtml(item.title || 'Ignore')}</strong>
+          <p>${escapeHtml(item.detail || '')}</p>
+          <div class="mini-meta">
+            ${item.until ? `<span class="mini-chip">Until: ${escapeHtml(item.until)}</span>` : ''}
+            ${item.reason ? `<span class="mini-chip">Why: ${escapeHtml(item.reason)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">Nothing is being ignored.</div>';
+
       document.getElementById('activity-list').innerHTML = items.length ? items.map(item => `
         <article class="activity-row notification-${escapeHtml(String(item.severity || 'low').toLowerCase())}">
           <strong>${escapeHtml(item.title)}</strong>
           <p>${escapeHtml(item.detail)}</p>
           <div class="mini-meta" style="margin-top:10px;">
             ${item.type ? `<span class="mini-chip">${escapeHtml(item.type)}</span>` : ''}
-            <span class="mini-chip">${escapeHtml(item.time)}</span>
+            <span class="mini-chip">${escapeHtml(item.time || 'Today')}</span>
           </div>
         </article>
-      `).join('') : '<div class="empty">No matching activity.</div>';
+      `).join('') : '<div class="empty">No company-brain items loaded.</div>';
     }
 
     function renderFocus() {
-      document.getElementById('focus-list').innerHTML = (state.data.focus?.today || []).map(item => `
-        <div class="focus-item">${escapeHtml(item)}</div>
-      `).join('');
+      const focusItems = state.data.focus?.today || state.data.company_brain?.recommendations || [];
+      document.getElementById('focus-list').innerHTML = focusItems.length ? focusItems.map(item => {
+        if (typeof item === 'string') {
+          return `<div class="focus-item">${escapeHtml(item)}</div>`;
+        }
+        return `
+          <article class="focus-item">
+            <strong>${escapeHtml(item.title || item.do_now || 'Next move')}</strong>
+            <p class="meta">${escapeHtml(item.why || item.detail || '')}</p>
+            <div class="mini-meta">
+              ${item.do_now ? `<span class="mini-chip">Do now: ${escapeHtml(item.do_now)}</span>` : ''}
+              ${item.outcome ? `<span class="mini-chip">Outcome: ${escapeHtml(item.outcome)}</span>` : ''}
+            </div>
+          </article>
+        `;
+      }).join('') : '<div class="empty">No next moves loaded.</div>';
 
-      document.getElementById('timeline-list').innerHTML = (state.data.focus?.upcoming || []).map(group => `
+      document.getElementById('timeline-list').innerHTML = (state.data.rooms || []).map(room => `
         <article class="timeline-card">
-          <strong>${escapeHtml(group.label)}</strong>
-          <div class="meta">${group.items.map(item => escapeHtml(item)).join(' · ')}</div>
+          <strong>${escapeHtml(room.name)}</strong>
+          <div class="meta">${escapeHtml(room.purpose || '')}</div>
         </article>
       `).join('');
+    }
+
+
+    function renderCommandShortcuts() {
+      const actions = state.data.quick_actions || [];
+      document.getElementById('command-shortcuts').innerHTML = actions.slice(0, 3).map(action => `
+        <button class="btn small quick-command-btn" type="button" onclick="runQuickAction('${escapeJs(action.id || '')}')">${escapeHtml(action.label || 'Action')}</button>
+      `).join('');
+    }
+
+    function renderQuickActions() {
+      const actions = state.data.quick_actions || [];
+      document.getElementById('quick-actions-summary').textContent = state.data.quick_actions_summary || 'Fast moves for the CEO cockpit.';
+      document.getElementById('quick-actions-list').innerHTML = actions.length ? actions.map(action => `
+        <button class="quick-action-item" type="button" onclick="runQuickAction('${escapeJs(action.id || '')}')">
+          <span class="quick-action-copy">
+            <strong>${escapeHtml(action.label || 'Action')}</strong>
+            <span>${escapeHtml(action.description || '')}</span>
+          </span>
+          <span>${escapeHtml(action.shortcut || action.type || 'run')}</span>
+        </button>
+      `).join('') : '<div class="palette-empty">No quick actions loaded.</div>';
+      document.getElementById('quick-actions-panel').classList.toggle('open', !!state.quickActionsOpen);
+      document.getElementById('fab-toggle').textContent = state.quickActionsOpen ? '×' : '+';
+    }
+
+    function renderAssistantDock() {
+      const dock = state.data.assistant_dock || {};
+      const actions = dock.actions || [];
+      const metrics = dock.metrics || [];
+      document.getElementById('assistant-dock-title').textContent = dock.title || 'AI Assistant Dock';
+      document.getElementById('assistant-dock-summary').textContent = dock.summary || 'One AI layer for command, context, and leverage.';
+      document.getElementById('assistant-dock-status').textContent = dock.status || 'Ready';
+      document.getElementById('assistant-primary-title').textContent = dock.primary?.title || 'No recommended move loaded.';
+      document.getElementById('assistant-primary-detail').textContent = dock.primary?.detail || 'Add assistant context in data/idiomex-os.json';
+      document.getElementById('assistant-metrics').innerHTML = metrics.map(metric => `
+        <span class="mini-chip">${escapeHtml(metric.label || 'Signal')}: ${escapeHtml(metric.value || '—')}</span>
+      `).join('');
+      document.getElementById('assistant-actions').innerHTML = actions.map(action => `
+        <button class="btn small" type="button" onclick="runQuickAction('${escapeJs(action.id || '')}')">${escapeHtml(action.label || 'Action')}</button>
+      `).join('');
+    }
+
+    function renderCommandPalette() {
+      const query = state.paletteQuery || '';
+      const commands = buildPaletteCommands();
+      const filtered = !query ? commands : commands.filter(item => {
+        const haystack = [item.label, item.description, item.section, item.target, item.search, item.shortcut].join(' ').toLowerCase();
+        return haystack.includes(query);
+      });
+      document.getElementById('command-palette-meta').textContent = `${filtered.length} command${filtered.length === 1 ? '' : 's'} ready · Ctrl+K to open · Esc to close`;
+      document.getElementById('command-palette-results').innerHTML = filtered.length ? filtered.map(item => `
+        <button class="palette-result" type="button" onclick="runPaletteCommand('${escapeJs(item.id || '')}')">
+          <span class="palette-result-copy">
+            <span class="palette-result-top"><strong>${escapeHtml(item.label || 'Command')}</strong><span>${escapeHtml(item.section || 'Action')}</span></span>
+            <p>${escapeHtml(item.description || '')}</p>
+          </span>
+          <span>${escapeHtml(item.shortcut || item.type || 'run')}</span>
+        </button>
+      `).join('') : '<div class="palette-empty">No commands match that search.</div>';
+    }
+
+    function buildPaletteCommands() {
+      const sectionCommands = [
+        { id: 'go-executive', label: 'Open Mission Control', description: 'Jump to today’s decisions and executive briefing.', target: 'executive', section: 'Navigation', shortcut: '⌘1', type: 'scroll' },
+        { id: 'go-agents', label: 'Open AI Workforce', description: 'Jump to agents, health, and execution status.', target: 'agents', section: 'Navigation', shortcut: '⌘2', type: 'scroll' },
+        { id: 'go-dashboard', label: 'Open Opportunities', description: 'Jump to the compact CRM and opportunity flow.', target: 'dashboard', section: 'Navigation', shortcut: '⌘3', type: 'scroll' },
+        { id: 'go-projects', label: 'Open Installations', description: 'Jump to project timelines and blockers.', target: 'projects', section: 'Navigation', shortcut: '⌘4', type: 'scroll' },
+        { id: 'go-tasks', label: 'Open Immediate Moves', description: 'Jump to today’s priority task lane.', target: 'tasks', section: 'Navigation', shortcut: '⌘5', type: 'scroll' },
+        { id: 'go-brain', label: 'Open Company Brain', description: 'Jump to the company briefing and AI recommendations.', target: 'activity', section: 'Navigation', shortcut: '⌘6', type: 'scroll' }
+      ];
+      const quickActions = (state.data.quick_actions || []).map(action => ({ ...action, section: action.section || 'Quick action' }));
+      return [...sectionCommands, ...quickActions];
+    }
+
+    function runPaletteCommand(id) {
+      runQuickAction(id);
+      closeCommandPalette();
+    }
+
+    function runQuickAction(id) {
+      const command = buildPaletteCommands().find(item => item.id === id);
+      if (!command) return;
+      if (command.type === 'scroll' && command.target) {
+        scrollToSection(command.target);
+      } else if (command.type === 'search') {
+        state.search = String(command.search || '').toLowerCase();
+        const input = document.getElementById('global-search');
+        input.value = command.search || '';
+        render();
+      } else if (command.type === 'link' && command.href) {
+        window.open(command.href, '_blank', 'noopener');
+      }
+      closeQuickActions();
+    }
+
+    function toggleQuickActions() {
+      state.quickActionsOpen = !state.quickActionsOpen;
+      renderQuickActions();
+    }
+
+    function closeQuickActions() {
+      if (!state.quickActionsOpen) return;
+      state.quickActionsOpen = false;
+      renderQuickActions();
+    }
+
+    function openCommandPalette() {
+      const palette = document.getElementById('command-palette');
+      palette.classList.add('open');
+      palette.setAttribute('aria-hidden', 'false');
+      setTimeout(() => document.getElementById('command-palette-input').focus(), 0);
+      renderCommandPalette();
+    }
+
+    function closeCommandPalette() {
+      const palette = document.getElementById('command-palette');
+      palette.classList.remove('open');
+      palette.setAttribute('aria-hidden', 'true');
+      state.paletteQuery = '';
+      const input = document.getElementById('command-palette-input');
+      if (input) input.value = '';
     }
 
     function setView(view) {
@@ -1576,54 +2260,42 @@
 
     function navTarget(item) {
       const map = {
+        'Mission Control': 'executive',
+        'Executive Office': 'executive',
+        'Sales HQ': 'dashboard',
+        'Delivery HQ': 'projects',
+        'AI Workforce': 'agents',
+        'Knowledge': 'activity',
+        'Finance': 'kpis',
+        'Marketing Lab': 'automation',
+        'Opportunities': 'dashboard',
+        'Products': 'automation',
+        'Installations': 'projects',
+        'Intelligence': 'activity',
         'Dashboard': 'dashboard',
-        'Cockpit': 'dashboard',
-        'Notifications': 'activity',
         'Tasks': 'tasks',
-        'Calendar': 'calendar',
-        'Leads': 'dashboard',
-        'CRM': 'dashboard',
-        'Leads & CRM': 'dashboard',
-        'Outreach': 'automation',
-        'Clients': 'projects',
-        'Projects': 'projects',
-        'Kanban': 'kanban',
-        'Documents': 'calendar',
-        'AI Agents': 'agents',
-        'Workflows': 'automation',
-        'Knowledge Base': 'calendar',
-        'Reports': 'calendar',
-        'Finance': 'dashboard',
-        'Activity': 'activity',
-        'Guides': 'tasks',
-        'Settings': 'dashboard'
+        'Calendar': 'calendar'
       };
       return map[item] || 'dashboard';
     }
 
     function navIcon(item) {
       const map = {
-        'Dashboard': '◫',
-        'Cockpit': '✦',
-        'Notifications': '⎋',
-        'Leads': '◎',
-        'CRM': '▤',
-        'Leads & CRM': '◎',
-        'Outreach': '➜',
-        'Clients': '◌',
-        'Projects': '▣',
-        'Tasks': '☑',
-        'Kanban': '≣',
-        'Calendar': '◷',
-        'Documents': '⧉',
-        'AI Agents': '⦿',
-        'Workflows': '↺',
-        'Knowledge Base': '⌘',
-        'Reports': '◫',
+        'Mission Control': '✦',
+        'Executive Office': '⌁',
+        'Sales HQ': '◎',
+        'Delivery HQ': '▣',
+        'AI Workforce': '⦿',
+        'Knowledge': '⌘',
         'Finance': '£',
-        'Activity': '↺',
-        'Guides': '⌘',
-        'Settings': '⚙'
+        'Marketing Lab': '➜',
+        'Opportunities': '◎',
+        'Products': '◫',
+        'Installations': '▣',
+        'Intelligence': '↺',
+        'Dashboard': '◫',
+        'Tasks': '☑',
+        'Calendar': '◷'
       };
       return map[item] || '•';
     }

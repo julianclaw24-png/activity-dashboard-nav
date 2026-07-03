@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-03T11:40:00+01:00",
+  "generated_at": "2026-07-03T12:45:00+01:00",
   "workspace": {
-    "name": "IDIOMEX OS V3",
-    "version": "3.0",
-    "subtitle": "Decision-first CEO cockpit",
+    "name": "IDIOMEX MISSION CONTROL",
+    "version": "3.3",
+    "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
-    "welcome": "Open the OS, see the signal, and act.",
-    "status": "V3 now prioritises decisions, business health, and agent visibility over long report-style browsing",
+    "welcome": "It isn\u2019t a chatbot. It isn\u2019t a dashboard. It behaves like a business partner.",
+    "status": "Decision-first operating system for AI-first service businesses with command layer and AI assistant dock",
     "sync_status": {
       "mode": "browser-local",
       "note": "This cockpit is accessible anywhere once hosted, but edits still stay in this browser until a backend such as Supabase is added."
@@ -14,659 +14,674 @@
   },
   "navigation": [
     {
-      "section": "Home",
+      "section": "HQ",
       "items": [
-        "Dashboard",
-        "Cockpit"
+        "Mission Control",
+        "Executive Office",
+        "Sales HQ",
+        "Delivery HQ"
       ]
     },
     {
-      "section": "Today",
+      "section": "Systems",
       "items": [
-        "Tasks",
-        "Calendar",
-        "Notifications"
-      ]
-    },
-    {
-      "section": "Sales",
-      "items": [
-        "Leads",
-        "CRM",
-        "Outreach",
-        "Clients"
-      ]
-    },
-    {
-      "section": "Operations",
-      "items": [
-        "Projects",
-        "Kanban",
-        "Documents"
-      ]
-    },
-    {
-      "section": "Automation",
-      "items": [
-        "AI Agents",
-        "Workflows",
-        "Knowledge Base"
-      ]
-    },
-    {
-      "section": "Analytics",
-      "items": [
-        "Reports",
+        "AI Workforce",
+        "Knowledge",
         "Finance",
-        "Settings"
+        "Marketing Lab"
+      ]
+    },
+    {
+      "section": "Flow",
+      "items": [
+        "Opportunities",
+        "Products",
+        "Installations",
+        "Intelligence"
       ]
     }
   ],
-  "executive_views": {
-    "ceo": {
-      "label": "CEO view",
-      "summary": "Use this view to decide where cash, attention, and positioning should go next. It compresses the business into the three decisions that matter now: what to sell first, what to ship next, and what can be delegated to automation.",
-      "cards": [
-        {
-          "label": "Fastest cash offer",
-          "value": "MTD onboarding",
-          "delta": "Service-first, recurring support behind it"
-        },
-        {
-          "label": "Primary bet",
-          "value": "Cycle Matter agent",
-          "delta": "Closest live commercial proof"
-        },
-        {
-          "label": "Capacity release",
-          "value": "6-8 hrs/wk",
-          "delta": "If outreach + reporting automations stay active"
-        }
-      ],
-      "priorities": [
-        "Turn the MTD opportunity into a simple, sellable one-page offer with clear setup + monthly support pricing.",
-        "Finish Cycle Matter onboarding so it becomes a reusable template for future business-agent installs.",
-        "Keep IDIOMEX OS focused on one-screen executive clarity instead of turning it into a bloated app too early."
-      ],
-      "decisions": [
-        "Which single vertical gets the first outreach sprint: accountants/bookkeepers, trades, or local service firms?",
-        "Do you add Supabase next for true sync, or keep V2 static and use export/import until demand proves it?",
-        "What should become a productized service first: agent onboarding, outreach automation, or dashboard implementation?"
-      ]
-    },
-    "coo": {
-      "label": "COO view",
-      "summary": "Use this view to run delivery. It focuses on the next operational bottlenecks: task flow, owners, blockers, and which automations are actively taking admin off your plate.",
-      "cards": [
-        {
-          "label": "Tasks in flight",
-          "value": "3",
-          "delta": "Keep no more than three active at once"
-        },
-        {
-          "label": "Operational blocker",
-          "value": "No sync backend",
-          "delta": "Limits cross-device editing"
-        },
-        {
-          "label": "Automation coverage",
-          "value": "4 live flows",
-          "delta": "Newsletter, research, backup, outreach assist"
-        }
-      ],
-      "priorities": [
-        "Complete Cycle Matter knowledge docs and SOUL.md before adding more client-agent complexity.",
-        "Move all high-priority tasks with due dates into a tighter operating cadence and keep the kanban accurate.",
-        "Define the data contract for a future sync backend so the static dashboard can upgrade cleanly."
-      ],
-      "decisions": [
-        "Which tasks can be auto-created by agent outputs instead of being entered manually?",
-        "What minimum schema is needed for synced entities: leads, tasks, projects, activity, automation runs?",
-        "Which cron jobs deserve user-facing surfaces inside the dashboard versus staying invisible back-office flows?"
-      ]
-    }
+  "command_header": {
+    "day_label": "Today",
+    "date_label": "03 July",
+    "business_health": "\ud83d\udfe2 Healthy",
+    "momentum": "High",
+    "primary_goal": "Finish Cycle Matter",
+    "recommended_after": "Use Ctrl+K to jump rooms, trigger high-leverage actions, and keep the OS in command mode."
   },
-  "kpis": [
+  "decision_centre": [
     {
-      "label": "Active leads",
-      "value": 6,
-      "delta": "+3 worth real outreach this week",
-      "tone": "blue"
+      "priority": "red",
+      "title": "Finish Cycle Matter (highest leverage)",
+      "impact": "2h 15m",
+      "next_action": "Cycle Matter is blocked because knowledge docs are not finished. Complete the docs and unblock installation progress.",
+      "eta": "Today",
+      "owner": "Navod"
     },
     {
-      "label": "Offer-ready opportunities",
-      "value": 2,
-      "delta": "MTD + AI admin automation",
+      "priority": "green",
+      "title": "Send proposal to XYZ Accountants",
+      "impact": "\u00a32,300 this week",
+      "next_action": "Move the strongest accountant opportunity into proposal now instead of spreading effort across low-conviction leads.",
+      "eta": "35m",
+      "owner": "Navod"
+    },
+    {
+      "priority": "slate",
+      "title": "Ignore the remaining 12 leads until tomorrow",
+      "impact": "Attention preserved",
+      "next_action": "You have 14 leads. Ignore 11. Contact the 3 with the clearest path to cash and momentum.",
+      "eta": "Instant",
+      "owner": "Navod"
+    }
+  ],
+  "cockpit_metrics": [
+    {
+      "label": "Business Status",
+      "value": "Healthy",
+      "delta": "Core systems are moving",
       "tone": "green"
     },
     {
-      "label": "Projects in progress",
-      "value": 3,
-      "delta": "1 commercial, 2 internal systems",
+      "label": "Current Revenue Pipeline",
+      "value": "\u00a318,400",
+      "delta": "Weighted near-term opportunity value",
+      "tone": "blue"
+    },
+    {
+      "label": "AI Workforce",
+      "value": "7/7 Online",
+      "delta": "Agents available for execution",
       "tone": "purple"
     },
     {
-      "label": "Live automations",
-      "value": 4,
-      "delta": "Taking repeat admin off the board",
+      "label": "Sales Momentum",
+      "value": "High",
+      "delta": "Focus on accountant outreach and proposal conversion",
       "tone": "amber"
+    },
+    {
+      "label": "Current Priority",
+      "value": "MTD Outreach",
+      "delta": "Fastest route to cash this week",
+      "tone": "red"
     }
   ],
   "lead_pipeline": {
     "summary": {
-      "headline": "Best current revenue move: approve the MTD offer and start accountant outreach.",
-      "note": "Compact rows now prioritise stage, owner, and next action so the CRM behaves more like a sales cockpit."
+      "headline": "Opportunity flow: Idea \u2192 Opportunity \u2192 Proposal \u2192 Installation \u2192 Client \u2192 Recurring Revenue",
+      "note": "Treat the homepage as a business pipeline, not a generic CRM."
     },
     "stages": [
       {
-        "name": "New",
-        "count": 6,
+        "name": "Idea",
+        "count": 14,
+        "color": "#64748b"
+      },
+      {
+        "name": "Opportunity",
+        "count": 3,
         "color": "#4f7cff"
       },
       {
-        "name": "Qualified",
-        "count": 4,
+        "name": "Proposal",
+        "count": 1,
         "color": "#7c4dff"
       },
       {
-        "name": "Validation",
-        "count": 2,
-        "color": "#ff9f1c"
-      },
-      {
-        "name": "Offer Ready",
-        "count": 2,
+        "name": "Installation",
+        "count": 1,
         "color": "#22c55e"
       }
     ],
     "leads": [
       {
-        "name": "Making Tax Digital onboarding and quarterly-support automation",
-        "stage": "Offer Ready",
-        "score": 9.1,
+        "name": "XYZ Accountants",
+        "stage": "Proposal",
+        "score": 9.4,
         "health": "hot",
-        "buyer": "Sole traders, landlords, bookkeepers, small accountancy firms",
-        "channel": "Warm local outreach",
-        "offer": "Setup fee + monthly quarterly filing support",
+        "buyer": "Local accountancy practice",
+        "channel": "Warm outreach",
+        "offer": "MTD onboarding + quarterly support automation",
+        "speed_to_cash": "3-7 days",
+        "recurring": "High",
+        "owner": "Navod",
+        "target_close": "2026-07-08",
+        "next_action": "Send proposal today",
+        "blocker": "Proposal not sent yet",
+        "notes": "Most immediate path to revenue this week."
+      },
+      {
+        "name": "MTD accountant shortlist",
+        "stage": "Opportunity",
+        "score": 8.9,
+        "health": "warm",
+        "buyer": "Bookkeepers and accountants",
+        "channel": "Focused outbound",
+        "offer": "Compliance setup + monthly support",
         "speed_to_cash": "7-14 days",
         "recurring": "High",
         "owner": "Navod",
         "target_close": "2026-07-12",
-        "next_action": "Draft one-page offer and shortlist 30 local accountants/bookkeepers",
-        "blocker": "Need pricing anchor and first outreach list",
-        "notes": "Compliance trigger is already live, which makes this easier to sell than broad AI consulting."
+        "next_action": "Contact only the top 3 names once the offer page is final",
+        "blocker": "Offer copy needs final tightening",
+        "notes": "High-conviction opportunity set; do not dilute attention."
       },
       {
-        "name": "Invoice chasing and e-invoicing automation for UK SMEs",
-        "stage": "Qualified",
-        "score": 8.4,
-        "health": "warm",
-        "buyer": "Micro businesses, agencies, consultancies, trades firms",
-        "channel": "Referral + direct outreach",
-        "offer": "Setup + monthly automation monitoring",
-        "speed_to_cash": "7-14 days",
-        "recurring": "High",
-        "owner": "Navod",
-        "target_close": "2026-07-16",
-        "next_action": "Build ROI framing around reduced debtor days and collected cash",
-        "blocker": "Need a sharper before/after value example",
-        "notes": "A very good cash-flow story if positioned around money recovered rather than tech."
-      },
-      {
-        "name": "AI lead-response and admin automation for trades",
-        "stage": "Qualified",
-        "score": 8.1,
-        "health": "warm",
-        "buyer": "Local service businesses: plumbers, electricians, clinics, salons",
-        "channel": "IDIOMEX outbound",
-        "offer": "Missed-call capture + admin workflow bundle",
-        "speed_to_cash": "7-21 days",
-        "recurring": "High",
-        "owner": "Navod",
-        "target_close": "2026-07-19",
-        "next_action": "Pick one vertical and define a before/after ROI case study",
-        "blocker": "Too broad without one vertical first",
-        "notes": "Strong only when sold as recovered revenue and saved admin, not generic automation."
-      },
-      {
-        "name": "Cycle Matter onboarding productization",
-        "stage": "Validation",
-        "score": 7.9,
+        "name": "Cycle Matter follow-on installation",
+        "stage": "Installation",
+        "score": 8.7,
         "health": "hot",
-        "buyer": "Local owner-managed businesses that need Telegram-first agents",
-        "channel": "Internal proof-of-concept",
-        "offer": "Agent install + onboarding package",
-        "speed_to_cash": "14-30 days",
+        "buyer": "Cycle Matter",
+        "channel": "Active client install",
+        "offer": "Business agent onboarding system",
+        "speed_to_cash": "Already active",
         "recurring": "Medium-High",
         "owner": "Navod",
-        "target_close": "2026-07-24",
-        "next_action": "Turn current onboarding work into a repeatable checklist and demo narrative",
-        "blocker": "Needs one completed business case study",
-        "notes": "Promising because you are already doing the work once for real."
-      },
-      {
-        "name": "Tender monitoring and bid-drafting assistant",
-        "stage": "New",
-        "score": 7.0,
-        "health": "cold",
-        "buyer": "SME suppliers, agencies, consultancies",
-        "channel": "Research-led outreach",
-        "offer": "Monitoring + draft support retainer",
-        "speed_to_cash": "14-30 days",
-        "recurring": "Medium-High",
-        "owner": "Navod",
-        "target_close": "2026-07-31",
-        "next_action": "Choose one supplier vertical and test interest before building",
-        "blocker": "Longer sales cycle than compliance-led offers",
-        "notes": "Interesting niche, but not the fastest route to cash right now."
-      },
-      {
-        "name": "Cyber Essentials readiness workflow automation",
-        "stage": "New",
-        "score": 6.8,
-        "health": "risk",
-        "buyer": "Small professional firms, agencies, clinics, charities",
-        "channel": "Partner-led",
-        "offer": "Fixed-scope readiness checklist + evidence workflow",
-        "speed_to_cash": "14-30 days",
-        "recurring": "Medium",
-        "owner": "Navod",
-        "target_close": "2026-08-02",
-        "next_action": "Package as a fixed-scope ops checklist rather than bespoke security consulting",
-        "blocker": "Positioning risk if it sounds too security-heavy",
-        "notes": "Viable, but weaker than the top two opportunities on urgency and clarity."
+        "target_close": "2026-07-06",
+        "next_action": "Finish knowledge docs and complete onboarding",
+        "blocker": "Knowledge docs are unfinished",
+        "notes": "Highest leverage because it becomes your install template."
       }
-    ],
-    "columns": [
-      "Lead",
-      "Score",
-      "Status",
-      "Owner",
-      "Next Action"
     ]
   },
   "projects": [
     {
-      "name": "Cycle Matter agent",
+      "name": "Cycle Matter",
       "status": "In Progress",
-      "completion": 68,
+      "completion": 72,
       "owner": "Navod",
-      "track": "Commercial proof",
-      "focus": "Onboarding, business context, and first live business-grade behavior",
-      "next_milestone": "Finalize SOUL.md and complete business knowledge base",
-      "blocker": "Knowledge structure still being formalized",
+      "track": "Business installation",
+      "focus": "Knowledge \u2192 Testing \u2192 Training \u2192 Deployment workflow",
+      "next_milestone": "Finish knowledge docs and move into testing",
+      "blocker": "Knowledge docs unfinished",
       "tasks_total": 5,
-      "tasks_done": 2,
-      "eta": "3 days"
+      "tasks_done": 3,
+      "eta": "Today"
     },
     {
-      "name": "IDIOMEX OS V3",
+      "name": "IDIOMEX Mission Control",
       "status": "In Progress",
-      "completion": 74,
+      "completion": 81,
       "owner": "Navod",
       "track": "Internal operating system",
-      "focus": "Cockpit-first operating system with compact CRM, timelines, and workflow summaries",
-      "next_milestone": "Finish Phase 2 compact operational surface redesign",
+      "focus": "Make the OS feel like a business partner, not project software",
+      "next_milestone": "Add backend-ready company brain and synced opportunity model",
       "blocker": "Still browser-local for edits",
       "tasks_total": 6,
-      "tasks_done": 4,
-      "eta": "5 days"
+      "tasks_done": 5,
+      "eta": "Next 7 days"
     },
     {
-      "name": "Hermes agent setup system",
+      "name": "Hermes onboarding productization",
       "status": "Active",
       "completion": 76,
       "owner": "Navod",
-      "track": "Internal productization",
-      "focus": "Reusable setup guide and workflow for future business agents",
-      "next_milestone": "Turn current install path into a repeatable onboarding playbook",
-      "blocker": "Needs a fully documented end-to-end client example",
+      "track": "Reusable service asset",
+      "focus": "Turn client onboarding into a repeatable install offer",
+      "next_milestone": "Package Cycle Matter learnings into a template",
+      "blocker": "Needs one polished case-study style walkthrough",
       "tasks_total": 4,
       "tasks_done": 3,
-      "eta": "6 days"
+      "eta": "Next 10 days"
     }
   ],
   "tasks": [
     {
-      "title": "Cycle Matter agent onboarding",
-      "project": "Cycle Matter agent",
+      "title": "Finish Cycle Matter knowledge docs",
+      "project": "Cycle Matter",
       "status": "doing",
       "priority": "high",
       "owner": "Navod",
-      "automation": "Scenario pack pending",
-      "due": "2026-07-05",
-      "notes": "Main active task. Finish the onboarding process and structure the business context."
+      "automation": "Unlocks testing and deployment",
+      "due": "2026-07-03",
+      "notes": "Highest leverage move today."
     },
     {
-      "title": "Write Cycle Matter business knowledge docs",
-      "project": "Cycle Matter agent",
+      "title": "Send proposal to XYZ Accountants",
+      "project": "Sales HQ",
       "status": "todo",
       "priority": "high",
       "owner": "Navod",
-      "automation": "Doc template ready",
-      "due": "2026-07-06",
-      "notes": "Document services, FAQs, policies, pricing ranges, and common customer situations."
+      "automation": "Proposal template ready",
+      "due": "2026-07-03",
+      "notes": "Most immediate revenue action."
     },
     {
-      "title": "Update Cycle Matter SOUL.md",
-      "project": "Cycle Matter agent",
-      "status": "todo",
-      "priority": "high",
-      "owner": "Navod",
-      "automation": "Prompt skeleton drafted",
-      "due": "2026-07-05",
-      "notes": "Define role, tone, guardrails, escalation rules, and business priorities."
-    },
-    {
-      "title": "Test Cycle Matter onboarding scenarios",
-      "project": "Cycle Matter agent",
+      "title": "Ignore the remaining 12 leads until tomorrow",
+      "project": "Mission Control",
       "status": "todo",
       "priority": "medium",
       "owner": "Navod",
-      "automation": "Replay prompts once knowledge docs land",
-      "due": "2026-07-07",
-      "notes": "Run realistic prompts for enquiries, pricing questions, complaints, and escalations."
+      "automation": "Preserve attention",
+      "due": "2026-07-03",
+      "notes": "Do not let low-conviction opportunities steal focus."
     },
     {
-      "title": "Define synced entity schema for IDIOMEX OS",
-      "project": "IDIOMEX OS V3",
-      "status": "doing",
-      "priority": "high",
+      "title": "Define synced opportunity schema",
+      "project": "IDIOMEX Mission Control",
+      "status": "todo",
+      "priority": "medium",
       "owner": "Navod",
       "automation": "Backend-ready contract",
       "due": "2026-07-06",
-      "notes": "Design the minimum schema for leads, tasks, projects, activity, and automation events."
-    },
-    {
-      "title": "Map Supabase upgrade path",
-      "project": "IDIOMEX OS V3",
-      "status": "todo",
-      "priority": "medium",
-      "owner": "Navod",
-      "automation": "Research summary can seed this",
-      "due": "2026-07-08",
-      "notes": "Prepare the next step from static dashboard to synced backend without overbuilding."
-    },
-    {
-      "title": "Finalize reusable onboarding workflow",
-      "project": "Hermes agent setup system",
-      "status": "doing",
-      "priority": "medium",
-      "owner": "Navod",
-      "automation": "Guide page live",
-      "due": "2026-07-08",
-      "notes": "Turn setup + onboarding into a cleaner productized system for future client agents."
-    },
-    {
-      "title": "Create agent setup examples pack",
-      "project": "Hermes agent setup system",
-      "status": "todo",
-      "priority": "medium",
-      "owner": "Navod",
-      "automation": "Can be generated from first 2 client installs",
-      "due": "2026-07-10",
-      "notes": "Collect examples for service, trades, and internal business assistants."
-    },
-    {
-      "title": "Publish IDIOMEX OS publicly",
-      "project": "IDIOMEX OS V3",
-      "status": "done",
-      "priority": "medium",
-      "owner": "Navod",
-      "automation": "Already live",
-      "due": "2026-07-03",
-      "notes": "Current public dashboard is already accessible online."
+      "notes": "Prepare for true cross-device sync."
     }
   ],
-  "automation": {
-    "summary": "V3 keeps automation visible, but no longer lets it crowd out the decisions that matter on the first screen.",
+  "products": {
+    "summary": "IDIOMEX sells products that install systems into businesses. Each product should have revenue, clients, templates, proposals, ROI, and documentation.",
     "items": [
       {
-        "agent": "AI / tech newsletter",
-        "trigger": "08:00 UK daily",
-        "action": "Send practical Telegram briefing with tool/tutorial-of-the-day",
-        "status": "Live",
-        "owner": "Navod",
-        "outcome": "Keeps AI trends, coding tools, and agent workflows in one reliable morning surface."
-      },
-      {
-        "agent": "Hermes backup flow",
-        "trigger": "Scheduled backup job",
-        "action": "Push Hermes data backup to GitHub",
+        "name": "AI Business Assistant",
+        "category": "Agent product",
         "status": "Active",
-        "owner": "Navod",
-        "outcome": "Reduces risk of losing configuration, prompts, and dashboard artifacts."
+        "revenue": "\u00a30\u2013\u00a33k setup",
+        "clients": "1 live install",
+        "roi": "Reduces admin + speeds replies",
+        "next_action": "Turn Cycle Matter into the reference implementation."
       },
       {
-        "agent": "Research agent",
-        "trigger": "On demand",
-        "action": "Collect and summarize live topic research for business/operator decisions",
-        "status": "Live",
-        "owner": "Navod",
-        "outcome": "Cuts time to insight when exploring offers, markets, and AI tooling."
+        "name": "Booking Platform",
+        "category": "Custom software",
+        "status": "Pipeline",
+        "revenue": "\u00a32k\u2013\u00a36k",
+        "clients": "Prospect-led",
+        "roi": "Captures bookings and operational data",
+        "next_action": "Keep as a targeted product line, not a generic service."
       },
       {
-        "agent": "IDIOMEX outreach assist",
-        "trigger": "When lead sheet is refreshed",
-        "action": "Prepare next-action prompts and outreach sequencing",
-        "status": "Prototype",
-        "owner": "Navod",
-        "outcome": "Should reduce the jump from research to actual outreach execution."
+        "name": "Website + Automation",
+        "category": "Acquisition product",
+        "status": "Active",
+        "revenue": "\u00a31.5k\u2013\u00a34k",
+        "clients": "Multiple potential fits",
+        "roi": "Improves conversion and reduces admin",
+        "next_action": "Package with AI workflows rather than selling brochure sites."
+      },
+      {
+        "name": "Custom Software",
+        "category": "Higher-ticket systems",
+        "status": "Selective",
+        "revenue": "\u00a35k+",
+        "clients": "Case-by-case",
+        "roi": "Creates durable operational advantage",
+        "next_action": "Only pursue when tied to clear recurring or strategic upside."
       }
     ]
   },
-  "activity": [
-    {
-      "type": "Lead replied",
-      "severity": "high",
-      "title": "Warm local interest needs a response",
-      "detail": "An accountant-facing opportunity is ready for same-day follow-up once pricing is approved.",
-      "time": "5 min ago"
-    },
-    {
-      "type": "Project milestone",
-      "severity": "medium",
-      "title": "Cycle Matter onboarding moved forward",
-      "detail": "The onboarding flow is close to reusable-template status but still needs the SOUL.md pass.",
-      "time": "18 min ago"
-    },
-    {
-      "type": "Agent warning",
-      "severity": "high",
-      "title": "Backup agent needs verification",
-      "detail": "The GitHub backup flow should be checked so resilience stays trustworthy.",
-      "time": "42 min ago"
-    },
-    {
-      "type": "Deployment",
-      "severity": "low",
-      "title": "Dashboard V3 release in progress",
-      "detail": "The new cockpit-first operating system layer is being deployed to GitHub Pages.",
-      "time": "just now"
-    }
-  ],
-  "focus": {
-    "today": [
-      "Finish the Cycle Matter onboarding structure and core docs",
-      "Lock the first sellable MTD offer framing",
-      "Define the synced data schema for a future backend"
-    ],
-    "upcoming": [
-      {
-        "label": "Today",
-        "items": [
-          "Cycle Matter SOUL.md",
-          "Knowledge docs",
-          "IDIOMEX OS schema pass"
-        ]
-      },
-      {
-        "label": "Next",
-        "items": [
-          "MTD offer page",
-          "Outreach shortlist",
-          "Supabase upgrade path"
-        ]
-      }
-    ]
-  },
-  "command_header": {
-    "day_label": "Friday",
-    "date_label": "03 July",
-    "business_health": "91%",
-    "momentum": "Excellent",
-    "primary_goal": "Finish Cycle Matter onboarding",
-    "recommended_after": "Recommended after that: publish the MTD offer and start outreach to 30 accountants."
-  },
-  "cockpit_metrics": [
-    {
-      "label": "Revenue Pipeline",
-      "value": "\u00a318,400",
-      "delta": "\u2191 12% this week",
-      "subvalue": "3 proposals within reach",
-      "tone": "green"
-    },
-    {
-      "label": "Leads Ready",
-      "value": "12",
-      "delta": "3 hot",
-      "subvalue": "2 offer-ready today",
-      "tone": "blue"
-    },
-    {
-      "label": "Projects",
-      "value": "5 active",
-      "delta": "2 need attention",
-      "subvalue": "Cycle Matter is the primary bet",
-      "tone": "purple"
-    },
-    {
-      "label": "AI Agents",
-      "value": "6 running",
-      "delta": "1 warning",
-      "subvalue": "Outreach agent waiting on fresh lead sheet",
-      "tone": "amber"
-    },
-    {
-      "label": "Today's Tasks",
-      "value": "8",
-      "delta": "3 high priority",
-      "subvalue": "2 due within 48h",
-      "tone": "red"
-    }
-  ],
-  "decision_centre": [
-    {
-      "priority": "red",
-      "title": "Finish Cycle Matter onboarding",
-      "impact": "\u00a33,000 potential",
-      "next_action": "Complete SOUL.md and lock the business knowledge structure today.",
-      "eta": "2h",
-      "owner": "Navod"
-    },
-    {
-      "priority": "amber",
-      "title": "Approve MTD offer pricing",
-      "impact": "\u00a31,500 setup + \u00a3250/mo",
-      "next_action": "Choose the final setup fee and monthly support anchor for the one-page offer.",
-      "eta": "45m",
-      "owner": "Navod"
-    },
-    {
-      "priority": "green",
-      "title": "Start outreach to 30 accountants",
-      "impact": "5 likely replies",
-      "next_action": "Use the shortlist and send the first focused outreach batch once the offer page is ready.",
-      "eta": "90m",
-      "owner": "Navod"
-    },
-    {
-      "priority": "slate",
-      "title": "Review 14 new leads",
-      "impact": "2 worth immediate follow-up",
-      "next_action": "Triage the fresh opportunities and promote only the highest-urgency leads into the CRM focus set.",
-      "eta": "30m",
-      "owner": "Navod"
-    }
-  ],
   "ai_workforce": [
     {
       "name": "CEO Agent",
-      "status": "Working",
-      "mode": "Strategic command",
-      "note": "Tracking priorities, business health, and next decisions.",
-      "last_run": "Healthy"
-    },
-    {
-      "name": "Lead Hunter",
-      "status": "Working",
-      "mode": "Prospecting",
-      "note": "Continuously surfacing commercial opportunities and ranked leads.",
-      "last_run": "Fresh lead pass today"
+      "status": "Online",
+      "current_job": "Prioritising highest-leverage business decisions",
+      "memory": "Healthy",
+      "last_run": "10 min ago",
+      "cost": "Low",
+      "performance": "High"
     },
     {
       "name": "Research Agent",
-      "status": "Running",
-      "mode": "On-demand research",
-      "note": "Ready to gather market and tool intelligence when needed.",
-      "last_run": "Available now"
+      "status": "Online",
+      "current_job": "Watching MTD and AI-first service opportunities",
+      "memory": "Stable",
+      "last_run": "25 min ago",
+      "cost": "Low",
+      "performance": "High"
     },
     {
-      "name": "Outreach Agent",
-      "status": "Waiting",
-      "mode": "Sequencing",
-      "note": "Paused until the next lead sheet and approved offer copy are ready.",
-      "last_run": "Awaiting input"
+      "name": "Lead Hunter",
+      "status": "Online",
+      "current_job": "Finding high-fit opportunities for IDIOMEX offers",
+      "memory": "Stable",
+      "last_run": "40 min ago",
+      "cost": "Low",
+      "performance": "Medium-High"
     },
     {
-      "name": "Newsletter Agent",
-      "status": "Working",
-      "mode": "Daily briefing",
-      "note": "Preparing regular AI and tooling summaries.",
-      "last_run": "08:00 UK schedule active"
+      "name": "Marketing Agent",
+      "status": "Online",
+      "current_job": "Refining positioning and outreach copy",
+      "memory": "Healthy",
+      "last_run": "1 hr ago",
+      "cost": "Low",
+      "performance": "Medium"
     },
     {
-      "name": "Backup Agent",
-      "status": "Warning",
-      "mode": "Risk control",
-      "note": "Needs a quick check to confirm the latest GitHub backup completed cleanly.",
-      "last_run": "Verify last backup run"
+      "name": "Sales Agent",
+      "status": "Online",
+      "current_job": "Preparing proposals and next-action prompts",
+      "memory": "Healthy",
+      "last_run": "15 min ago",
+      "cost": "Low",
+      "performance": "High"
+    },
+    {
+      "name": "Developer Agent",
+      "status": "Online",
+      "current_job": "Upgrading Mission Control into a true operating system",
+      "memory": "Healthy",
+      "last_run": "just now",
+      "cost": "Low",
+      "performance": "High"
+    },
+    {
+      "name": "Finance Agent",
+      "status": "Online",
+      "current_job": "Tracking revenue pipeline and backups",
+      "memory": "Stable",
+      "last_run": "today",
+      "cost": "Low",
+      "performance": "Medium"
     }
   ],
-  "notifications": [
+  "company_brain": {
+    "headline": "The Company Brain protects attention, surfaces leverage, and tells you what to do next.",
+    "thesis": "Do not read everything. Decide faster. Protect the work that moves revenue, delivery, and repeatability.",
+    "summary_cards": [
+      {
+        "label": "Primary Move",
+        "value": "Finish Cycle Matter",
+        "note": "Highest leverage because it creates the installation template for future clients."
+      },
+      {
+        "label": "Revenue Move",
+        "value": "Send XYZ proposal",
+        "note": "Fastest path to near-term cash this week."
+      },
+      {
+        "label": "Protected Focus",
+        "value": "Ignore 12 leads",
+        "note": "Attention is the constraint. Keep only the top 3 in play."
+      },
+      {
+        "label": "Current Blocker",
+        "value": "Knowledge docs",
+        "note": "Cycle Matter cannot move cleanly into testing until the docs are finished."
+      }
+    ],
+    "recommendations": [
+      {
+        "title": "Complete the Cycle Matter knowledge layer first",
+        "why": "This is the bottleneck between active work and a reusable onboarding system you can sell again.",
+        "do_now": "Finish the missing docs, then move straight into testing.",
+        "outcome": "Unblocks deployment and creates your future install template.",
+        "timebox": "2h 15m",
+        "confidence": "High"
+      },
+      {
+        "title": "Send the XYZ Accountants proposal before starting new outreach",
+        "why": "A live proposal is worth more than another hour of broad prospecting.",
+        "do_now": "Use the existing template and get the proposal out today.",
+        "outcome": "Best chance of immediate weekly revenue.",
+        "timebox": "35m",
+        "confidence": "High"
+      },
+      {
+        "title": "Actively ignore low-conviction leads until tomorrow",
+        "why": "The wrong work feels productive while quietly killing momentum.",
+        "do_now": "Leave the 12 weaker leads untouched and re-rank them tomorrow.",
+        "outcome": "Protects focus for the two moves that actually matter today.",
+        "timebox": "Instant",
+        "confidence": "Medium"
+      }
+    ],
+    "watchlist": [
+      {
+        "title": "Cycle Matter testing readiness",
+        "detail": "As soon as the docs are complete, the install should move into testing without another planning loop.",
+        "trigger": "Knowledge docs marked complete",
+        "owner": "Navod"
+      },
+      {
+        "title": "MTD accountant offer clarity",
+        "detail": "The shortlist stays strong only if the offer page and positioning stay sharp and specific.",
+        "trigger": "Proposal and offer copy finalised",
+        "owner": "Marketing Agent"
+      },
+      {
+        "title": "Repeatable onboarding asset",
+        "detail": "Every delivery improvement should be converted into a template, playbook, or case study asset.",
+        "trigger": "Cycle Matter milestone completed",
+        "owner": "Developer Agent"
+      }
+    ],
+    "ignore_for_now": [
+      {
+        "title": "Broad lead list cleanup",
+        "detail": "Do not reorganise or research the lower-quality lead pool today.",
+        "until": "Tomorrow morning",
+        "reason": "No immediate cash upside"
+      },
+      {
+        "title": "Extra Mission Control polish",
+        "detail": "Avoid UI tinkering that does not improve revenue, delivery, or repeatability this afternoon.",
+        "until": "After Cycle Matter and proposal are done",
+        "reason": "Looks like work, not leverage"
+      }
+    ],
+    "briefing": [
+      {
+        "title": "Good morning, Navod.",
+        "detail": "The Company Brain says today is not about doing more. It is about finishing the two moves that create leverage: Cycle Matter and the XYZ proposal.",
+        "type": "Morning brief",
+        "severity": "high",
+        "time": "now"
+      },
+      {
+        "title": "Yesterday: 2 new leads found",
+        "detail": "That matters only if the top 3 are moved forward. The rest should stay out of sight until tomorrow.",
+        "type": "Lead intelligence",
+        "severity": "medium",
+        "time": "yesterday"
+      },
+      {
+        "title": "Cycle Matter is the template, not just the client",
+        "detail": "Every improvement here compounds because it becomes the reference install for future AI business assistant deals.",
+        "type": "Installation intelligence",
+        "severity": "high",
+        "time": "today"
+      },
+      {
+        "title": "Hermes backup completed",
+        "detail": "Core Hermes data protection remains healthy and current.",
+        "type": "System intelligence",
+        "severity": "low",
+        "time": "yesterday"
+      },
+      {
+        "title": "Research agent found 3 MTD-aligned opportunities",
+        "detail": "This reinforces accountant-focused outreach as the strongest current sales lane.",
+        "type": "Opportunity intelligence",
+        "severity": "medium",
+        "time": "today"
+      }
+    ]
+  },
+  "focus": {
+    "today": [
+      {
+        "title": "Complete the Cycle Matter knowledge layer first",
+        "why": "This is the bottleneck between active work and a reusable onboarding system you can sell again.",
+        "do_now": "Finish the missing docs, then move straight into testing.",
+        "outcome": "Unblocks deployment and creates your future install template.",
+        "timebox": "2h 15m",
+        "confidence": "High"
+      },
+      {
+        "title": "Send the XYZ Accountants proposal before starting new outreach",
+        "why": "A live proposal is worth more than another hour of broad prospecting.",
+        "do_now": "Use the existing template and get the proposal out today.",
+        "outcome": "Best chance of immediate weekly revenue.",
+        "timebox": "35m",
+        "confidence": "High"
+      },
+      {
+        "title": "Actively ignore low-conviction leads until tomorrow",
+        "why": "The wrong work feels productive while quietly killing momentum.",
+        "do_now": "Leave the 12 weaker leads untouched and re-rank them tomorrow.",
+        "outcome": "Protects focus for the two moves that actually matter today.",
+        "timebox": "Instant",
+        "confidence": "Medium"
+      }
+    ]
+  },
+  "rooms": [
     {
-      "type": "Lead replied",
-      "severity": "high",
-      "title": "Warm local interest needs a response",
-      "detail": "An accountant-facing opportunity is ready for same-day follow-up once pricing is approved.",
-      "time": "5 min ago"
+      "name": "Executive Office",
+      "purpose": "Strategic decisions, priorities, revenue direction, and what gets attention now."
     },
     {
-      "type": "Project milestone",
-      "severity": "medium",
-      "title": "Cycle Matter onboarding moved forward",
-      "detail": "The onboarding flow is close to reusable-template status but still needs the SOUL.md pass.",
-      "time": "18 min ago"
+      "name": "Sales HQ",
+      "purpose": "Opportunities, proposals, clients, and the moves that create cash flow."
     },
     {
-      "type": "Agent warning",
-      "severity": "high",
-      "title": "Backup agent needs verification",
-      "detail": "The GitHub backup flow should be checked so resilience stays trustworthy.",
-      "time": "42 min ago"
+      "name": "Delivery HQ",
+      "purpose": "Business installations, implementation stages, blockers, and deployment progress."
     },
     {
-      "type": "Deployment",
-      "severity": "low",
-      "title": "Dashboard V3 release in progress",
-      "detail": "The new cockpit-first operating system layer is being deployed to GitHub Pages.",
-      "time": "just now"
+      "name": "AI Workforce",
+      "purpose": "Agent jobs, health, memory, performance, and last reports."
+    },
+    {
+      "name": "Knowledge",
+      "purpose": "Templates, SOUL.md, prompts, playbooks, proposals, guides, and case studies."
+    },
+    {
+      "name": "Finance",
+      "purpose": "Pipeline value, recurring revenue, costs, and operational health."
+    },
+    {
+      "name": "Marketing Lab",
+      "purpose": "Positioning, outreach experiments, messaging, and offer refinement."
     }
   ],
-  "kanban_summary": {
-    "todo": 5,
-    "doing": 3,
-    "blocked": 0,
-    "done_today": 1
+  "outcome_pipeline": [
+    {
+      "label": "Get Clients",
+      "value": "3",
+      "note": "High-conviction opportunities only"
+    },
+    {
+      "label": "Deliver",
+      "value": "1",
+      "note": "Cycle Matter install active"
+    },
+    {
+      "label": "Automate",
+      "value": "4",
+      "note": "Core agent workflows online"
+    },
+    {
+      "label": "Retain",
+      "value": "2",
+      "note": "Recurring support and operational stickiness"
+    },
+    {
+      "label": "Scale",
+      "value": "1",
+      "note": "Turn installs into repeatable products"
+    }
+  ],
+  "quick_actions_summary": "The fast lane for CEO moves: jump, focus, and execute without scrolling.",
+  "quick_actions": [
+    {
+      "id": "go-executive",
+      "label": "Mission Control",
+      "description": "Jump straight to the decision centre and executive briefing.",
+      "type": "scroll",
+      "target": "executive",
+      "shortcut": "\u23181",
+      "section": "Navigation"
+    },
+    {
+      "id": "focus-cycle-matter",
+      "label": "Focus Cycle Matter",
+      "description": "Filter the cockpit around the most leveraged installation work.",
+      "type": "search",
+      "search": "cycle matter",
+      "shortcut": "Focus",
+      "section": "Quick action"
+    },
+    {
+      "id": "focus-proposal",
+      "label": "Focus proposal work",
+      "description": "Surface proposal and sales actions only.",
+      "type": "search",
+      "search": "proposal",
+      "shortcut": "Sales",
+      "section": "Quick action"
+    },
+    {
+      "id": "go-agents",
+      "label": "Open AI Workforce",
+      "description": "Jump to agent health, jobs, and performance.",
+      "type": "scroll",
+      "target": "agents",
+      "shortcut": "\u23182",
+      "section": "Navigation"
+    },
+    {
+      "id": "go-brain",
+      "label": "Open Company Brain",
+      "description": "Jump to the company briefing and AI recommendations.",
+      "type": "scroll",
+      "target": "activity",
+      "shortcut": "\u23186",
+      "section": "Navigation"
+    },
+    {
+      "id": "open-guide",
+      "label": "Open Hermes guide",
+      "description": "Open the local Hermes guide in a new tab.",
+      "type": "link",
+      "href": "./guide.html",
+      "shortcut": "Guide",
+      "section": "Quick action"
+    }
+  ],
+  "assistant_dock": {
+    "title": "AI Assistant Dock",
+    "summary": "A persistent AI layer for context, action, and command \u2014 without leaving the cockpit.",
+    "status": "Max online",
+    "primary": {
+      "title": "Finish Cycle Matter, then trigger the proposal lane.",
+      "detail": "The assistant dock keeps one recommended next move visible so the OS behaves like a business partner."
+    },
+    "metrics": [
+      {
+        "label": "Primary move",
+        "value": "Cycle Matter"
+      },
+      {
+        "label": "Revenue move",
+        "value": "XYZ proposal"
+      },
+      {
+        "label": "Agents online",
+        "value": "7/7"
+      },
+      {
+        "label": "Focus mode",
+        "value": "Protected"
+      }
+    ],
+    "actions": [
+      {
+        "id": "focus-cycle-matter",
+        "label": "Focus installation"
+      },
+      {
+        "id": "focus-proposal",
+        "label": "Focus revenue"
+      },
+      {
+        "id": "go-agents",
+        "label": "Check agents"
+      },
+      {
+        "id": "go-brain",
+        "label": "Read briefing"
+      }
+    ]
   }
 }

@@ -208,3 +208,16 @@ Extend `data/idiomex-os.json` with:
 ## Implementation note
 
 Start with **Phase 1 only** in this iteration. Get the cockpit right before adding command palette, quick actions, or extra pages.
+
+## Phase 3.1 — Command layer shipped
+
+**Delivered in this iteration**
+- floating global quick action button
+- command palette (`Ctrl+K`)
+- persistent AI assistant dock
+- quick-action shortcuts wired to search, rooms, and guide access
+
+**Implementation notes**
+- `index.html` now includes a modal command palette, floating quick-action tray, and docked assistant surface.
+- `data/idiomex-os.json` now includes `quick_actions`, `quick_actions_summary`, and `assistant_dock` so the premium command layer stays data-driven.
+- Verification should confirm the command-layer markers render in static HTML and that extracted inline JavaScript still passes `node --check`.
