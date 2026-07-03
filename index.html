@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IDIOMEX OS</title>
+  <title>IDIOMEX OS V2</title>
   <style>
     :root {
       --bg: #f4f7fb;
@@ -627,7 +627,10 @@
       .grid-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .board-grid,
       .analytics-grid,
-      .focus-grid { grid-template-columns: 1fr; }
+      .focus-grid,
+      .executive-grid { grid-template-columns: 1fr; }
+      .executive-cards { grid-template-columns: 1fr 1fr; }
+      .executive-panels { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 1080px) {
@@ -643,10 +646,12 @@
     @media (max-width: 720px) {
       .grid-kpis { grid-template-columns: 1fr; }
       .search { min-width: 100%; width: 100%; }
-      .ring-wrap { grid-template-columns: 1fr; }
+      .ring-wrap,
+      .executive-cards { grid-template-columns: 1fr; }
       .task-row,
       .lead-row-top,
-      .project-row-top { flex-direction: column; }
+      .project-row-top,
+      .automation-top { flex-direction: column; }
       .task-row .task-actions { justify-content: flex-start; }
     }
   </style>
@@ -657,8 +662,8 @@
       <div class="brand">
         <div class="brand-badge">J</div>
         <div>
-          <h1>IDIOMEX OS</h1>
-          <p>Business Operating System</p>
+          <h1>IDIOMEX OS V2</h1>
+          <p>Business Operating System · Version 2</p>
         </div>
       </div>
 
@@ -683,6 +688,47 @@
           <button class="btn primary" onclick="scrollToSection('tasks')">Quick action</button>
           <a class="btn" href="./guide.html">Hermes guide</a>
         </div>
+      </section>
+
+      <section class="executive-grid">
+        <article class="card executive-brief" id="executive">
+          <div class="section-head">
+            <div>
+              <h3>Executive cockpit</h3>
+              <p>Switch between strategic CEO decisions and execution-heavy COO operations.</p>
+            </div>
+            <span class="pill" id="executive-view-pill">Loading…</span>
+          </div>
+          <div class="view-toggle">
+            <button id="view-ceo" class="active" onclick="setView('ceo')">CEO view</button>
+            <button id="view-coo" onclick="setView('coo')">COO view</button>
+          </div>
+          <p class="executive-summary" id="executive-summary">Loading executive summary…</p>
+          <div id="executive-cards" class="executive-cards"></div>
+          <div class="executive-panels">
+            <section class="executive-panel">
+              <h4>Priority stack</h4>
+              <ol id="executive-priorities" class="executive-list"></ol>
+            </section>
+            <section class="executive-panel">
+              <h4>Next decisions</h4>
+              <ol id="executive-decisions" class="executive-list"></ol>
+            </section>
+          </div>
+          <p class="sync-note" id="sync-note"></p>
+        </article>
+
+        <article class="card" id="automation">
+          <div class="section-head">
+            <div>
+              <h3>Automation queue</h3>
+              <p>Agent jobs, watchdogs, and repeatable workflows that reduce manual admin.</p>
+            </div>
+            <span class="pill" id="automation-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="automation-summary">Loading automation summary…</p>
+          <div id="automation-list" class="automation-list"></div>
+        </article>
       </section>
 
       <section id="kpis" class="grid-kpis"></section>
@@ -784,12 +830,13 @@
 
   <script>
     const DATA_URL = './data/idiomex-os.json';
-    const LOCAL_KEY = 'idiomex-os-local-v1';
+    const LOCAL_KEY = 'idiomex-os-local-v2';
 
     const state = {
       data: null,
       search: '',
-      tasks: []
+      tasks: [],
+      view: 'ceo'
     };
 
     async function init() {
@@ -834,6 +881,8 @@
       if (!state.data) return;
       renderNav();
       renderTopbar();
+      renderExecutiveBrief();
+      renderAutomation();
       renderKpis();
       renderLeads();
       renderProjects();
@@ -868,6 +917,52 @@
       document.getElementById('welcome-copy').textContent = workspace.welcome || 'Everything in one place.';
     }
 
+    function renderExecutiveBrief() {
+      const workspace = state.data.workspace || {};
+      const view = state.data.executive_views?.[state.view] || {};
+      document.getElementById('executive-view-pill').textContent = view.label || 'Executive view';
+      document.getElementById('executive-summary').textContent = view.summary || workspace.welcome || 'Everything in one place.';
+      document.getElementById('sync-note').textContent = workspace.sync_status?.note || 'Local edits stay in this browser until a backend is added.';
+      document.getElementById('view-ceo').classList.toggle('active', state.view === 'ceo');
+      document.getElementById('view-coo').classList.toggle('active', state.view === 'coo');
+
+      document.getElementById('executive-cards').innerHTML = (view.cards || []).map(card => `
+        <article class="executive-metric">
+          <span>${escapeHtml(card.label)}</span>
+          <strong>${escapeHtml(String(card.value))}</strong>
+          <p>${escapeHtml(card.delta || '')}</p>
+        </article>
+      `).join('');
+
+      document.getElementById('executive-priorities').innerHTML = (view.priorities || []).map(item => `<li>${escapeHtml(item)}</li>`).join('');
+      document.getElementById('executive-decisions').innerHTML = (view.decisions || []).map(item => `<li>${escapeHtml(item)}</li>`).join('');
+    }
+
+    function renderAutomation() {
+      const automation = state.data.automation || {};
+      const items = filterItems(automation.items || [], ['agent', 'trigger', 'action', 'status', 'outcome']);
+      document.getElementById('automation-pill').textContent = `${items.filter(item => /live|active|running/i.test(item.status || '')).length} live`;
+      document.getElementById('automation-summary').textContent = automation.summary || 'No automation summary available.';
+      document.getElementById('automation-list').innerHTML = items.length ? items.map(item => `
+        <article class="automation-row">
+          <div class="automation-top">
+            <div>
+              <h4>${escapeHtml(item.agent)}</h4>
+              <p class="meta">${escapeHtml(item.trigger)}</p>
+            </div>
+            <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status)}</span>
+          </div>
+          <div class="meta-stack">
+            <div class="mini-meta">
+              <span class="mini-chip">Action: ${escapeHtml(item.action)}</span>
+              <span class="mini-chip">Owner: ${escapeHtml(item.owner || 'Navod')}</span>
+            </div>
+            <p>${escapeHtml(item.outcome || '')}</p>
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No matching automations.</div>';
+    }
+
     function renderKpis() {
       const colors = {
         blue: '#4f7cff',
@@ -886,7 +981,7 @@
 
     function renderLeads() {
       const leadPipeline = state.data.lead_pipeline || {};
-      const leads = filterItems(leadPipeline.leads || [], ['name', 'buyer', 'stage', 'next_action', 'notes']);
+      const leads = filterItems(leadPipeline.leads || [], ['name', 'buyer', 'stage', 'next_action', 'notes', 'offer', 'channel', 'health']);
       document.getElementById('lead-headline-pill').textContent = leadPipeline.summary?.headline || 'Lead snapshot';
       document.getElementById('funnel').innerHTML = (leadPipeline.stages || []).map((stage, index) => {
         const width = 100 - index * 12;
@@ -901,27 +996,36 @@
         `;
       }).join('');
 
-      document.getElementById('lead-list').innerHTML = leads.length ? leads.slice(0, 3).map(lead => `
+      document.getElementById('lead-list').innerHTML = leads.length ? leads.slice(0, 4).map(lead => `
         <article class="lead-row">
           <div class="lead-row-top">
             <div>
               <h4>${escapeHtml(lead.name)}</h4>
-              <p class="meta">${escapeHtml(lead.buyer)} · ${escapeHtml(lead.stage)}</p>
+              <p class="meta">${escapeHtml(lead.buyer)} · ${escapeHtml(lead.stage)} · ${escapeHtml(lead.channel || 'Direct outreach')}</p>
             </div>
-            <span class="score-badge">Score ${escapeHtml(String(lead.score))}</span>
+            <div class="mini-meta">
+              <span class="score-badge">Score ${escapeHtml(String(lead.score))}</span>
+              ${lead.health ? `<span class="health-pill health-${escapeHtml(String(lead.health).toLowerCase())}">${escapeHtml(capitalise(lead.health))}</span>` : ''}
+            </div>
           </div>
           <p class="lead-notes">${escapeHtml(lead.notes)}</p>
+          <div class="mini-meta">
+            <span class="mini-chip">Offer: ${escapeHtml(lead.offer || 'TBD')}</span>
+            <span class="mini-chip">Close target: ${escapeHtml(lead.target_close || 'TBD')}</span>
+            <span class="mini-chip">Owner: ${escapeHtml(lead.owner || 'Navod')}</span>
+          </div>
           <div class="mini-meta">
             <span class="mini-chip">Speed: ${escapeHtml(lead.speed_to_cash)}</span>
             <span class="mini-chip">Recurring: ${escapeHtml(lead.recurring)}</span>
             <span class="mini-chip">Next: ${escapeHtml(lead.next_action)}</span>
+            ${lead.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(lead.blocker)}</span>` : ''}
           </div>
         </article>
       `).join('') : '<div class="empty">No matching leads.</div>';
     }
 
     function renderProjects() {
-      const projects = filterItems(state.data.projects || [], ['name', 'status', 'focus', 'next_milestone']);
+      const projects = filterItems(state.data.projects || [], ['name', 'status', 'focus', 'next_milestone', 'blocker', 'track']);
       const inProgress = projects.filter(project => /progress|active/i.test(project.status || '')).length;
       const completedTaskCount = state.tasks.filter(task => task.status === 'done').length;
       document.getElementById('project-total').textContent = String(projects.length);
@@ -949,27 +1053,33 @@
           <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, Number(project.completion || 0)))}%"></div></div>
           <div class="mini-meta">
             <span class="mini-chip">${escapeHtml(String(project.completion))}% complete</span>
+            <span class="mini-chip">Track: ${escapeHtml(project.track || 'Core')}</span>
+            <span class="mini-chip">Owner: ${escapeHtml(project.owner || 'Navod')}</span>
+          </div>
+          <div class="mini-meta">
             <span class="mini-chip">Next: ${escapeHtml(project.next_milestone)}</span>
             <span class="mini-chip">Tasks: ${escapeHtml(String(project.tasks_done))}/${escapeHtml(String(project.tasks_total))}</span>
+            ${project.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(project.blocker)}</span>` : ''}
           </div>
         </article>
       `).join('');
     }
 
     function renderPriorityTasks() {
-      const topTasks = filterItems(state.tasks, ['title', 'project', 'notes'])
-        .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority))
-        .slice(0, 4);
+      const topTasks = filterItems(state.tasks, ['title', 'project', 'notes', 'owner'])
+        .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')))
+        .slice(0, 5);
       const doing = state.tasks.filter(task => task.status === 'doing').length;
       document.getElementById('task-summary-pill').textContent = `${doing} in progress`;
       document.getElementById('task-list').innerHTML = topTasks.length ? topTasks.map(task => `
         <article class="task-row">
           <div>
             <h4>${escapeHtml(task.title)}</h4>
-            <p>${escapeHtml(task.project)} · Due ${escapeHtml(task.due || 'TBD')}</p>
+            <p>${escapeHtml(task.project)} · Due ${escapeHtml(task.due || 'TBD')} · Owner ${escapeHtml(task.owner || 'Navod')}</p>
             <div class="mini-meta">
               <span class="priority-badge priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
               <span class="status-badge status-${escapeHtml(task.status)}">${escapeHtml(statusLabel(task.status))}</span>
+              ${task.automation ? `<span class="mini-chip">Automation: ${escapeHtml(task.automation)}</span>` : ''}
             </div>
           </div>
           <div class="task-actions">
@@ -1000,10 +1110,11 @@
               ${tasks.length ? tasks.map(task => `
                 <article class="kanban-card">
                   <h5>${escapeHtml(task.title)}</h5>
-                  <p>${escapeHtml(task.project)}</p>
+                  <p>${escapeHtml(task.project)} · ${escapeHtml(task.owner || 'Navod')}</p>
                   <div class="mini-meta">
                     <span class="priority-badge priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
                     ${task.due ? `<span class="mini-chip">Due ${escapeHtml(task.due)}</span>` : ''}
+                    ${task.automation ? `<span class="mini-chip">${escapeHtml(task.automation)}</span>` : ''}
                   </div>
                 </article>
               `).join('') : '<div class="empty">No tasks.</div>'}
@@ -1035,6 +1146,11 @@
           <div class="meta">${group.items.map(item => escapeHtml(item)).join(' · ')}</div>
         </article>
       `).join('');
+    }
+
+    function setView(view) {
+      state.view = view === 'coo' ? 'coo' : 'ceo';
+      renderExecutiveBrief();
     }
 
     function advanceTask(title, direction) {
