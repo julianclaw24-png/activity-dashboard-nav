@@ -3,778 +3,1111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Activity Dashboard</title>
+  <title>IDIOMEX OS</title>
   <style>
     :root {
-      --bg: #f5f7fb;
+      --bg: #f4f7fb;
       --surface: #ffffff;
-      --surface-soft: #fafbfc;
-      --text: #111827;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent: #111827;
-      --green: #16a34a;
-      --amber: #d97706;
-      --red: #dc2626;
-      --radius: 18px;
-      --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
-      --max: 1240px;
+      --surface-soft: #f7f9fc;
+      --surface-2: #eef3fb;
+      --text: #101828;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --sidebar: #0b1220;
+      --sidebar-soft: #111b31;
+      --sidebar-text: #d6def0;
+      --primary: #4f46e5;
+      --primary-soft: #eef2ff;
+      --blue: #4f7cff;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --purple: #8b5cf6;
+      --red: #ef4444;
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow: 0 18px 50px rgba(16, 24, 40, 0.08);
+      --shadow-soft: 0 12px 24px rgba(16, 24, 40, 0.05);
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background: linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
       color: var(--text);
-      line-height: 1.5;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    button, input, select, textarea { font: inherit; }
-    a { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
     h1, h2, h3, h4, p { margin-top: 0; }
 
-    .page {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 24px 16px 40px;
+    .app-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
     }
 
-    .hero,
-    .card,
-    .task-card,
-    .status-box,
-    .guide-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    .sidebar {
+      background: linear-gradient(180deg, #0b1220 0%, #111827 100%);
+      color: var(--sidebar-text);
+      padding: 28px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
-    .hero {
-      padding: 28px;
-      margin-bottom: 16px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
+    .brand {
+      display: flex;
+      gap: 14px;
       align-items: center;
-      gap: 8px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: var(--surface-soft);
-      color: var(--muted);
-      border: 1px solid var(--line);
-      font-size: 12px;
-      font-weight: 700;
+      padding: 10px 10px 4px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #ced8ff 100%);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .brand h1 {
+      font-size: 1.18rem;
+      margin-bottom: 2px;
+      letter-spacing: -0.04em;
+      color: #fff;
+    }
+
+    .brand p {
+      margin: 0;
+      color: rgba(214, 222, 240, 0.72);
+      font-size: 0.88rem;
+    }
+
+    .nav-section-title {
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 14px;
+      color: rgba(214, 222, 240, 0.45);
+      font-weight: 700;
+      margin: 0 0 10px 12px;
     }
 
-    h1 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-      margin-bottom: 12px;
-      max-width: 12ch;
-    }
-
-    .intro {
-      max-width: 72ch;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .hero-actions,
-    .inline-actions,
-    .filters,
-    .task-meta,
-    .card-head,
-    .guide-links {
-      display: flex;
+    .nav-group {
+      display: grid;
       gap: 10px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: var(--sidebar-text);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: 0.15s ease;
+      font-weight: 600;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: linear-gradient(135deg, #232f57 0%, #3544f5 100%);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(53, 68, 245, 0.22);
+    }
+
+    .nav-icon {
+      width: 18px;
+      text-align: center;
+      opacity: 0.95;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .sidebar-footer strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-footer p {
+      margin: 0;
+      color: rgba(214, 222, 240, 0.72);
+      font-size: 0.9rem;
+    }
+
+    .main {
+      padding: 26px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .welcome h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      letter-spacing: -0.05em;
+      margin-bottom: 6px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      margin-bottom: 0;
+      max-width: 70ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
       flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .search {
+      min-width: 280px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 12px 16px;
+      color: var(--text);
+      box-shadow: var(--shadow-soft);
     }
 
     .btn {
       appearance: none;
       border: 1px solid var(--line);
-      border-radius: 999px;
       background: #fff;
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 10px 16px;
       color: var(--text);
-      min-height: 42px;
-      padding: 10px 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-soft);
     }
 
     .btn.primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, #4f46e5 0%, #635bff 100%);
+      border-color: #4f46e5;
       color: #fff;
-      border-color: var(--accent);
     }
 
     .btn.small {
       min-height: 34px;
-      padding: 7px 11px;
-      font-size: 0.92rem;
+      padding: 7px 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: none;
     }
 
-    .summary-grid,
-    .content-grid,
-    .task-board,
-    .guide-grid {
+    .grid-kpis,
+    .board-grid,
+    .analytics-grid,
+    .kanban-grid,
+    .lead-list,
+    .project-list,
+    .activity-list,
+    .focus-grid {
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .summary-grid {
+    .grid-kpis {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-bottom: 16px;
+      margin-bottom: 22px;
     }
 
-    .status-box,
-    .guide-card {
-      padding: 18px;
+    .card {
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(228, 231, 236, 0.9);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 22px;
     }
 
-    .label {
-      display: block;
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+    .kpi-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -30px auto;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,70,229,0.12) 0%, rgba(79,70,229,0) 70%);
+    }
+
+    .kpi-label {
+      display: inline-block;
+      font-size: 0.78rem;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--muted);
-      margin-bottom: 8px;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .metric {
-      font-size: 1.9rem;
-      line-height: 1;
+    .kpi-value {
+      font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.05em;
+      line-height: 1;
       margin-bottom: 8px;
     }
 
-    .subtext,
-    .muted {
+    .kpi-delta {
       color: var(--muted);
       font-size: 0.94rem;
     }
 
-    .content-grid {
-      grid-template-columns: 360px minmax(0, 1fr);
-      align-items: start;
-      margin-bottom: 16px;
+    .board-grid {
+      grid-template-columns: 1.2fr 0.9fr 0.9fr;
+      margin-bottom: 22px;
     }
 
-    .card {
-      padding: 20px;
-    }
-
-    .card-head {
+    .section-head {
+      display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
-    .card-head h2,
-    .card-head h3 {
+    .section-head h3 {
+      font-size: 1.15rem;
       margin-bottom: 4px;
+      letter-spacing: -0.03em;
     }
 
-    .field-grid,
-    .task-board {
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+    }
+
+    .funnel {
       display: grid;
       gap: 12px;
     }
 
-    .field {
+    .funnel-band {
       display: grid;
-      gap: 8px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
     }
 
-    .field label {
-      font-size: 0.92rem;
-      font-weight: 600;
+    .funnel-track {
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
     }
 
-    .field input,
-    .field select,
-    .field textarea,
-    .search-box {
-      width: 100%;
+    .funnel-meta {
+      min-width: 95px;
+      text-align: right;
+    }
+
+    .funnel-meta strong { display: block; font-size: 1rem; }
+    .funnel-meta span { color: var(--muted); font-size: 0.84rem; }
+
+    .lead-list { margin-top: 18px; }
+
+    .lead-row,
+    .project-row,
+    .task-row,
+    .activity-row {
       border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fff;
-      color: var(--text);
-      padding: 11px 12px;
-      outline: none;
-    }
-
-    .field textarea {
-      min-height: 96px;
-      resize: vertical;
-    }
-
-    .search-box {
-      min-width: 180px;
-      border-radius: 999px;
-    }
-
-    .task-board {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .column {
+      border-radius: var(--radius-lg);
       background: var(--surface-soft);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      min-height: 320px;
+      padding: 16px;
     }
 
-    .column-head {
+    .lead-row-top,
+    .project-row-top,
+    .task-row-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
     }
 
-    .count-pill,
-    .priority-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .count-pill {
-      background: #fff;
-      border: 1px solid var(--line);
-      color: var(--muted);
-    }
-
-    .task-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .task-card {
-      padding: 14px;
-    }
-
-    .task-card h4 {
-      margin: 0 0 8px;
-      line-height: 1.3;
+    .lead-row h4,
+    .project-row h4,
+    .task-row h4 {
+      margin-bottom: 4px;
       font-size: 1rem;
+      line-height: 1.35;
     }
 
-    .task-card p {
-      margin-bottom: 10px;
+    .meta,
+    .lead-notes,
+    .activity-row p,
+    .project-row p,
+    .task-row p {
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.92rem;
+      margin-bottom: 0;
     }
 
-    .task-meta {
-      margin-bottom: 10px;
-      align-items: center;
+    .score-badge,
+    .status-badge,
+    .priority-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .meta-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 9px;
+    .score-badge { background: var(--primary-soft); color: var(--primary); }
+    .status-doing, .project-In\ Progress, .project-Active { background: #eef2ff; color: #4f46e5; }
+    .status-todo { background: #fff7ed; color: #b45309; }
+    .status-done { background: #ecfdf3; color: #15803d; }
+    .priority-high { background: #fef2f2; color: #b91c1c; }
+    .priority-medium { background: #fff7ed; color: #b45309; }
+    .priority-low { background: #ecfdf3; color: #15803d; }
+
+    .mini-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .mini-chip {
+      padding: 7px 10px;
       border-radius: 999px;
       background: #fff;
       border: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.8rem;
-    }
-
-    .priority-high { background: #fef2f2; color: var(--red); }
-    .priority-medium { background: #fff7ed; color: var(--amber); }
-    .priority-low { background: #ecfdf3; color: var(--green); }
-
-    .empty {
-      padding: 14px;
-      border: 1px dashed var(--line);
-      border-radius: 14px;
-      color: var(--muted);
-      background: #fff;
-    }
-
-    .status-banner {
-      margin-bottom: 16px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: #fff;
       font-weight: 600;
     }
 
-    .guide-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project-list,
+    .activity-list { gap: 14px; }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e9eef7;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 10px;
     }
 
-    .guide-card h3 {
-      margin-bottom: 8px;
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4f46e5 0%, #60a5fa 100%);
     }
 
-    .guide-links {
-      margin-top: 12px;
+    .ring-wrap {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 8px;
     }
 
-    .hidden { display: none; }
+    .ring {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--green) 0 35%, var(--blue) 35% 65%, var(--amber) 65% 85%, #dde3f1 85% 100%);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ring::after {
+      content: "";
+      position: absolute;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+
+    .ring-center {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .ring-center strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .ring-center span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .legend {
+      display: grid;
+      gap: 12px;
+    }
+
+    .legend-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .legend-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .task-list { display: grid; gap: 12px; }
+
+    .task-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .task-row .task-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .analytics-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      margin-bottom: 22px;
+    }
+
+    .kanban-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .kanban-col {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .kanban-col h4 {
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .kanban-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .kanban-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .kanban-card h5 {
+      margin: 0 0 6px;
+      font-size: 0.96rem;
+    }
+
+    .kanban-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .focus-grid { grid-template-columns: 1fr 1fr; }
+
+    .focus-list,
+    .timeline-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .focus-item,
+    .timeline-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-soft);
+      padding: 14px;
+    }
+
+    .timeline-card strong,
+    .activity-row strong { display: block; margin-bottom: 6px; }
+
+    .empty {
+      color: var(--muted);
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px dashed var(--line);
+      background: var(--surface-soft);
+    }
+
+    .mobile-nav {
+      display: none;
+      margin-bottom: 16px;
+      gap: 10px;
+      overflow: auto;
+    }
+
+    @media (max-width: 1280px) {
+      .grid-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .board-grid,
+      .analytics-grid,
+      .focus-grid { grid-template-columns: 1fr; }
+    }
 
     @media (max-width: 1080px) {
-      .summary-grid,
-      .content-grid,
-      .task-board,
-      .guide-grid {
-        grid-template-columns: 1fr;
-      }
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 18px; }
+      .mobile-nav { display: flex; }
+      .topbar { flex-direction: column; align-items: stretch; }
+      .top-actions { justify-content: flex-start; }
+      .kanban-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .grid-kpis { grid-template-columns: 1fr; }
+      .search { min-width: 100%; width: 100%; }
+      .ring-wrap { grid-template-columns: 1fr; }
+      .task-row,
+      .lead-row-top,
+      .project-row-top { flex-direction: column; }
+      .task-row .task-actions { justify-content: flex-start; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="hero">
-      <div class="eyebrow">Activity dashboard</div>
-      <h1>Track your tasks simply.</h1>
-      <p class="intro">A clean single dashboard for your activities. I’ve preloaded your current Hermes and Cycle Matter work so you can use this as your main progress board.</p>
-      <div class="hero-actions">
-        <button class="btn primary" onclick="focusTaskTitle()">Add task</button>
-        <button class="btn" onclick="loadStarterTasks(true)">Load my starter tasks</button>
-        <a class="btn" href="./guide.html">Open Hermes guide</a>
-        <button class="btn" onclick="exportTasks()">Export</button>
-        <button class="btn" onclick="document.getElementById('import-file').click()">Import</button>
-        <button class="btn" onclick="resetTasks()">Reset</button>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-badge">J</div>
+        <div>
+          <h1>IDIOMEX OS</h1>
+          <p>Business Operating System</p>
+        </div>
       </div>
-      <input id="import-file" class="hidden" type="file" accept="application/json" onchange="importTasks(event)" />
-    </section>
 
-    <div id="status-banner" class="status-banner">Ready.</div>
+      <div id="sidebar-nav"></div>
 
-    <section id="summary-grid" class="summary-grid"></section>
+      <div class="sidebar-footer">
+        <strong>Current operating focus</strong>
+        <p id="sidebar-status">Loading workspace status…</p>
+      </div>
+    </aside>
 
-    <section class="content-grid">
-      <section class="card">
-        <div class="card-head">
-          <div>
-            <h2>Add or edit task</h2>
-            <p class="muted">Keep it short. One task = one activity you want to track.</p>
-          </div>
+    <main class="main">
+      <div class="mobile-nav" id="mobile-nav"></div>
+
+      <section class="topbar">
+        <div class="welcome">
+          <h2 id="welcome-title">Welcome back.</h2>
+          <p id="welcome-copy">Loading your operating system…</p>
         </div>
-
-        <form class="field-grid" onsubmit="saveTask(event)">
-          <input id="task-id" type="hidden" />
-          <div class="field">
-            <label for="task-title">Task</label>
-            <input id="task-title" type="text" placeholder="e.g. Finish Cycle Matter onboarding docs" required />
-          </div>
-
-          <div class="field">
-            <label for="task-status">Stage</label>
-            <select id="task-status">
-              <option value="todo">To do</option>
-              <option value="doing">Doing</option>
-              <option value="done">Done</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="task-priority">Priority</label>
-            <select id="task-priority">
-              <option value="high">High</option>
-              <option value="medium" selected>Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="task-due">Due date</label>
-            <input id="task-due" type="date" />
-          </div>
-
-          <div class="field">
-            <label for="task-notes">Notes</label>
-            <textarea id="task-notes" placeholder="Optional notes or next step"></textarea>
-          </div>
-
-          <div class="inline-actions">
-            <button class="btn primary" type="submit">Save task</button>
-            <button class="btn" type="button" onclick="clearForm()">Clear</button>
-          </div>
-        </form>
+        <div class="top-actions">
+          <input id="global-search" class="search" type="search" placeholder="Search leads, projects, tasks…" />
+          <button class="btn primary" onclick="scrollToSection('tasks')">Quick action</button>
+          <a class="btn" href="./guide.html">Hermes guide</a>
+        </div>
       </section>
 
-      <section class="card">
-        <div class="card-head">
-          <div>
-            <h2>Task board</h2>
-            <p class="muted">See everything in one place and move fast.</p>
-          </div>
-          <div class="filters">
-            <input id="search-input" class="search-box" type="search" placeholder="Search tasks" oninput="renderApp()" />
-          </div>
-        </div>
+      <section id="kpis" class="grid-kpis"></section>
 
-        <div id="task-board" class="task-board"></div>
+      <section class="board-grid">
+        <article class="card" id="dashboard">
+          <div class="section-head">
+            <div>
+              <h3>Leads overview</h3>
+              <p>What to pursue next, and where each opportunity currently sits.</p>
+            </div>
+            <span class="pill" id="lead-headline-pill">Loading…</span>
+          </div>
+          <div id="funnel" class="funnel"></div>
+          <div id="lead-list" class="lead-list"></div>
+        </article>
+
+        <article class="card" id="projects">
+          <div class="section-head">
+            <div>
+              <h3>Projects progress</h3>
+              <p>Core business systems and their next milestones.</p>
+            </div>
+            <span class="pill">Projects</span>
+          </div>
+          <div class="ring-wrap">
+            <div class="ring">
+              <div class="ring-center">
+                <strong id="project-total">0</strong>
+                <span>Total projects</span>
+              </div>
+            </div>
+            <div id="project-legend" class="legend"></div>
+          </div>
+          <div id="project-list" class="project-list" style="margin-top:18px;"></div>
+        </article>
+
+        <article class="card" id="tasks">
+          <div class="section-head">
+            <div>
+              <h3>Priority tasks</h3>
+              <p>Move work forward without opening chat.</p>
+            </div>
+            <span class="pill" id="task-summary-pill">Loading…</span>
+          </div>
+          <div id="task-list" class="task-list"></div>
+        </article>
       </section>
-    </section>
 
-    <section class="guide-grid">
-      <article class="guide-card">
-        <span class="label">Preloaded work</span>
-        <h3>Your current Hermes tasks are loaded</h3>
-        <p class="muted">I added your current known work, including Cycle Matter onboarding, public dashboard setup, and Hermes agent guide work. If you ever clear the board, use “Load my starter tasks” to restore them.</p>
-      </article>
-      <article class="guide-card">
-        <span class="label">Guide</span>
-        <h3>Hermes agent setup guide</h3>
-        <p class="muted">I also added a simple setup guide page covering install, model config, Telegram, onboarding, and testing.</p>
-        <div class="guide-links">
-          <a class="btn small" href="./guide.html">Open guide</a>
-        </div>
-      </article>
-    </section>
-  </main>
+      <section class="analytics-grid">
+        <article class="card" id="kanban">
+          <div class="section-head">
+            <div>
+              <h3>Kanban execution board</h3>
+              <p>A clear view of what is next, active, and already completed.</p>
+            </div>
+            <button class="btn small" onclick="resetLocalState()">Reset local changes</button>
+          </div>
+          <div id="kanban-grid" class="kanban-grid"></div>
+        </article>
+
+        <article class="card" id="activity">
+          <div class="section-head">
+            <div>
+              <h3>Recent activity</h3>
+              <p>Latest important movement across your business OS.</p>
+            </div>
+            <span class="pill">Live snapshot</span>
+          </div>
+          <div id="activity-list" class="activity-list"></div>
+        </article>
+      </section>
+
+      <section class="focus-grid">
+        <article class="card">
+          <div class="section-head">
+            <div>
+              <h3>Today’s focus</h3>
+              <p>The shortest list that keeps momentum high.</p>
+            </div>
+            <span class="pill">Focus</span>
+          </div>
+          <div id="focus-list" class="focus-list"></div>
+        </article>
+
+        <article class="card" id="calendar">
+          <div class="section-head">
+            <div>
+              <h3>Upcoming flow</h3>
+              <p>What’s now, and what’s next.</p>
+            </div>
+            <span class="pill">Planning</span>
+          </div>
+          <div id="timeline-list" class="timeline-list"></div>
+        </article>
+      </section>
+    </main>
+  </div>
 
   <script>
-    const STORAGE_KEY = 'activity-dashboard-v2';
-    const COLUMNS = [
-      { id: 'todo', name: 'To do' },
-      { id: 'doing', name: 'Doing' },
-      { id: 'done', name: 'Done' }
-    ];
+    const DATA_URL = './data/idiomex-os.json';
+    const LOCAL_KEY = 'idiomex-os-local-v1';
 
     const state = {
-      tasks: [],
-      selectedTaskId: null
+      data: null,
+      search: '',
+      tasks: []
     };
 
-    function createTask({ title, status, priority, dueDate = '', notes = '' }) {
-      const now = new Date().toISOString();
-      return {
-        id: crypto.randomUUID(),
-        title,
-        status,
-        priority,
-        dueDate,
-        notes,
-        createdAt: now,
-        updatedAt: now
-      };
-    }
-
-    function starterTasks() {
-      return [
-        createTask({
-          title: 'Cycle Matter agent onboarding',
-          status: 'doing',
-          priority: 'high',
-          notes: 'Main active task. Finish onboarding process, business knowledge, and workflows.'
-        }),
-        createTask({
-          title: 'Write Cycle Matter business knowledge docs',
-          status: 'todo',
-          priority: 'high',
-          notes: 'Document services, FAQs, policies, pricing ranges, and customer scenarios.'
-        }),
-        createTask({
-          title: 'Update Cycle Matter SOUL.md',
-          status: 'todo',
-          priority: 'high',
-          notes: 'Define role, tone, guardrails, escalation rules, and business priorities.'
-        }),
-        createTask({
-          title: 'Test Cycle Matter onboarding scenarios',
-          status: 'todo',
-          priority: 'medium',
-          notes: 'Run prompts for customer enquiry, stock question, lead capture, complaints, and escalation.'
-        }),
-        createTask({
-          title: 'Hermes Docker setup',
-          status: 'done',
-          priority: 'medium',
-          notes: 'Environment setup complete.'
-        }),
-        createTask({
-          title: 'Telegram connection test',
-          status: 'done',
-          priority: 'medium',
-          notes: 'Bot connection working and tested.'
-        }),
-        createTask({
-          title: 'Create activity dashboard',
-          status: 'done',
-          priority: 'low',
-          notes: 'Built the clean dashboard for tracking tasks.'
-        }),
-        createTask({
-          title: 'Publish activity dashboard publicly',
-          status: 'done',
-          priority: 'low',
-          notes: 'Dashboard deployed to GitHub Pages for anywhere access.'
-        }),
-        createTask({
-          title: 'Create Hermes agent setup guide',
-          status: 'done',
-          priority: 'medium',
-          notes: 'Guide page added covering setup and onboarding.'
-        })
-      ];
-    }
-
-    function mergeStarterTasks(existingTasks) {
-      const existing = Array.isArray(existingTasks) ? [...existingTasks] : [];
-      const titles = new Set(existing.map(task => (task.title || '').trim().toLowerCase()));
-      let added = 0;
-
-      for (const task of starterTasks()) {
-        const key = task.title.trim().toLowerCase();
-        if (!titles.has(key)) {
-          existing.push(task);
-          titles.add(key);
-          added += 1;
-        }
-      }
-
-      return { tasks: existing, added };
-    }
-
-    function loadState() {
+    async function init() {
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        const baseTasks = Array.isArray(saved.tasks) ? saved.tasks : [];
-        const merged = mergeStarterTasks(baseTasks);
-        state.tasks = merged.tasks.length ? merged.tasks : starterTasks();
-        state.selectedTaskId = saved.selectedTaskId || null;
+        const response = await fetch(DATA_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        state.data = data;
+        state.tasks = mergeLocalTasks(data.tasks || []);
+        bindEvents();
+        render();
+      } catch (error) {
+        console.error(error);
+        document.getElementById('welcome-copy').textContent = 'Could not load the OS data file.';
+      }
+    }
+
+    function mergeLocalTasks(sourceTasks) {
+      const base = structuredClone(sourceTasks || []);
+      try {
+        const saved = JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}');
+        if (!Array.isArray(saved.tasks)) return base;
+        const savedMap = new Map(saved.tasks.map(task => [task.title, task]));
+        return base.map(task => savedMap.get(task.title) || task);
       } catch {
-        state.tasks = starterTasks();
+        return base;
       }
-      if (!state.tasks.length) state.tasks = starterTasks();
     }
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        tasks: state.tasks,
-        selectedTaskId: state.selectedTaskId
-      }));
+    function saveLocalTasks() {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify({ tasks: state.tasks }));
     }
 
-    function setStatus(message) {
-      document.getElementById('status-banner').textContent = message;
+    function bindEvents() {
+      document.getElementById('global-search').addEventListener('input', (event) => {
+        state.search = event.target.value.trim().toLowerCase();
+        render();
+      });
     }
 
-    function focusTaskTitle() {
-      clearForm();
-      document.getElementById('task-title').focus();
+    function render() {
+      if (!state.data) return;
+      renderNav();
+      renderTopbar();
+      renderKpis();
+      renderLeads();
+      renderProjects();
+      renderPriorityTasks();
+      renderKanban();
+      renderActivity();
+      renderFocus();
     }
 
-    function clearForm() {
-      state.selectedTaskId = null;
-      document.getElementById('task-id').value = '';
-      document.getElementById('task-title').value = '';
-      document.getElementById('task-status').value = 'todo';
-      document.getElementById('task-priority').value = 'medium';
-      document.getElementById('task-due').value = '';
-      document.getElementById('task-notes').value = '';
+    function renderNav() {
+      const navMarkup = (state.data.navigation || []).map((group, index) => `
+        <section>
+          <div class="nav-section-title">${escapeHtml(group.section)}</div>
+          <div class="nav-group">
+            ${group.items.map((item, itemIndex) => {
+              const target = navTarget(item);
+              const active = index === 0 && itemIndex === 0 ? 'active' : '';
+              return `<a class="nav-link ${active}" href="#${target}"><span class="nav-icon">${navIcon(item)}</span><span>${escapeHtml(item)}</span></a>`;
+            }).join('')}
+          </div>
+        </section>
+      `).join('');
+      document.getElementById('sidebar-nav').innerHTML = navMarkup;
+      document.getElementById('mobile-nav').innerHTML = ['Dashboard', 'Leads & CRM', 'Projects', 'Tasks', 'Kanban', 'Activity']
+        .map(item => `<a class="btn small" href="#${navTarget(item)}">${escapeHtml(item)}</a>`).join('');
+      document.getElementById('sidebar-status').textContent = state.data.workspace?.status || 'Operating system online.';
     }
 
-    function loadStarterTasks(forceMessage = false) {
-      const merged = mergeStarterTasks(state.tasks);
-      state.tasks = merged.tasks;
-      saveState();
-      renderApp();
-      setStatus(merged.added || forceMessage ? `Starter tasks loaded${merged.added ? ` (${merged.added} added)` : ''}.` : 'Starter tasks already present.');
+    function renderTopbar() {
+      const workspace = state.data.workspace || {};
+      document.getElementById('welcome-title').textContent = `Welcome back, ${workspace.owner || 'Navod'}.`;
+      document.getElementById('welcome-copy').textContent = workspace.welcome || 'Everything in one place.';
     }
 
-    function saveTask(event) {
-      event.preventDefault();
-      const id = document.getElementById('task-id').value || crypto.randomUUID();
-      const existing = state.tasks.find(task => task.id === id);
-      const now = new Date().toISOString();
-
-      const task = {
-        id,
-        title: document.getElementById('task-title').value.trim(),
-        status: document.getElementById('task-status').value,
-        priority: document.getElementById('task-priority').value,
-        dueDate: document.getElementById('task-due').value,
-        notes: document.getElementById('task-notes').value.trim(),
-        createdAt: existing?.createdAt || now,
-        updatedAt: now
+    function renderKpis() {
+      const colors = {
+        blue: '#4f7cff',
+        green: '#22c55e',
+        purple: '#8b5cf6',
+        amber: '#f59e0b'
       };
-
-      if (!task.title) return;
-
-      if (existing) {
-        state.tasks = state.tasks.map(item => item.id === id ? task : item);
-        setStatus('Task updated.');
-      } else {
-        state.tasks.unshift(task);
-        setStatus('Task added.');
-      }
-
-      state.selectedTaskId = id;
-      saveState();
-      renderApp();
-    }
-
-    function editTask(id) {
-      const task = state.tasks.find(item => item.id === id);
-      if (!task) return;
-      state.selectedTaskId = id;
-      document.getElementById('task-id').value = task.id;
-      document.getElementById('task-title').value = task.title;
-      document.getElementById('task-status').value = task.status;
-      document.getElementById('task-priority').value = task.priority;
-      document.getElementById('task-due').value = task.dueDate || '';
-      document.getElementById('task-notes').value = task.notes || '';
-      setStatus('Editing task.');
-    }
-
-    function deleteTask(id) {
-      state.tasks = state.tasks.filter(task => task.id !== id);
-      if (state.selectedTaskId === id) clearForm();
-      saveState();
-      renderApp();
-      setStatus('Task deleted.');
-    }
-
-    function moveTask(id, direction) {
-      const task = state.tasks.find(item => item.id === id);
-      if (!task) return;
-      const index = COLUMNS.findIndex(column => column.id === task.status);
-      const nextIndex = Math.max(0, Math.min(COLUMNS.length - 1, index + direction));
-      task.status = COLUMNS[nextIndex].id;
-      task.updatedAt = new Date().toISOString();
-      saveState();
-      renderApp();
-      setStatus(`Moved to ${COLUMNS[nextIndex].name}.`);
-    }
-
-    function exportTasks() {
-      const blob = new Blob([JSON.stringify({ tasks: state.tasks }, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'activity-dashboard-export.json';
-      a.click();
-      URL.revokeObjectURL(url);
-      setStatus('Tasks exported.');
-    }
-
-    function importTasks(event) {
-      const file = event.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const parsed = JSON.parse(reader.result);
-          state.tasks = Array.isArray(parsed.tasks) ? parsed.tasks : [];
-          loadStarterTasks();
-          saveState();
-          renderApp();
-          setStatus('Tasks imported.');
-        } catch {
-          setStatus('Import failed. Please use a valid JSON export file.');
-        }
-      };
-      reader.readAsText(file);
-      event.target.value = '';
-    }
-
-    function resetTasks() {
-      if (!confirm('Reset all tasks on this device?')) return;
-      state.tasks = starterTasks();
-      clearForm();
-      saveState();
-      renderApp();
-      setStatus('Dashboard reset.');
-    }
-
-    function filteredTasks() {
-      const query = document.getElementById('search-input')?.value?.trim().toLowerCase() || '';
-      if (!query) return state.tasks;
-      return state.tasks.filter(task => [task.title, task.notes, task.priority, task.status].join(' ').toLowerCase().includes(query));
-    }
-
-    function renderSummary() {
-      const tasks = state.tasks;
-      const todo = tasks.filter(task => task.status === 'todo').length;
-      const doing = tasks.filter(task => task.status === 'doing').length;
-      const done = tasks.filter(task => task.status === 'done').length;
-      const high = tasks.filter(task => task.priority === 'high').length;
-
-      document.getElementById('summary-grid').innerHTML = [
-        ['Total tasks', tasks.length, 'Everything you are tracking right now.'],
-        ['To do', todo, 'Tasks waiting to be started.'],
-        ['Doing', doing, 'Work currently in progress.'],
-        ['Done', done, 'Completed items already checked off.']
-      ].map(([label, number, note]) => `
-        <article class="status-box">
-          <span class="label">${label}</span>
-          <div class="metric">${number}</div>
-          <div class="subtext">${note}</div>
+      document.getElementById('kpis').innerHTML = (state.data.kpis || []).map(card => `
+        <article class="card kpi-card">
+          <span class="kpi-label">${escapeHtml(card.label)}</span>
+          <div class="kpi-value" style="color:${colors[card.tone] || 'var(--text)'}">${escapeHtml(String(card.value))}</div>
+          <div class="kpi-delta">${escapeHtml(card.delta)}</div>
         </article>
       `).join('');
     }
 
-    function renderBoard() {
-      const tasks = filteredTasks();
-      document.getElementById('task-board').innerHTML = COLUMNS.map(column => {
-        const columnTasks = tasks.filter(task => task.status === column.id)
-          .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
+    function renderLeads() {
+      const leadPipeline = state.data.lead_pipeline || {};
+      const leads = filterItems(leadPipeline.leads || [], ['name', 'buyer', 'stage', 'next_action', 'notes']);
+      document.getElementById('lead-headline-pill').textContent = leadPipeline.summary?.headline || 'Lead snapshot';
+      document.getElementById('funnel').innerHTML = (leadPipeline.stages || []).map((stage, index) => {
+        const width = 100 - index * 12;
         return `
-          <section class="column">
-            <div class="column-head">
-              <h3>${column.name}</h3>
-              <span class="count-pill">${columnTasks.length}</span>
+          <div class="funnel-band">
+            <div class="funnel-track" style="width:${width}%; background:${stage.color};">${escapeHtml(stage.name)}</div>
+            <div class="funnel-meta">
+              <strong>${escapeHtml(String(stage.count))}</strong>
+              <span>opportunities</span>
             </div>
-            <div class="task-list">
-              ${columnTasks.length ? columnTasks.map(renderTaskCard).join('') : '<div class="empty">No tasks here.</div>'}
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('lead-list').innerHTML = leads.length ? leads.slice(0, 3).map(lead => `
+        <article class="lead-row">
+          <div class="lead-row-top">
+            <div>
+              <h4>${escapeHtml(lead.name)}</h4>
+              <p class="meta">${escapeHtml(lead.buyer)} · ${escapeHtml(lead.stage)}</p>
+            </div>
+            <span class="score-badge">Score ${escapeHtml(String(lead.score))}</span>
+          </div>
+          <p class="lead-notes">${escapeHtml(lead.notes)}</p>
+          <div class="mini-meta">
+            <span class="mini-chip">Speed: ${escapeHtml(lead.speed_to_cash)}</span>
+            <span class="mini-chip">Recurring: ${escapeHtml(lead.recurring)}</span>
+            <span class="mini-chip">Next: ${escapeHtml(lead.next_action)}</span>
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No matching leads.</div>';
+    }
+
+    function renderProjects() {
+      const projects = filterItems(state.data.projects || [], ['name', 'status', 'focus', 'next_milestone']);
+      const inProgress = projects.filter(project => /progress|active/i.test(project.status || '')).length;
+      const completedTaskCount = state.tasks.filter(task => task.status === 'done').length;
+      document.getElementById('project-total').textContent = String(projects.length);
+      document.getElementById('project-legend').innerHTML = [
+        { label: 'Active projects', value: inProgress, color: 'var(--green)' },
+        { label: 'Tasks completed', value: completedTaskCount, color: 'var(--blue)' },
+        { label: 'To do tasks', value: state.tasks.filter(task => task.status === 'todo').length, color: 'var(--amber)' },
+        { label: 'Doing tasks', value: state.tasks.filter(task => task.status === 'doing').length, color: '#dde3f1' }
+      ].map(item => `
+        <div class="legend-row">
+          <span class="legend-left"><span class="dot" style="background:${item.color}"></span>${escapeHtml(item.label)}</span>
+          <strong>${escapeHtml(String(item.value))}</strong>
+        </div>
+      `).join('');
+
+      document.getElementById('project-list').innerHTML = projects.map(project => `
+        <article class="project-row">
+          <div class="project-row-top">
+            <div>
+              <h4>${escapeHtml(project.name)}</h4>
+              <p>${escapeHtml(project.focus)}</p>
+            </div>
+            <span class="status-badge ${projectStatusClass(project.status)}">${escapeHtml(project.status)}</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, Number(project.completion || 0)))}%"></div></div>
+          <div class="mini-meta">
+            <span class="mini-chip">${escapeHtml(String(project.completion))}% complete</span>
+            <span class="mini-chip">Next: ${escapeHtml(project.next_milestone)}</span>
+            <span class="mini-chip">Tasks: ${escapeHtml(String(project.tasks_done))}/${escapeHtml(String(project.tasks_total))}</span>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderPriorityTasks() {
+      const topTasks = filterItems(state.tasks, ['title', 'project', 'notes'])
+        .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority))
+        .slice(0, 4);
+      const doing = state.tasks.filter(task => task.status === 'doing').length;
+      document.getElementById('task-summary-pill').textContent = `${doing} in progress`;
+      document.getElementById('task-list').innerHTML = topTasks.length ? topTasks.map(task => `
+        <article class="task-row">
+          <div>
+            <h4>${escapeHtml(task.title)}</h4>
+            <p>${escapeHtml(task.project)} · Due ${escapeHtml(task.due || 'TBD')}</p>
+            <div class="mini-meta">
+              <span class="priority-badge priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
+              <span class="status-badge status-${escapeHtml(task.status)}">${escapeHtml(statusLabel(task.status))}</span>
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="btn small" onclick="advanceTask('${escapeJs(task.title)}', -1)">←</button>
+            <button class="btn small" onclick="advanceTask('${escapeJs(task.title)}', 1)">→</button>
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No matching tasks.</div>';
+    }
+
+    function renderKanban() {
+      const columns = [
+        { id: 'todo', label: 'To do' },
+        { id: 'doing', label: 'In progress' },
+        { id: 'done', label: 'Done' }
+      ];
+      document.getElementById('kanban-grid').innerHTML = columns.map(column => {
+        const tasks = filterItems(state.tasks, ['title', 'project', 'notes']).filter(task => task.status === column.id);
+        return `
+          <section class="kanban-col">
+            <div class="section-head" style="margin-bottom:12px;">
+              <div>
+                <h4>${column.label}</h4>
+              </div>
+              <span class="pill">${tasks.length}</span>
+            </div>
+            <div class="kanban-stack">
+              ${tasks.length ? tasks.map(task => `
+                <article class="kanban-card">
+                  <h5>${escapeHtml(task.title)}</h5>
+                  <p>${escapeHtml(task.project)}</p>
+                  <div class="mini-meta">
+                    <span class="priority-badge priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
+                    ${task.due ? `<span class="mini-chip">Due ${escapeHtml(task.due)}</span>` : ''}
+                  </div>
+                </article>
+              `).join('') : '<div class="empty">No tasks.</div>'}
             </div>
           </section>
         `;
       }).join('');
     }
 
-    function renderTaskCard(task) {
-      return `
-        <article class="task-card">
-          <h4>${escapeHtml(task.title)}</h4>
-          <div class="task-meta">
-            <span class="priority-pill priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
-            ${task.dueDate ? `<span class="meta-chip">Due ${escapeHtml(task.dueDate)}</span>` : ''}
-          </div>
-          <p>${escapeHtml(task.notes || 'No notes yet.')}</p>
-          <div class="inline-actions">
-            <button class="btn small" onclick="editTask('${task.id}')">Edit</button>
-            <button class="btn small" onclick="moveTask('${task.id}', -1)">←</button>
-            <button class="btn small" onclick="moveTask('${task.id}', 1)">→</button>
-            <button class="btn small" onclick="deleteTask('${task.id}')">Delete</button>
-          </div>
+    function renderActivity() {
+      const items = filterItems(state.data.activity || [], ['title', 'detail', 'time']);
+      document.getElementById('activity-list').innerHTML = items.length ? items.map(item => `
+        <article class="activity-row">
+          <strong>${escapeHtml(item.title)}</strong>
+          <p>${escapeHtml(item.detail)}</p>
+          <div class="mini-meta" style="margin-top:10px;"><span class="mini-chip">${escapeHtml(item.time)}</span></div>
         </article>
-      `;
+      `).join('') : '<div class="empty">No matching activity.</div>';
+    }
+
+    function renderFocus() {
+      document.getElementById('focus-list').innerHTML = (state.data.focus?.today || []).map(item => `
+        <div class="focus-item">${escapeHtml(item)}</div>
+      `).join('');
+
+      document.getElementById('timeline-list').innerHTML = (state.data.focus?.upcoming || []).map(group => `
+        <article class="timeline-card">
+          <strong>${escapeHtml(group.label)}</strong>
+          <div class="meta">${group.items.map(item => escapeHtml(item)).join(' · ')}</div>
+        </article>
+      `).join('');
+    }
+
+    function advanceTask(title, direction) {
+      const order = ['todo', 'doing', 'done'];
+      const task = state.tasks.find(item => item.title === title);
+      if (!task) return;
+      const current = order.indexOf(task.status);
+      const next = Math.max(0, Math.min(order.length - 1, current + direction));
+      task.status = order[next];
+      saveLocalTasks();
+      render();
+    }
+
+    function resetLocalState() {
+      localStorage.removeItem(LOCAL_KEY);
+      state.tasks = structuredClone(state.data.tasks || []);
+      render();
+    }
+
+    function filterItems(items, fields) {
+      if (!state.search) return items;
+      return items.filter(item => fields.some(field => String(item[field] || '').toLowerCase().includes(state.search)));
+    }
+
+    function navTarget(item) {
+      const map = {
+        'Dashboard': 'dashboard',
+        'Leads & CRM': 'dashboard',
+        'Projects': 'projects',
+        'Tasks': 'tasks',
+        'Kanban': 'kanban',
+        'Calendar': 'calendar',
+        'Activity': 'activity',
+        'Guides': 'tasks',
+        'Settings': 'dashboard'
+      };
+      return map[item] || 'dashboard';
+    }
+
+    function navIcon(item) {
+      const map = {
+        'Dashboard': '◫',
+        'Leads & CRM': '◎',
+        'Projects': '▣',
+        'Tasks': '☑',
+        'Kanban': '≣',
+        'Calendar': '◷',
+        'Activity': '↺',
+        'Guides': '⌘',
+        'Settings': '⚙'
+      };
+      return map[item] || '•';
+    }
+
+    function projectStatusClass(status) {
+      return `project-${String(status || '').replace(/\s+/g, '\\ ')}`;
+    }
+
+    function priorityWeight(priority) {
+      return { high: 0, medium: 1, low: 2 }[priority] ?? 3;
     }
 
     function capitalise(value) {
-      return String(value || '').charAt(0).toUpperCase() + String(value || '').slice(1);
+      const text = String(value || '');
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function statusLabel(status) {
+      return status === 'todo' ? 'To do' : status === 'doing' ? 'Doing' : 'Done';
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function escapeHtml(value) {
@@ -786,15 +1119,11 @@
         .replace(/'/g, '&#39;');
     }
 
-    function renderApp() {
-      renderSummary();
-      renderBoard();
-      saveState();
+    function escapeJs(value) {
+      return String(value ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
     }
 
-    loadState();
-    renderApp();
-    setStatus('Starter tasks loaded.');
+    init();
   </script>
 </body>
 </html>

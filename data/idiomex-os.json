@@ -1,0 +1,269 @@
+{
+  "generated_at": "2026-07-03T09:15:00+01:00",
+  "workspace": {
+    "name": "IDIOMEX OS",
+    "subtitle": "Business Operating System",
+    "owner": "Navod",
+    "welcome": "Everything in one place: leads, projects, tasks, and focus.",
+    "status": "Building the operating system for business execution"
+  },
+  "navigation": [
+    { "section": "Core", "items": ["Dashboard", "Leads & CRM", "Projects", "Tasks"] },
+    { "section": "Operations", "items": ["Kanban", "Calendar", "Activity"] },
+    { "section": "System", "items": ["Guides", "Settings"] }
+  ],
+  "kpis": [
+    {
+      "label": "Active leads",
+      "value": 5,
+      "delta": "+2 this week",
+      "tone": "blue"
+    },
+    {
+      "label": "Qualified ideas",
+      "value": 2,
+      "delta": "Best bets ready for outreach",
+      "tone": "green"
+    },
+    {
+      "label": "Projects in progress",
+      "value": 3,
+      "delta": "1 highest-priority live now",
+      "tone": "purple"
+    },
+    {
+      "label": "Tasks completed",
+      "value": 6,
+      "delta": "Core setup already done",
+      "tone": "amber"
+    }
+  ],
+  "lead_pipeline": {
+    "summary": {
+      "headline": "Best current opportunity: MTD onboarding and quarterly-support automation.",
+      "note": "Fastest path to cash is service-first offers with recurring support attached."
+    },
+    "stages": [
+      { "name": "New", "count": 5, "color": "#4f7cff" },
+      { "name": "Qualified", "count": 3, "color": "#7c4dff" },
+      { "name": "Validation", "count": 2, "color": "#ff9f1c" },
+      { "name": "Offer Ready", "count": 1, "color": "#22c55e" }
+    ],
+    "leads": [
+      {
+        "name": "Making Tax Digital onboarding and quarterly-support automation",
+        "stage": "Qualified",
+        "score": 8.8,
+        "buyer": "Sole traders, landlords, bookkeepers, small accountancy firms",
+        "speed_to_cash": "7-21 days",
+        "recurring": "High",
+        "owner": "Navod",
+        "next_action": "Draft one-page offer and shortlist 30 local accountants/bookkeepers",
+        "notes": "Strongest opportunity because trigger is live, compliance-led, and can be sold as a service before building software."
+      },
+      {
+        "name": "Invoice chasing and e-invoicing automation for UK SMEs",
+        "stage": "Validation",
+        "score": 8.2,
+        "buyer": "Micro businesses, agencies, consultancies, trades firms",
+        "speed_to_cash": "7-14 days",
+        "recurring": "High",
+        "owner": "Navod",
+        "next_action": "Build simple ROI framing around reduced debtor days and collected cash",
+        "notes": "Very strong immediate cashflow angle and easy value story if positioned around paid invoices."
+      },
+      {
+        "name": "AI lead-response and admin automation for trades",
+        "stage": "Qualified",
+        "score": 8.0,
+        "buyer": "Local service businesses: plumbers, electricians, clinics, salons",
+        "speed_to_cash": "7-21 days",
+        "recurring": "High",
+        "owner": "Navod",
+        "next_action": "Pick one vertical and define a before/after ROI case study",
+        "notes": "Strong if sold as recovered revenue and saved admin, not generic AI consulting."
+      },
+      {
+        "name": "Tender monitoring and bid-drafting assistant",
+        "stage": "New",
+        "score": 7.0,
+        "buyer": "SME suppliers, agencies, consultancies",
+        "speed_to_cash": "14-30 days",
+        "recurring": "Medium-High",
+        "owner": "Navod",
+        "next_action": "Choose one supplier vertical and test interest before building",
+        "notes": "Useful niche but slower sales cycle than compliance or payments."
+      },
+      {
+        "name": "Cyber Essentials readiness workflow automation",
+        "stage": "New",
+        "score": 6.8,
+        "buyer": "Small professional firms, agencies, clinics, charities",
+        "speed_to_cash": "14-30 days",
+        "recurring": "Medium-High",
+        "owner": "Navod",
+        "next_action": "Package as fixed-scope ops checklist rather than bespoke security consulting",
+        "notes": "Viable but less urgent than the top two."
+      }
+    ]
+  },
+  "projects": [
+    {
+      "name": "Cycle Matter agent",
+      "status": "In Progress",
+      "completion": 62,
+      "owner": "Navod",
+      "focus": "Onboarding and business context",
+      "next_milestone": "Finalize SOUL.md and knowledge base",
+      "tasks_total": 4,
+      "tasks_done": 1
+    },
+    {
+      "name": "IDIOMEX OS",
+      "status": "In Progress",
+      "completion": 55,
+      "owner": "Navod",
+      "focus": "Unified dashboard and operating view",
+      "next_milestone": "Add richer sections and device-sync backend",
+      "tasks_total": 4,
+      "tasks_done": 2
+    },
+    {
+      "name": "Hermes agent setup system",
+      "status": "Active",
+      "completion": 70,
+      "owner": "Navod",
+      "focus": "Reusable setup guide and workflow for future business agents",
+      "next_milestone": "Turn guide into repeatable onboarding playbook",
+      "tasks_total": 3,
+      "tasks_done": 2
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Cycle Matter agent onboarding",
+      "project": "Cycle Matter agent",
+      "status": "doing",
+      "priority": "high",
+      "due": "2026-07-05",
+      "notes": "Main active task. Finish the onboarding process and structure the business context."
+    },
+    {
+      "title": "Write Cycle Matter business knowledge docs",
+      "project": "Cycle Matter agent",
+      "status": "todo",
+      "priority": "high",
+      "due": "2026-07-06",
+      "notes": "Document services, FAQs, policies, pricing ranges, and common customer situations."
+    },
+    {
+      "title": "Update Cycle Matter SOUL.md",
+      "project": "Cycle Matter agent",
+      "status": "todo",
+      "priority": "high",
+      "due": "2026-07-05",
+      "notes": "Define role, tone, guardrails, escalation rules, and business priorities."
+    },
+    {
+      "title": "Test Cycle Matter onboarding scenarios",
+      "project": "Cycle Matter agent",
+      "status": "todo",
+      "priority": "medium",
+      "due": "2026-07-07",
+      "notes": "Run realistic prompts for enquiries, pricing questions, complaints, and escalations."
+    },
+    {
+      "title": "Design first full IDIOMEX OS dashboard",
+      "project": "IDIOMEX OS",
+      "status": "doing",
+      "priority": "high",
+      "due": "2026-07-04",
+      "notes": "Combine leads, kanban, projects, and activity into one executive dashboard."
+    },
+    {
+      "title": "Publish IDIOMEX OS publicly",
+      "project": "IDIOMEX OS",
+      "status": "done",
+      "priority": "medium",
+      "due": "2026-07-03",
+      "notes": "Current public dashboard is already accessible online."
+    },
+    {
+      "title": "Create Hermes agent setup guide",
+      "project": "Hermes agent setup system",
+      "status": "done",
+      "priority": "medium",
+      "due": "2026-07-03",
+      "notes": "Guide page created for repeatable setup and onboarding."
+    },
+    {
+      "title": "Finalize reusable onboarding workflow",
+      "project": "Hermes agent setup system",
+      "status": "doing",
+      "priority": "medium",
+      "due": "2026-07-08",
+      "notes": "Turn setup + onboarding into a cleaner productized system for future client agents."
+    },
+    {
+      "title": "Hermes Docker setup",
+      "project": "Hermes agent setup system",
+      "status": "done",
+      "priority": "low",
+      "due": "2026-07-02",
+      "notes": "Environment setup complete."
+    },
+    {
+      "title": "Telegram connection test",
+      "project": "Hermes agent setup system",
+      "status": "done",
+      "priority": "low",
+      "due": "2026-07-02",
+      "notes": "Bot connection tested and working."
+    }
+  ],
+  "activity": [
+    {
+      "time": "2 min ago",
+      "title": "IDIOMEX OS brief updated",
+      "detail": "Unified dashboard direction set around leads, projects, and tasks."
+    },
+    {
+      "time": "12 min ago",
+      "title": "Cycle Matter moved into onboarding focus",
+      "detail": "Setup complete; work shifted to knowledge and soul configuration."
+    },
+    {
+      "time": "25 min ago",
+      "title": "Public dashboard deployment verified",
+      "detail": "GitHub Pages version confirmed reachable from anywhere."
+    },
+    {
+      "time": "1 hr ago",
+      "title": "Hermes guide created",
+      "detail": "Basic install, gateway, and onboarding process documented."
+    }
+  ],
+  "focus": {
+    "today": [
+      "Finish the first IDIOMEX OS dashboard shell",
+      "Write Cycle Matter SOUL.md draft",
+      "Create the Cycle Matter knowledge file structure"
+    ],
+    "upcoming": [
+      {
+        "label": "Today",
+        "items": [
+          "IDIOMEX OS UI pass",
+          "Cycle Matter onboarding structure"
+        ]
+      },
+      {
+        "label": "Next",
+        "items": [
+          "Business knowledge docs",
+          "Onboarding scenario tests"
+        ]
+      }
+    ]
+  }
+}
