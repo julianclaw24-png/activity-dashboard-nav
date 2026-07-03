@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-03T12:45:00+01:00",
+  "generated_at": "2026-07-03T13:05:00+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "3.3",
+    "version": "4.0",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "It isn\u2019t a chatbot. It isn\u2019t a dashboard. It behaves like a business partner.",
-    "status": "Decision-first operating system for AI-first service businesses with command layer and AI assistant dock",
+    "status": "Decision-first operating system with command layer and dedicated CRM, workforce, knowledge, and finance rooms",
     "sync_status": {
       "mode": "browser-local",
       "note": "This cockpit is accessible anywhere once hosted, but edits still stay in this browser until a backend such as Supabase is added."
@@ -47,7 +47,7 @@
     "business_health": "\ud83d\udfe2 Healthy",
     "momentum": "High",
     "primary_goal": "Finish Cycle Matter",
-    "recommended_after": "Use Ctrl+K to jump rooms, trigger high-leverage actions, and keep the OS in command mode."
+    "recommended_after": "Use the dedicated rooms to go deeper without turning the homepage back into a long report."
   },
   "decision_centre": [
     {
@@ -637,6 +637,33 @@
       "href": "./guide.html",
       "shortcut": "Guide",
       "section": "Quick action"
+    },
+    {
+      "id": "go-crm-room",
+      "label": "Open CRM Room",
+      "description": "Jump to the dedicated sales room for accounts and follow-ups.",
+      "type": "scroll",
+      "target": "crm-room",
+      "shortcut": "CRM",
+      "section": "Navigation"
+    },
+    {
+      "id": "go-knowledge-room",
+      "label": "Open Knowledge Vault",
+      "description": "Jump to playbooks, docs, and business memory.",
+      "type": "scroll",
+      "target": "knowledge-room",
+      "shortcut": "Docs",
+      "section": "Navigation"
+    },
+    {
+      "id": "go-finance-room",
+      "label": "Open Finance Room",
+      "description": "Jump to revenue, cashflow, and reporting signals.",
+      "type": "scroll",
+      "target": "finance-room",
+      "shortcut": "\u00a3",
+      "section": "Navigation"
     }
   ],
   "assistant_dock": {
@@ -681,6 +708,172 @@
       {
         "id": "go-brain",
         "label": "Read briefing"
+      }
+    ]
+  },
+  "crm_room": {
+    "pill": "3 strongest accounts",
+    "summary": "This room holds only the accounts that deserve active attention now. Everything else stays out of sight.",
+    "accounts": [
+      {
+        "name": "XYZ Accountants",
+        "stage": "Proposal",
+        "owner": "Navod",
+        "value": "\u00a32.3k this week",
+        "next_action": "Send proposal today",
+        "why_it_matters": "Fastest path to near-term cash and proof."
+      },
+      {
+        "name": "Cycle Matter",
+        "stage": "Installation",
+        "owner": "Navod",
+        "value": "Template asset",
+        "next_action": "Finish docs and move into testing",
+        "why_it_matters": "Creates the reference install for future clients."
+      },
+      {
+        "name": "MTD shortlist",
+        "stage": "Opportunity",
+        "owner": "Sales Agent",
+        "value": "Recurring lane",
+        "next_action": "Re-engage top 3 after offer page is final",
+        "why_it_matters": "Strong repeatable market once the message is tight."
+      }
+    ]
+  },
+  "workforce_room": {
+    "pill": "7 agents mapped",
+    "summary": "A dedicated workforce room turns the agent layer into something managed, not merely observed.",
+    "agents": [
+      {
+        "name": "CEO Agent",
+        "role": "Prioritisation + decision support",
+        "status": "Online",
+        "current_focus": "Keep Navod on the two highest-leverage moves",
+        "intervention": "None",
+        "owner": "Navod"
+      },
+      {
+        "name": "Sales Agent",
+        "role": "Proposals + next actions",
+        "status": "Online",
+        "current_focus": "Convert accountant opportunity into proposal sent",
+        "intervention": "Confirm pricing and send today",
+        "owner": "Navod"
+      },
+      {
+        "name": "Research Agent",
+        "role": "Opportunity scanning",
+        "status": "Online",
+        "current_focus": "Watch MTD-aligned demand and proof points",
+        "intervention": "Feed only high-conviction leads",
+        "owner": "Navod"
+      },
+      {
+        "name": "Developer Agent",
+        "role": "OS + installs",
+        "status": "Online",
+        "current_focus": "Turn Mission Control into a repeatable business OS",
+        "intervention": "Avoid polish work that does not improve leverage",
+        "owner": "Navod"
+      }
+    ]
+  },
+  "knowledge_room": {
+    "pill": "6 critical docs",
+    "summary": "Knowledge becomes a room, not an afterthought, so onboarding and delivery can compound.",
+    "docs": [
+      {
+        "title": "SOUL.md",
+        "type": "Core identity",
+        "purpose": "Defines how the business agent should think, respond, and prioritise.",
+        "status": "Active",
+        "owner": "Navod",
+        "next_update": "After Cycle Matter onboarding completes"
+      },
+      {
+        "title": "USER.md",
+        "type": "Owner profile",
+        "purpose": "Captures how Navod works so the OS can support him consistently.",
+        "status": "Active",
+        "owner": "Navod",
+        "next_update": "Monthly"
+      },
+      {
+        "title": "Cycle Matter knowledge docs",
+        "type": "Client install",
+        "purpose": "The missing layer blocking testing and deployment.",
+        "status": "Warning",
+        "owner": "Navod",
+        "next_update": "Today"
+      },
+      {
+        "title": "Proposal templates",
+        "type": "Sales asset",
+        "purpose": "Makes proposal sending a fast operating move, not a custom task every time.",
+        "status": "Active",
+        "owner": "Sales Agent",
+        "next_update": "After XYZ proposal"
+      },
+      {
+        "title": "Onboarding playbook",
+        "type": "Delivery asset",
+        "purpose": "Converts installs into repeatable delivery steps.",
+        "status": "Active",
+        "owner": "Developer Agent",
+        "next_update": "Next milestone"
+      },
+      {
+        "title": "Case-study vault",
+        "type": "Proof asset",
+        "purpose": "Turns delivery wins into future sales proof and packaging.",
+        "status": "Prototype",
+        "owner": "Marketing Agent",
+        "next_update": "After Cycle Matter"
+      }
+    ]
+  },
+  "finance_room": {
+    "pill": "4 finance signals",
+    "summary": "Finance gets its own room so pipeline, recurring potential, and operating discipline stay visible.",
+    "metrics": [
+      {
+        "label": "Weighted pipeline",
+        "value": "\u00a318.4k",
+        "note": "Near-term weighted opportunity value across strongest lanes.",
+        "tone": "Healthy"
+      },
+      {
+        "label": "Fastest cash move",
+        "value": "XYZ proposal",
+        "note": "One sent proposal beats another hour of generic outreach.",
+        "tone": "Immediate"
+      },
+      {
+        "label": "Recurring potential",
+        "value": "High",
+        "note": "Accountants + ongoing support remain the strongest recurring lane.",
+        "tone": "Compounding"
+      },
+      {
+        "label": "Cost posture",
+        "value": "Lean",
+        "note": "Agent layer and dashboard changes remain low-cost to operate.",
+        "tone": "Controlled"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Protect focus before revenue leaks away",
+        "detail": "Low-conviction lead work feels productive but slows the proposal and install work that actually moves cash.",
+        "owner": "CEO Agent",
+        "when": "Today"
+      },
+      {
+        "title": "Turn Cycle Matter into a financial asset",
+        "detail": "The more reusable the install becomes, the lower future delivery cost and the stronger pricing power becomes.",
+        "owner": "Developer Agent",
+        "when": "This week"
       }
     ]
   }

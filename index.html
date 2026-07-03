@@ -1368,6 +1368,79 @@
       overflow: auto;
     }
 
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .room-surface {
+      min-height: 100%;
+    }
+
+    .room-stack,
+    .knowledge-doc-list,
+    .finance-metric-grid,
+    .room-note-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .room-card,
+    .knowledge-doc,
+    .finance-metric,
+    .room-note {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+      padding: 16px;
+    }
+
+    .room-card-top,
+    .knowledge-doc-top,
+    .finance-metric-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .room-card h4,
+    .knowledge-doc h4,
+    .finance-metric h4,
+    .room-note h4 {
+      margin: 0 0 5px;
+      font-size: 1rem;
+    }
+
+    .room-card p,
+    .knowledge-doc p,
+    .finance-metric p,
+    .room-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .finance-metric-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+
+    .finance-metric strong {
+      display: block;
+      font-size: 1.5rem;
+      letter-spacing: -0.05em;
+      margin-bottom: 6px;
+    }
+
+    .room-surface .section-subnote {
+      margin: -4px 0 14px;
+      color: var(--muted);
+    }
+
     @media (max-width: 1280px) {
       .grid-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .board-grid,
@@ -1375,7 +1448,8 @@
       .focus-grid,
       .executive-grid,
       .brain-subgrid,
-      .brain-summary-grid { grid-template-columns: 1fr; }
+      .brain-summary-grid,
+      .rooms-grid { grid-template-columns: 1fr; }
       .executive-cards { grid-template-columns: 1fr 1fr; }
       .executive-panels { grid-template-columns: 1fr; }
     }
@@ -1402,7 +1476,8 @@
       .kanban-summary-grid,
       .task-summary-grid,
       .project-milestone-grid,
-      .assistant-actions { grid-template-columns: 1fr; }
+      .assistant-actions,
+      .finance-metric-grid { grid-template-columns: 1fr; }
       .crm-header,
       .crm-row { grid-template-columns: 1fr; }
       .task-row,
@@ -1621,6 +1696,58 @@
           <div id="kanban-grid" class="kanban-grid" style="display:none;"></div>
         </article>
       </section>
+
+      <section class="rooms-grid">
+        <article class="card room-surface" id="crm-room">
+          <div class="section-head">
+            <div>
+              <h3>CRM Room</h3>
+              <p>A dedicated sales room for strongest accounts, follow-ups, and proposal movement.</p>
+            </div>
+            <span class="pill" id="crm-room-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="crm-room-summary">Loading CRM room summary…</p>
+          <div id="crm-room-list" class="room-stack"></div>
+        </article>
+
+        <article class="card room-surface" id="workforce-room">
+          <div class="section-head">
+            <div>
+              <h3>AI Workforce Room</h3>
+              <p>A deeper room for agent roles, workload, and immediate interventions.</p>
+            </div>
+            <span class="pill" id="workforce-room-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="workforce-room-summary">Loading workforce room summary…</p>
+          <div id="workforce-room-list" class="room-stack"></div>
+        </article>
+
+        <article class="card room-surface" id="knowledge-room">
+          <div class="section-head">
+            <div>
+              <h3>Knowledge Vault</h3>
+              <p>Critical docs, playbooks, and business memory that make installs repeatable.</p>
+            </div>
+            <span class="pill" id="knowledge-room-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="knowledge-room-summary">Loading knowledge vault summary…</p>
+          <div id="knowledge-doc-list" class="knowledge-doc-list"></div>
+        </article>
+
+        <article class="card room-surface" id="finance-room">
+          <div class="section-head">
+            <div>
+              <h3>Finance & Reporting</h3>
+              <p>Revenue, recurring potential, cost discipline, and what deserves attention.</p>
+            </div>
+            <span class="pill" id="finance-room-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="finance-room-summary">Loading finance room summary…</p>
+          <div id="finance-metric-grid" class="finance-metric-grid"></div>
+          <div id="finance-note-list" class="room-note-list"></div>
+        </article>
+      </section>
+
     </main>
   </div>
 
@@ -1754,6 +1881,7 @@
       renderKanban();
       renderActivity();
       renderFocus();
+      renderDedicatedRooms();
       renderAssistantDock();
       renderQuickActions();
       renderCommandPalette();
@@ -2083,6 +2211,113 @@
       `).join('') : '<div class="empty">No company-brain items loaded.</div>';
     }
 
+
+    function renderDedicatedRooms() {
+      renderCRMRoom();
+      renderWorkforceRoom();
+      renderKnowledgeRoom();
+      renderFinanceRoom();
+    }
+
+    function renderCRMRoom() {
+      const room = state.data.crm_room || {};
+      const accounts = filterItems(room.accounts || [], ['name', 'owner', 'next_action', 'why_it_matters']);
+      document.getElementById('crm-room-pill').textContent = room.pill || `${accounts.length} accounts`;
+      document.getElementById('crm-room-summary').textContent = room.summary || 'No CRM room summary loaded.';
+      document.getElementById('crm-room-list').innerHTML = accounts.length ? accounts.map(item => `
+        <article class="room-card">
+          <div class="room-card-top">
+            <div>
+              <h4>${escapeHtml(item.name || 'Account')}</h4>
+              <p>${escapeHtml(item.why_it_matters || '')}</p>
+            </div>
+            <span class="status-badge status-${escapeHtml(String(item.stage || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.stage || 'Live')}</span>
+          </div>
+          <div class="mini-meta">
+            ${item.owner ? `<span class="mini-chip">Owner: ${escapeHtml(item.owner)}</span>` : ''}
+            ${item.value ? `<span class="mini-chip">Value: ${escapeHtml(item.value)}</span>` : ''}
+            ${item.next_action ? `<span class="mini-chip">Next: ${escapeHtml(item.next_action)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No CRM room items loaded.</div>';
+    }
+
+    function renderWorkforceRoom() {
+      const room = state.data.workforce_room || {};
+      const agents = filterItems(room.agents || [], ['name', 'role', 'current_focus', 'intervention']);
+      document.getElementById('workforce-room-pill').textContent = room.pill || `${agents.length} agents`;
+      document.getElementById('workforce-room-summary').textContent = room.summary || 'No workforce room summary loaded.';
+      document.getElementById('workforce-room-list').innerHTML = agents.length ? agents.map(item => `
+        <article class="room-card">
+          <div class="room-card-top">
+            <div>
+              <h4>${escapeHtml(item.name || 'Agent')}</h4>
+              <p>${escapeHtml(item.role || '')}</p>
+            </div>
+            <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status || 'Online')}</span>
+          </div>
+          <div class="mini-meta">
+            ${item.current_focus ? `<span class="mini-chip">Focus: ${escapeHtml(item.current_focus)}</span>` : ''}
+            ${item.intervention ? `<span class="mini-chip">Intervention: ${escapeHtml(item.intervention)}</span>` : ''}
+            ${item.owner ? `<span class="mini-chip">Owner: ${escapeHtml(item.owner)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No workforce room items loaded.</div>';
+    }
+
+    function renderKnowledgeRoom() {
+      const room = state.data.knowledge_room || {};
+      const docs = filterItems(room.docs || [], ['title', 'type', 'purpose', 'status']);
+      document.getElementById('knowledge-room-pill').textContent = room.pill || `${docs.length} docs`;
+      document.getElementById('knowledge-room-summary').textContent = room.summary || 'No knowledge summary loaded.';
+      document.getElementById('knowledge-doc-list').innerHTML = docs.length ? docs.map(doc => `
+        <article class="knowledge-doc">
+          <div class="knowledge-doc-top">
+            <div>
+              <h4>${escapeHtml(doc.title || 'Document')}</h4>
+              <p>${escapeHtml(doc.purpose || '')}</p>
+            </div>
+            <span class="status-badge status-${escapeHtml(String(doc.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(doc.status || 'Live')}</span>
+          </div>
+          <div class="mini-meta">
+            ${doc.type ? `<span class="mini-chip">Type: ${escapeHtml(doc.type)}</span>` : ''}
+            ${doc.owner ? `<span class="mini-chip">Owner: ${escapeHtml(doc.owner)}</span>` : ''}
+            ${doc.next_update ? `<span class="mini-chip">Next update: ${escapeHtml(doc.next_update)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No knowledge docs loaded.</div>';
+    }
+
+    function renderFinanceRoom() {
+      const room = state.data.finance_room || {};
+      const metrics = room.metrics || [];
+      const notes = room.notes || [];
+      document.getElementById('finance-room-pill').textContent = room.pill || `${metrics.length} finance signals`;
+      document.getElementById('finance-room-summary').textContent = room.summary || 'No finance summary loaded.';
+      document.getElementById('finance-metric-grid').innerHTML = metrics.length ? metrics.map(item => `
+        <article class="finance-metric">
+          <div class="finance-metric-top">
+            <div>
+              <h4>${escapeHtml(item.label || 'Metric')}</h4>
+              <p>${escapeHtml(item.note || '')}</p>
+            </div>
+            ${item.tone ? `<span class="pill">${escapeHtml(item.tone)}</span>` : ''}
+          </div>
+          <strong>${escapeHtml(item.value || '—')}</strong>
+        </article>
+      `).join('') : '<div class="empty">No finance metrics loaded.</div>';
+      document.getElementById('finance-note-list').innerHTML = notes.length ? notes.map(item => `
+        <article class="room-note">
+          <h4>${escapeHtml(item.title || 'Finance note')}</h4>
+          <p>${escapeHtml(item.detail || '')}</p>
+          <div class="mini-meta">
+            ${item.owner ? `<span class="mini-chip">Owner: ${escapeHtml(item.owner)}</span>` : ''}
+            ${item.when ? `<span class="mini-chip">When: ${escapeHtml(item.when)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No finance notes loaded.</div>';
+    }
+
     function renderFocus() {
       const focusItems = state.data.focus?.today || state.data.company_brain?.recommendations || [];
       document.getElementById('focus-list').innerHTML = focusItems.length ? focusItems.map(item => {
@@ -2264,11 +2499,11 @@
         'Executive Office': 'executive',
         'Sales HQ': 'dashboard',
         'Delivery HQ': 'projects',
-        'AI Workforce': 'agents',
-        'Knowledge': 'activity',
-        'Finance': 'kpis',
+        'AI Workforce': 'workforce-room',
+        'Knowledge': 'knowledge-room',
+        'Finance': 'finance-room',
         'Marketing Lab': 'automation',
-        'Opportunities': 'dashboard',
+        'Opportunities': 'crm-room',
         'Products': 'automation',
         'Installations': 'projects',
         'Intelligence': 'activity',

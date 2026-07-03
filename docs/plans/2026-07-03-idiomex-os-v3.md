@@ -221,3 +221,17 @@ Start with **Phase 1 only** in this iteration. Get the cockpit right before addi
 - `index.html` now includes a modal command palette, floating quick-action tray, and docked assistant surface.
 - `data/idiomex-os.json` now includes `quick_actions`, `quick_actions_summary`, and `assistant_dock` so the premium command layer stays data-driven.
 - Verification should confirm the command-layer markers render in static HTML and that extracted inline JavaScript still passes `node --check`.
+
+
+## Phase 4 — Dedicated rooms
+
+**Delivered in this iteration**
+- dedicated CRM room
+- dedicated AI Workforce room
+- dedicated Knowledge Vault
+- dedicated Finance & Reporting room
+
+**Implementation notes**
+- `index.html` now adds deeper room surfaces below the homepage cockpit so the app can go deep without making the first screen feel like a long report again.
+- `data/idiomex-os.json` now includes `crm_room`, `workforce_room`, `knowledge_room`, and `finance_room` objects to keep the new rooms data-driven.
+- Navigation and quick actions should point into these deeper rooms so the command layer and the information architecture stay aligned.
