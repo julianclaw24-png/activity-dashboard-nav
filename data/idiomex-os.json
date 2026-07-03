@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T11:15:00+01:00",
+  "generated_at": "2026-07-03T11:40:00+01:00",
   "workspace": {
     "name": "IDIOMEX OS V3",
     "version": "3.0",
@@ -155,7 +155,7 @@
   "lead_pipeline": {
     "summary": {
       "headline": "Best current revenue move: approve the MTD offer and start accountant outreach.",
-      "note": "The CRM should help you decide who makes money next, not make you read long cards."
+      "note": "Compact rows now prioritise stage, owner, and next action so the CRM behaves more like a sales cockpit."
     },
     "stages": [
       {
@@ -276,6 +276,13 @@
         "blocker": "Positioning risk if it sounds too security-heavy",
         "notes": "Viable, but weaker than the top two opportunities on urgency and clarity."
       }
+    ],
+    "columns": [
+      "Lead",
+      "Score",
+      "Status",
+      "Owner",
+      "Next Action"
     ]
   },
   "projects": [
@@ -289,19 +296,21 @@
       "next_milestone": "Finalize SOUL.md and complete business knowledge base",
       "blocker": "Knowledge structure still being formalized",
       "tasks_total": 5,
-      "tasks_done": 2
+      "tasks_done": 2,
+      "eta": "3 days"
     },
     {
-      "name": "IDIOMEX OS V2",
+      "name": "IDIOMEX OS V3",
       "status": "In Progress",
       "completion": 74,
       "owner": "Navod",
       "track": "Internal operating system",
-      "focus": "Unified dashboard with executive cockpit and operations view",
-      "next_milestone": "Add backend-ready schema for synced leads/tasks/projects",
+      "focus": "Cockpit-first operating system with compact CRM, timelines, and workflow summaries",
+      "next_milestone": "Finish Phase 2 compact operational surface redesign",
       "blocker": "Still browser-local for edits",
       "tasks_total": 6,
-      "tasks_done": 4
+      "tasks_done": 4,
+      "eta": "5 days"
     },
     {
       "name": "Hermes agent setup system",
@@ -313,7 +322,8 @@
       "next_milestone": "Turn current install path into a repeatable onboarding playbook",
       "blocker": "Needs a fully documented end-to-end client example",
       "tasks_total": 4,
-      "tasks_done": 3
+      "tasks_done": 3,
+      "eta": "6 days"
     }
   ],
   "tasks": [
@@ -359,7 +369,7 @@
     },
     {
       "title": "Define synced entity schema for IDIOMEX OS",
-      "project": "IDIOMEX OS V2",
+      "project": "IDIOMEX OS V3",
       "status": "doing",
       "priority": "high",
       "owner": "Navod",
@@ -369,7 +379,7 @@
     },
     {
       "title": "Map Supabase upgrade path",
-      "project": "IDIOMEX OS V2",
+      "project": "IDIOMEX OS V3",
       "status": "todo",
       "priority": "medium",
       "owner": "Navod",
@@ -399,7 +409,7 @@
     },
     {
       "title": "Publish IDIOMEX OS publicly",
-      "project": "IDIOMEX OS V2",
+      "project": "IDIOMEX OS V3",
       "status": "done",
       "priority": "medium",
       "owner": "Navod",
@@ -652,5 +662,11 @@
       "detail": "The new cockpit-first operating system layer is being deployed to GitHub Pages.",
       "time": "just now"
     }
-  ]
+  ],
+  "kanban_summary": {
+    "todo": 5,
+    "doing": 3,
+    "blocked": 0,
+    "done_today": 1
+  }
 }

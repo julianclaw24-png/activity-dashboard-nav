@@ -362,6 +362,160 @@
 
     .lead-list { margin-top: 18px; }
 
+    .crm-table {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .crm-header,
+    .crm-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1.7fr) minmax(80px, 0.55fr) minmax(130px, 0.8fr) minmax(140px, 1fr) minmax(160px, 1.1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 14px 16px;
+    }
+
+    .crm-header {
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--line);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .crm-row {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crm-row:last-child { border-bottom: none; }
+
+    .crm-company {
+      min-width: 0;
+    }
+
+    .crm-company strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.96rem;
+    }
+
+    .crm-company p,
+    .crm-next p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .crm-score {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .crm-score.hot { color: var(--green); }
+    .crm-score.warm { color: var(--amber); }
+    .crm-score.cold,
+    .crm-score.risk { color: var(--red); }
+
+    .project-timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .project-track {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+      padding: 16px;
+    }
+
+    .project-track-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .project-track-top p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .project-milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .project-milestone-grid .mini-chip {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .kanban-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .kanban-summary-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+      padding: 16px;
+    }
+
+    .kanban-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .kanban-summary-card strong {
+      display: block;
+      font-size: 1.6rem;
+      letter-spacing: -0.05em;
+      margin-bottom: 6px;
+    }
+
+    .kanban-summary-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .task-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .task-summary-grid .mini-chip {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .lead-row,
     .project-row,
     .task-row,
@@ -838,11 +992,20 @@
       .grid-kpis { grid-template-columns: 1fr; }
       .search { min-width: 100%; width: 100%; }
       .ring-wrap,
-      .executive-cards { grid-template-columns: 1fr; }
+      .executive-cards,
+      .command-meta-grid,
+      .kanban-summary-grid,
+      .task-summary-grid,
+      .project-milestone-grid { grid-template-columns: 1fr; }
+      .crm-header,
+      .crm-row { grid-template-columns: 1fr; }
       .task-row,
       .lead-row-top,
       .project-row-top,
-      .automation-top { flex-direction: column; }
+      .project-track-top,
+      .automation-top,
+      .agent-row,
+      .decision-row { flex-direction: column; }
       .task-row .task-actions { justify-content: flex-start; }
     }
   </style>
@@ -931,44 +1094,36 @@
         <article class="card" id="dashboard">
           <div class="section-head">
             <div>
-              <h3>Leads overview</h3>
-              <p>What to pursue next, and where each opportunity currently sits.</p>
+              <h3>CRM priority pipeline</h3>
+              <p>Compact deal flow. See who makes money next without reading giant cards.</p>
             </div>
             <span class="pill" id="lead-headline-pill">Loading…</span>
           </div>
           <div id="funnel" class="funnel"></div>
-          <div id="lead-list" class="lead-list"></div>
+          <div id="lead-list" class="crm-table"></div>
         </article>
 
         <article class="card" id="projects">
           <div class="section-head">
             <div>
-              <h3>Projects progress</h3>
-              <p>Core business systems and their next milestones.</p>
+              <h3>Projects timeline</h3>
+              <p>Track only the milestones, ETA, and blockers that affect delivery.</p>
             </div>
             <span class="pill">Projects</span>
           </div>
-          <div class="ring-wrap">
-            <div class="ring">
-              <div class="ring-center">
-                <strong id="project-total">0</strong>
-                <span>Total projects</span>
-              </div>
-            </div>
-            <div id="project-legend" class="legend"></div>
-          </div>
-          <div id="project-list" class="project-list" style="margin-top:18px;"></div>
+          <div id="project-legend" class="legend"></div>
+          <div id="project-list" class="project-timeline"></div>
         </article>
 
         <article class="card" id="tasks">
           <div class="section-head">
             <div>
               <h3>Priority tasks</h3>
-              <p>Move work forward without opening chat.</p>
+              <p>Compact operating queue with today’s counts first and task detail second.</p>
             </div>
             <span class="pill" id="task-summary-pill">Loading…</span>
           </div>
-          <div id="task-list" class="task-list"></div>
+          <div id="task-summary-grid" class="task-summary-grid"></div><div id="task-list" class="task-list"></div>
         </article>
       </section>
 
@@ -1025,12 +1180,13 @@
         <article class="card" id="kanban">
           <div class="section-head">
             <div>
-              <h3>Execution board</h3>
-              <p>Detailed task flow lives below the cockpit so the homepage stays decision-first.</p>
+              <h3>Kanban summary</h3>
+              <p>Dashboard shows counts only; deeper execution can expand later on a dedicated page.</p>
             </div>
             <button class="btn small" onclick="resetLocalState()">Reset local changes</button>
           </div>
-          <div id="kanban-grid" class="kanban-grid"></div>
+          <div id="kanban-summary-grid" class="kanban-summary-grid"></div>
+          <div id="kanban-grid" class="kanban-grid" style="display:none;"></div>
         </article>
       </section>
     </main>
@@ -1237,44 +1393,41 @@
         `;
       }).join('');
 
-      document.getElementById('lead-list').innerHTML = leads.length ? leads.slice(0, 4).map(lead => `
-        <article class="lead-row">
-          <div class="lead-row-top">
-            <div>
-              <h4>${escapeHtml(lead.name)}</h4>
-              <p class="meta">${escapeHtml(lead.buyer)} · ${escapeHtml(lead.stage)} · ${escapeHtml(lead.channel || 'Direct outreach')}</p>
+      document.getElementById('lead-list').innerHTML = leads.length ? `
+        <div class="crm-header">
+          <span>Lead</span>
+          <span>Score</span>
+          <span>Status</span>
+          <span>Owner</span>
+          <span>Next Action</span>
+        </div>
+        ${leads.slice(0, 6).map(lead => `
+          <div class="crm-row">
+            <div class="crm-company">
+              <strong>${escapeHtml(lead.name)}</strong>
+              <p>${escapeHtml(lead.buyer)} · ${escapeHtml(lead.channel || 'Direct outreach')}</p>
             </div>
-            <div class="mini-meta">
-              <span class="score-badge">Score ${escapeHtml(String(lead.score))}</span>
-              ${lead.health ? `<span class="health-pill health-${escapeHtml(String(lead.health).toLowerCase())}">${escapeHtml(capitalise(lead.health))}</span>` : ''}
+            <div class="crm-score ${escapeHtml(String(lead.health || '').toLowerCase())}">${escapeHtml(String(lead.score))}</div>
+            <div><span class="status-badge status-${escapeHtml(String(lead.stage || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(lead.stage)}</span></div>
+            <div class="meta">${escapeHtml(lead.owner || 'Navod')}</div>
+            <div class="crm-next">
+              <strong>${escapeHtml(lead.next_action)}</strong>
+              <p>${escapeHtml(lead.offer || 'Offer TBD')}</p>
             </div>
           </div>
-          <p class="lead-notes">${escapeHtml(lead.notes)}</p>
-          <div class="mini-meta">
-            <span class="mini-chip">Offer: ${escapeHtml(lead.offer || 'TBD')}</span>
-            <span class="mini-chip">Close target: ${escapeHtml(lead.target_close || 'TBD')}</span>
-            <span class="mini-chip">Owner: ${escapeHtml(lead.owner || 'Navod')}</span>
-          </div>
-          <div class="mini-meta">
-            <span class="mini-chip">Speed: ${escapeHtml(lead.speed_to_cash)}</span>
-            <span class="mini-chip">Recurring: ${escapeHtml(lead.recurring)}</span>
-            <span class="mini-chip">Next: ${escapeHtml(lead.next_action)}</span>
-            ${lead.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(lead.blocker)}</span>` : ''}
-          </div>
-        </article>
-      `).join('') : '<div class="empty">No matching leads.</div>';
+        `).join('')}
+      ` : '<div class="empty">No matching leads.</div>';
     }
 
     function renderProjects() {
       const projects = filterItems(state.data.projects || [], ['name', 'status', 'focus', 'next_milestone', 'blocker', 'track']);
       const inProgress = projects.filter(project => /progress|active/i.test(project.status || '')).length;
       const completedTaskCount = state.tasks.filter(task => task.status === 'done').length;
-      document.getElementById('project-total').textContent = String(projects.length);
       document.getElementById('project-legend').innerHTML = [
         { label: 'Active projects', value: inProgress, color: 'var(--green)' },
         { label: 'Tasks completed', value: completedTaskCount, color: 'var(--blue)' },
-        { label: 'To do tasks', value: state.tasks.filter(task => task.status === 'todo').length, color: 'var(--amber)' },
-        { label: 'Doing tasks', value: state.tasks.filter(task => task.status === 'doing').length, color: '#dde3f1' }
+        { label: 'Blocked projects', value: projects.filter(project => project.blocker).length, color: 'var(--amber)' },
+        { label: 'Total projects', value: projects.length, color: '#dde3f1' }
       ].map(item => `
         <div class="legend-row">
           <span class="legend-left"><span class="dot" style="background:${item.color}"></span>${escapeHtml(item.label)}</span>
@@ -1283,8 +1436,8 @@
       `).join('');
 
       document.getElementById('project-list').innerHTML = projects.map(project => `
-        <article class="project-row">
-          <div class="project-row-top">
+        <article class="project-track">
+          <div class="project-track-top">
             <div>
               <h4>${escapeHtml(project.name)}</h4>
               <p>${escapeHtml(project.focus)}</p>
@@ -1292,13 +1445,14 @@
             <span class="status-badge ${projectStatusClass(project.status)}">${escapeHtml(project.status)}</span>
           </div>
           <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, Number(project.completion || 0)))}%"></div></div>
-          <div class="mini-meta">
+          <div class="project-milestone-grid">
             <span class="mini-chip">${escapeHtml(String(project.completion))}% complete</span>
-            <span class="mini-chip">Track: ${escapeHtml(project.track || 'Core')}</span>
-            <span class="mini-chip">Owner: ${escapeHtml(project.owner || 'Navod')}</span>
+            <span class="mini-chip">Next: ${escapeHtml(project.next_milestone)}</span>
+            <span class="mini-chip">ETA: ${escapeHtml(project.eta || 'TBD')}</span>
           </div>
           <div class="mini-meta">
-            <span class="mini-chip">Next: ${escapeHtml(project.next_milestone)}</span>
+            <span class="mini-chip">Track: ${escapeHtml(project.track || 'Core')}</span>
+            <span class="mini-chip">Owner: ${escapeHtml(project.owner || 'Navod')}</span>
             <span class="mini-chip">Tasks: ${escapeHtml(String(project.tasks_done))}/${escapeHtml(String(project.tasks_total))}</span>
             ${project.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(project.blocker)}</span>` : ''}
           </div>
@@ -1311,7 +1465,18 @@
         .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')))
         .slice(0, 5);
       const doing = state.tasks.filter(task => task.status === 'doing').length;
+      const todo = state.tasks.filter(task => task.status === 'todo').length;
+      const done = state.tasks.filter(task => task.status === 'done').length;
+      const high = state.tasks.filter(task => task.priority === 'high').length;
       document.getElementById('task-summary-pill').textContent = `${doing} in progress`;
+      document.getElementById('task-summary-grid').innerHTML = [
+        `To do · ${todo}`,
+        `Doing · ${doing}`,
+        `Done today · ${done}`,
+        `High priority · ${high}`,
+        `Due next 48h · ${state.tasks.filter(task => String(task.due || '') <= '2026-07-05').length}`,
+        `Automation-linked · ${state.tasks.filter(task => task.automation).length}`
+      ].map(label => `<span class="mini-chip">${escapeHtml(label)}</span>`).join('');
       document.getElementById('task-list').innerHTML = topTasks.length ? topTasks.map(task => `
         <article class="task-row">
           <div>
@@ -1333,36 +1498,25 @@
 
     function renderKanban() {
       const columns = [
-        { id: 'todo', label: 'To do' },
-        { id: 'doing', label: 'In progress' },
-        { id: 'done', label: 'Done' }
+        { id: 'todo', label: 'To Do', note: 'Ready to start' },
+        { id: 'doing', label: 'Doing', note: 'Currently in motion' },
+        { id: 'blocked', label: 'Blocked', note: 'Needs a decision or asset' },
+        { id: 'done', label: 'Done Today', note: 'Momentum already captured' }
       ];
-      document.getElementById('kanban-grid').innerHTML = columns.map(column => {
-        const tasks = filterItems(state.tasks, ['title', 'project', 'notes']).filter(task => task.status === column.id);
+      const blockedCount = state.tasks.filter(task => /block|await|need/i.test(`${task.notes || ''} ${task.automation || ''}`) && task.status !== 'done').length;
+      document.getElementById('kanban-summary-grid').innerHTML = columns.map(column => {
+        let count = 0;
+        if (column.id === 'blocked') count = blockedCount;
+        else count = filterItems(state.tasks, ['title', 'project', 'notes']).filter(task => task.status === column.id).length;
         return `
-          <section class="kanban-col">
-            <div class="section-head" style="margin-bottom:12px;">
-              <div>
-                <h4>${column.label}</h4>
-              </div>
-              <span class="pill">${tasks.length}</span>
-            </div>
-            <div class="kanban-stack">
-              ${tasks.length ? tasks.map(task => `
-                <article class="kanban-card">
-                  <h5>${escapeHtml(task.title)}</h5>
-                  <p>${escapeHtml(task.project)} · ${escapeHtml(task.owner || 'Navod')}</p>
-                  <div class="mini-meta">
-                    <span class="priority-badge priority-${escapeHtml(task.priority)}">${escapeHtml(capitalise(task.priority))}</span>
-                    ${task.due ? `<span class="mini-chip">Due ${escapeHtml(task.due)}</span>` : ''}
-                    ${task.automation ? `<span class="mini-chip">${escapeHtml(task.automation)}</span>` : ''}
-                  </div>
-                </article>
-              `).join('') : '<div class="empty">No tasks.</div>'}
-            </div>
-          </section>
+          <article class="kanban-summary-card">
+            <span>${escapeHtml(column.label)}</span>
+            <strong>${escapeHtml(String(count))}</strong>
+            <p>${escapeHtml(column.note)}</p>
+          </article>
         `;
       }).join('');
+      document.getElementById('kanban-grid').innerHTML = '';
     }
 
     function renderActivity() {
