@@ -149,7 +149,9 @@
         "target_close": "2026-07-08",
         "next_action": "Send proposal today",
         "blocker": "Proposal not sent yet",
-        "notes": "Most immediate path to revenue this week."
+        "notes": "Most immediate path to revenue this week.",
+        "expected_value": "\u00a32,300",
+        "probability": "70%"
       },
       {
         "name": "MTD accountant shortlist",
@@ -165,7 +167,9 @@
         "target_close": "2026-07-12",
         "next_action": "Contact only the top 3 names once the offer page is final",
         "blocker": "Offer copy needs final tightening",
-        "notes": "High-conviction opportunity set; do not dilute attention."
+        "notes": "High-conviction opportunity set; do not dilute attention.",
+        "expected_value": "\u00a34,800 pipeline",
+        "probability": "55%"
       },
       {
         "name": "Cycle Matter follow-on installation",
@@ -181,7 +185,9 @@
         "target_close": "2026-07-06",
         "next_action": "Finish knowledge docs and complete onboarding",
         "blocker": "Knowledge docs are unfinished",
-        "notes": "Highest leverage because it becomes your install template."
+        "notes": "Highest leverage because it becomes your install template.",
+        "expected_value": "Template leverage",
+        "probability": "Active install"
       }
     ]
   },
@@ -197,7 +203,9 @@
       "blocker": "Knowledge docs unfinished",
       "tasks_total": 5,
       "tasks_done": 3,
-      "eta": "Today"
+      "eta": "Today",
+      "next_step": "Finish docs, then enter testing immediately",
+      "template_value": "Reference install for AI business assistant onboarding"
     },
     {
       "name": "IDIOMEX Mission Control",
@@ -210,7 +218,9 @@
       "blocker": "Still browser-local for edits",
       "tasks_total": 6,
       "tasks_done": 5,
-      "eta": "Next 7 days"
+      "eta": "Next 7 days",
+      "next_step": "Ship actionable Mission Control before backend work",
+      "template_value": "Core internal OS pattern for future productization"
     },
     {
       "name": "Hermes onboarding productization",
@@ -223,7 +233,9 @@
       "blocker": "Needs one polished case-study style walkthrough",
       "tasks_total": 4,
       "tasks_done": 3,
-      "eta": "Next 10 days"
+      "eta": "Next 10 days",
+      "next_step": "Convert Cycle Matter learnings into a reusable client offer",
+      "template_value": "Case study + repeatable install package"
     }
   ],
   "tasks": [
@@ -495,7 +507,14 @@
         "severity": "medium",
         "time": "today"
       }
-    ]
+    ],
+    "brief_header": {
+      "greeting": "Good morning, Navod.",
+      "summary": "Today is about leverage, not volume: finish Cycle Matter, send the strongest proposal, and ignore the low-conviction noise.",
+      "today_focus": "Complete Cycle Matter knowledge docs",
+      "risk": "Letting weaker leads fragment attention",
+      "ignore": "12 lower-fit leads until tomorrow"
+    }
   },
   "focus": {
     "today": [
@@ -876,5 +895,120 @@
         "when": "This week"
       }
     ]
+  },
+  "mission_control": {
+    "primary_action": {
+      "title": "Finish Cycle Matter knowledge docs",
+      "why_now": "Cycle Matter has the highest leverage today because finishing the docs unblocks testing and turns the install into a reusable template.",
+      "impact": "2h 15m",
+      "timebox": "Today",
+      "outcome": "Unblock testing and create the reference install playbook.",
+      "owner": "Navod",
+      "cta": "Continue Cycle Matter",
+      "target_section": "projects"
+    },
+    "secondary_actions": [
+      {
+        "title": "Send XYZ Accountants proposal",
+        "detail": "Highest-probability near-term revenue move once Cycle Matter momentum is protected.",
+        "impact": "\u00a32.3k week potential",
+        "timebox": "35m",
+        "target_section": "dashboard"
+      },
+      {
+        "title": "Keep 12 lower-fit leads out of sight",
+        "detail": "Preserve attention by revisiting the weak leads tomorrow instead of fragmenting today.",
+        "impact": "Focus protected",
+        "timebox": "Instant",
+        "target_section": "activity"
+      }
+    ],
+    "priority_buckets": [
+      {
+        "label": "Do now",
+        "summary": "Finish the work that unlocks delivery and template value.",
+        "metric": "1 critical move",
+        "items": [
+          {
+            "title": "Cycle Matter knowledge docs",
+            "detail": "Complete the missing docs, then move straight into testing."
+          }
+        ]
+      },
+      {
+        "label": "Do later",
+        "summary": "Keep the revenue move ready, but do not let it interrupt the main installation win.",
+        "metric": "1 revenue move",
+        "items": [
+          {
+            "title": "Send XYZ proposal",
+            "detail": "Use the existing template and send it once Cycle Matter progress is secured."
+          }
+        ]
+      },
+      {
+        "label": "Ignore today",
+        "summary": "Protect attention from low-conviction activity and cosmetic OS tweaks.",
+        "metric": "12 leads + UI noise",
+        "items": [
+          {
+            "title": "Broad lead cleanup",
+            "detail": "Do not reorganise or research the weaker lead pool until tomorrow."
+          },
+          {
+            "title": "Unnecessary polish",
+            "detail": "Avoid tweaking the OS unless it improves actionability, revenue, or delivery."
+          }
+        ]
+      }
+    ]
+  },
+  "opportunity_buckets": [
+    {
+      "label": "Do now",
+      "summary": "Only pursue the opportunities with the clearest path to cash or leverage.",
+      "metric": "Top 2 in play",
+      "items": [
+        {
+          "title": "XYZ Accountants",
+          "detail": "Proposal should go out today."
+        },
+        {
+          "title": "MTD shortlist",
+          "detail": "Work only the top 3 names after the offer page is tight."
+        }
+      ]
+    },
+    {
+      "label": "Do later",
+      "summary": "Keep warm opportunities visible, but only after today\u2019s leverage moves are done.",
+      "metric": "1 warm lane",
+      "items": [
+        {
+          "title": "Cycle Matter follow-on expansion",
+          "detail": "Capture the next upsell once onboarding is stable and documented."
+        }
+      ]
+    },
+    {
+      "label": "Ignore today",
+      "summary": "The remaining leads are noise until they are re-ranked tomorrow.",
+      "metric": "12 lower-fit leads",
+      "items": [
+        {
+          "title": "Untouched broad lead list",
+          "detail": "Do not let low-quality volume steal attention from proposal and delivery work."
+        }
+      ]
+    }
+  ],
+  "installation_command": {
+    "headline": "Cycle Matter is the active install command",
+    "detail": "Treat this like an executable rollout: remove the blocker, move into testing, and extract the template value immediately.",
+    "status": "72% complete",
+    "blocker": "Knowledge docs unfinished",
+    "next_step": "Complete docs and start testing today",
+    "milestone": "Testing readiness",
+    "template_value": "Becomes the reference onboarding system for future installs"
   }
 }

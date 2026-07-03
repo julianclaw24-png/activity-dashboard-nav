@@ -700,6 +700,153 @@
       margin-bottom: 6px;
     }
 
+    .brain-brief-strip,
+    .action-rail,
+    .installation-command {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.06) 0%, rgba(99, 102, 241, 0.03) 100%);
+      padding: 16px;
+      margin: 12px 0 16px;
+    }
+
+    .brain-brief-strip strong,
+    .primary-action-main strong,
+    .installation-command strong {
+      display: block;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .brain-brief-strip p,
+    .primary-action-main p,
+    .installation-command p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .action-rail {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.9fr);
+      gap: 12px;
+    }
+
+    .primary-action-card,
+    .action-support-list,
+    .priority-bucket {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.82);
+    }
+
+    .primary-action-card {
+      padding: 16px;
+    }
+
+    .primary-action-top,
+    .installation-command-head,
+    .priority-bucket-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .primary-action-kicker,
+    .priority-bucket-label {
+      display: block;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.76rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .primary-action-title {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+
+    .action-support-list,
+    .priority-buckets,
+    .priority-bucket-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .action-support-list {
+      padding: 12px;
+      align-content: start;
+    }
+
+    .support-action {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .support-action strong,
+    .priority-bucket-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .support-action p,
+    .priority-bucket-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .priority-buckets {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0 0 16px;
+    }
+
+    .priority-buckets.compact-buckets {
+      margin-top: 12px;
+    }
+
+    .priority-bucket {
+      padding: 14px;
+    }
+
+    .priority-bucket[data-bucket-tone="now"] { border-color: rgba(239, 68, 68, 0.18); }
+    .priority-bucket[data-bucket-tone="later"] { border-color: rgba(245, 158, 11, 0.18); }
+    .priority-bucket[data-bucket-tone="ignore"] { border-color: rgba(100, 116, 139, 0.24); }
+
+    .priority-bucket-metric {
+      color: var(--primary);
+      white-space: nowrap;
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .priority-bucket-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 10px 12px;
+    }
+
+    .installation-command-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .installation-command-grid .mini-chip {
+      justify-content: flex-start;
+    }
+
     .progress-bar {
       width: 100%;
       height: 10px;
@@ -1670,6 +1817,11 @@
       .floating-action-stack { left: auto; right: 12px; bottom: 176px; justify-items: end; }
       .quick-actions-panel { width: min(320px, calc(100vw - 24px)); }
       .fab { width: 54px; height: 54px; justify-self: end; }
+      .action-rail,
+      .brain-subgrid,
+      .installation-command-grid,
+      .priority-buckets,
+      .priority-buckets.compact-buckets { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -1725,7 +1877,7 @@
             <span class="shortcut-hint">Ctrl+K</span>
           </div>
           <button class="btn quick-command-btn" type="button" onclick="openCommandPalette()">Open command palette</button>
-          <button class="btn primary" onclick="scrollToSection('tasks')">Continue Cycle Matter</button>
+          <button class="btn primary" id="primary-command-action" onclick="scrollToSection('tasks')">Continue Cycle Matter</button>
           <a class="btn" href="./guide.html">Hermes guide</a>
         </div>
         <div class="command-shortcuts" id="command-shortcuts"></div>
@@ -1740,6 +1892,8 @@
             </div>
             <span class="pill" id="decision-pill">Loading…</span>
           </div>
+          <div id="action-rail" class="action-rail"></div>
+          <div id="priority-buckets" class="priority-buckets"></div>
           <div id="decision-list" class="decision-list"></div>
           <p class="sync-note" id="sync-note"></p>
         </article>
@@ -1767,6 +1921,8 @@
             </div>
             <span class="pill" id="lead-headline-pill">Loading…</span>
           </div>
+          <p class="section-subnote" id="lead-summary-note">Loading opportunity triage…</p>
+          <div id="opportunity-buckets" class="priority-buckets compact-buckets"></div>
           <div id="funnel" class="funnel"></div>
           <div id="lead-list" class="crm-table"></div>
         </article>
@@ -1779,6 +1935,7 @@
             </div>
             <span class="pill">Projects</span>
           </div>
+          <div id="installation-command" class="installation-command"></div>
           <div id="project-legend" class="legend"></div>
           <div id="project-list" class="project-timeline"></div>
         </article>
@@ -1816,6 +1973,7 @@
             </div>
             <span class="pill" id="notifications-pill">Loading…</span>
           </div>
+          <div id="brain-brief-strip" class="brain-brief-strip"></div>
           <p class="section-subnote" id="brain-headline">Loading company-brain thesis…</p>
           <div id="brain-summary-grid" class="brain-summary-grid"></div>
           <div id="brain-recommendations" class="brain-recommendations"></div>
@@ -2127,21 +2285,66 @@
     function renderTopbar() {
       const workspace = state.data.workspace || {};
       const header = state.data.command_header || {};
+      const missionControl = state.data.mission_control || {};
+      const primaryAction = missionControl.primary_action || {};
+      const primaryCommandButton = document.getElementById('primary-command-action');
       document.getElementById('command-day').textContent = header.day_label || 'Today';
       document.getElementById('command-date').textContent = header.date_label || workspace.generated_at || 'Today';
-      document.getElementById('welcome-title').textContent = workspace.name || 'IDIOMEX Operating System';
-      document.getElementById('welcome-copy').textContent = workspace.status || workspace.welcome || 'Everything in one place.';
+      document.getElementById('welcome-title').textContent = workspace.name || 'Workspace';
+      document.getElementById('welcome-copy').textContent = workspace.subtitle || workspace.welcome || 'Business command center';
       document.getElementById('business-health').textContent = header.business_health || '--%';
       document.getElementById('command-momentum').textContent = `Momentum: ${header.momentum || 'Stable'}`;
-      document.getElementById('primary-goal').textContent = header.primary_goal || 'No primary goal set.';
-      document.getElementById('recommended-next').textContent = header.recommended_after || workspace.welcome || 'Choose the next move.';
+      document.getElementById('primary-goal').textContent = header.primary_goal || primaryAction.title || 'No primary goal set.';
+      document.getElementById('recommended-next').textContent = header.recommended_after || primaryAction.why_now || workspace.welcome || 'Choose the next move.';
+      if (primaryCommandButton) {
+        primaryCommandButton.textContent = primaryAction.cta || primaryAction.title || 'Continue current priority';
+        primaryCommandButton.onclick = () => scrollToSection(primaryAction.target_section || 'tasks');
+      }
     }
 
     function renderExecutiveBrief() {
       const workspace = state.data.workspace || {};
       const decisions = filterItems(state.data.decision_centre || [], ['title', 'impact', 'next_action', 'eta']);
+      const missionControl = state.data.mission_control || {};
+      const primaryAction = missionControl.primary_action || decisions[0] || {};
+      const secondaryActions = missionControl.secondary_actions || [];
+      const priorityBuckets = missionControl.priority_buckets || [];
       document.getElementById('decision-pill').textContent = `${decisions.length} decisions`;
       document.getElementById('sync-note').textContent = workspace.sync_status?.note || 'Local edits stay in this browser until a backend is added.';
+      document.getElementById('action-rail').innerHTML = primaryAction.title ? `
+        <article class="primary-action-card">
+          <div class="primary-action-top">
+            <div class="primary-action-main">
+              <span class="primary-action-kicker">Primary action</span>
+              <h4 class="primary-action-title">${escapeHtml(primaryAction.title || 'Choose the next move')}</h4>
+              <p>${escapeHtml(primaryAction.why_now || primaryAction.next_action || '')}</p>
+            </div>
+            ${primaryAction.impact ? `<span class="status-badge status-doing">${escapeHtml(primaryAction.impact)}</span>` : ''}
+          </div>
+          <div class="mini-meta">
+            ${primaryAction.timebox ? `<span class="mini-chip">Timebox: ${escapeHtml(primaryAction.timebox)}</span>` : ''}
+            ${primaryAction.outcome ? `<span class="mini-chip">Outcome: ${escapeHtml(primaryAction.outcome)}</span>` : ''}
+            ${primaryAction.owner ? `<span class="mini-chip">Owner: ${escapeHtml(primaryAction.owner)}</span>` : ''}
+          </div>
+          <div class="mini-meta" style="margin-top:12px;">
+            <button class="btn primary" type="button" onclick="scrollToSection('${escapeJs(primaryAction.target_section || 'tasks')}')">${escapeHtml(primaryAction.cta || 'Open now')}</button>
+          </div>
+        </article>
+        <div class="action-support-list">
+          ${secondaryActions.length ? secondaryActions.map(item => `
+            <article class="support-action">
+              <strong>${escapeHtml(item.title || 'Secondary move')}</strong>
+              <p>${escapeHtml(item.detail || item.why_now || '')}</p>
+              <div class="mini-meta">
+                ${item.impact ? `<span class="mini-chip">${escapeHtml(item.impact)}</span>` : ''}
+                ${item.timebox ? `<span class="mini-chip">${escapeHtml(item.timebox)}</span>` : ''}
+                ${item.target_section ? `<button class="btn small" type="button" onclick="scrollToSection('${escapeJs(item.target_section)}')">Open</button>` : ''}
+              </div>
+            </article>
+          `).join('') : '<div class="empty">No secondary actions loaded.</div>'}
+        </div>
+      ` : '<div class="empty">No primary action loaded.</div>';
+      document.getElementById('priority-buckets').innerHTML = renderPriorityBuckets(priorityBuckets, 'No focus lanes loaded.');
       document.getElementById('decision-list').innerHTML = decisions.length ? decisions.map(item => `
         <article class="decision-row">
           <span class="decision-priority priority-${escapeHtml(String(item.priority || 'slate').toLowerCase())}"></span>
@@ -2229,8 +2432,12 @@
 
     function renderLeads() {
       const leadPipeline = state.data.lead_pipeline || {};
-      const leads = filterItems(leadPipeline.leads || [], ['name', 'buyer', 'stage', 'next_action', 'notes', 'offer', 'channel', 'health']);
-      document.getElementById('lead-headline-pill').textContent = leadPipeline.summary?.headline || 'Lead snapshot';
+      const triageBuckets = state.data.opportunity_buckets || [];
+      const leads = filterItems(leadPipeline.leads || [], ['name', 'buyer', 'stage', 'next_action', 'notes', 'offer', 'channel', 'health'])
+        .sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+      document.getElementById('lead-headline-pill').textContent = `${Math.min(leads.length, 3)} shortlisted`;
+      document.getElementById('lead-summary-note').textContent = leadPipeline.summary?.note || 'Keep only the best opportunities in the main attention zone.';
+      document.getElementById('opportunity-buckets').innerHTML = renderPriorityBuckets(triageBuckets, 'No opportunity buckets loaded.');
       document.getElementById('funnel').innerHTML = (leadPipeline.stages || []).map((stage, index) => {
         const width = 100 - index * 12;
         return `
@@ -2246,17 +2453,22 @@
 
       document.getElementById('lead-list').innerHTML = leads.length ? `
         <div class="crm-header">
-          <span>Lead</span>
+          <span>Opportunity</span>
           <span>Score</span>
           <span>Status</span>
           <span>Owner</span>
-          <span>Next Action</span>
+          <span>Next Step</span>
         </div>
-        ${leads.slice(0, 6).map(lead => `
+        ${leads.slice(0, 3).map(lead => `
           <div class="crm-row">
             <div class="crm-company">
               <strong>${escapeHtml(lead.name)}</strong>
               <p>${escapeHtml(lead.buyer)} · ${escapeHtml(lead.channel || 'Direct outreach')}</p>
+              <div class="mini-meta">
+                ${lead.expected_value ? `<span class="mini-chip">Value: ${escapeHtml(lead.expected_value)}</span>` : ''}
+                ${lead.probability ? `<span class="mini-chip">Probability: ${escapeHtml(lead.probability)}</span>` : ''}
+                ${lead.speed_to_cash ? `<span class="mini-chip">Cash: ${escapeHtml(lead.speed_to_cash)}</span>` : ''}
+              </div>
             </div>
             <div class="crm-score ${escapeHtml(String(lead.health || '').toLowerCase())}">${escapeHtml(String(lead.score))}</div>
             <div><span class="status-badge status-${escapeHtml(String(lead.stage || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(lead.stage)}</span></div>
@@ -2272,13 +2484,29 @@
 
     function renderProjects() {
       const projects = filterItems(state.data.projects || [], ['name', 'status', 'focus', 'next_milestone', 'blocker', 'track']);
+      const installationCommand = state.data.installation_command || {};
       const inProgress = projects.filter(project => /progress|active/i.test(project.status || '')).length;
       const completedTaskCount = state.tasks.filter(task => task.status === 'done').length;
+      document.getElementById('installation-command').innerHTML = installationCommand.headline ? `
+        <div class="installation-command-head">
+          <div>
+            <strong>${escapeHtml(installationCommand.headline)}</strong>
+            <p>${escapeHtml(installationCommand.detail || '')}</p>
+          </div>
+          ${installationCommand.status ? `<span class="status-badge status-doing">${escapeHtml(installationCommand.status)}</span>` : ''}
+        </div>
+        <div class="installation-command-grid">
+          ${installationCommand.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(installationCommand.blocker)}</span>` : ''}
+          ${installationCommand.next_step ? `<span class="mini-chip">Next step: ${escapeHtml(installationCommand.next_step)}</span>` : ''}
+          ${installationCommand.milestone ? `<span class="mini-chip">Milestone: ${escapeHtml(installationCommand.milestone)}</span>` : ''}
+          ${installationCommand.template_value ? `<span class="mini-chip">Template value: ${escapeHtml(installationCommand.template_value)}</span>` : ''}
+        </div>
+      ` : '<div class="empty">No installation command loaded.</div>';
       document.getElementById('project-legend').innerHTML = [
-        { label: 'Active projects', value: inProgress, color: 'var(--green)' },
+        { label: 'Active installs', value: inProgress, color: 'var(--green)' },
         { label: 'Tasks completed', value: completedTaskCount, color: 'var(--blue)' },
-        { label: 'Blocked projects', value: projects.filter(project => project.blocker).length, color: 'var(--amber)' },
-        { label: 'Total projects', value: projects.length, color: '#dde3f1' }
+        { label: 'Blocked installs', value: projects.filter(project => project.blocker).length, color: 'var(--amber)' },
+        { label: 'Total installs', value: projects.length, color: '#dde3f1' }
       ].map(item => `
         <div class="legend-row">
           <span class="legend-left"><span class="dot" style="background:${item.color}"></span>${escapeHtml(item.label)}</span>
@@ -2298,13 +2526,15 @@
           <div class="progress-bar"><div class="progress-fill" style="width:${Math.max(0, Math.min(100, Number(project.completion || 0)))}%"></div></div>
           <div class="project-milestone-grid">
             <span class="mini-chip">${escapeHtml(String(project.completion))}% complete</span>
-            <span class="mini-chip">Next: ${escapeHtml(project.next_milestone)}</span>
+            <span class="mini-chip">Next milestone: ${escapeHtml(project.next_milestone)}</span>
             <span class="mini-chip">ETA: ${escapeHtml(project.eta || 'TBD')}</span>
           </div>
           <div class="mini-meta">
             <span class="mini-chip">Track: ${escapeHtml(project.track || 'Core')}</span>
             <span class="mini-chip">Owner: ${escapeHtml(project.owner || 'Navod')}</span>
             <span class="mini-chip">Tasks: ${escapeHtml(String(project.tasks_done))}/${escapeHtml(String(project.tasks_total))}</span>
+            ${project.next_step ? `<span class="mini-chip">Next step: ${escapeHtml(project.next_step)}</span>` : ''}
+            ${project.template_value ? `<span class="mini-chip">Template value: ${escapeHtml(project.template_value)}</span>` : ''}
             ${project.blocker ? `<span class="mini-chip">Blocker: ${escapeHtml(project.blocker)}</span>` : ''}
           </div>
         </article>
@@ -2366,8 +2596,18 @@
       const recommendations = brain.recommendations || [];
       const watchlist = brain.watchlist || [];
       const ignoreList = brain.ignore_for_now || [];
+      const briefHeader = brain.brief_header || {};
 
       document.getElementById('notifications-pill').textContent = `${items.length} insights`;
+      document.getElementById('brain-brief-strip').innerHTML = briefHeader.greeting || briefHeader.summary ? `
+        <strong>${escapeHtml(briefHeader.greeting || 'Good morning, Navod.')}</strong>
+        <p>${escapeHtml(briefHeader.summary || 'The Company Brain turns raw activity into action.')}</p>
+        <div class="mini-meta" style="margin-top:12px;">
+          ${briefHeader.today_focus ? `<span class="mini-chip">Today: ${escapeHtml(briefHeader.today_focus)}</span>` : ''}
+          ${briefHeader.risk ? `<span class="mini-chip">Risk: ${escapeHtml(briefHeader.risk)}</span>` : ''}
+          ${briefHeader.ignore ? `<span class="mini-chip">Ignore: ${escapeHtml(briefHeader.ignore)}</span>` : ''}
+        </div>
+      ` : '<div class="empty">No morning brief loaded.</div>';
       document.getElementById('brain-headline').textContent = brain.headline || brain.thesis || 'The Company Brain turns raw activity into decisions.';
 
       document.getElementById('brain-summary-grid').innerHTML = summaryCards.length ? summaryCards.map(card => `
@@ -2883,6 +3123,39 @@
 
     function statusLabel(status) {
       return status === 'todo' ? 'To do' : status === 'doing' ? 'Doing' : 'Done';
+    }
+
+    function bucketTone(label) {
+      const text = String(label || '').toLowerCase();
+      if (text.includes('now')) return 'now';
+      if (text.includes('later') || text.includes('queue')) return 'later';
+      return 'ignore';
+    }
+
+    function renderPriorityBuckets(buckets, emptyMessage = 'No buckets loaded.') {
+      return buckets.length ? buckets.map(bucket => {
+        const label = bucket.label || bucket.bucket || 'Priority';
+        const items = bucket.items || [];
+        return `
+          <article class="priority-bucket" data-bucket-tone="${escapeHtml(bucketTone(label))}">
+            <div class="priority-bucket-head">
+              <div>
+                <span class="priority-bucket-label">${escapeHtml(label)}</span>
+                <strong>${escapeHtml(bucket.summary || bucket.detail || 'No summary provided.')}</strong>
+              </div>
+              ${bucket.metric ? `<span class="priority-bucket-metric">${escapeHtml(bucket.metric)}</span>` : ''}
+            </div>
+            <div class="priority-bucket-list">
+              ${items.length ? items.map(item => `
+                <article class="priority-bucket-item">
+                  <strong>${escapeHtml(item.title || item.name || 'Item')}</strong>
+                  <p>${escapeHtml(item.detail || item.next_step || item.next_action || '')}</p>
+                </article>
+              `).join('') : '<div class="empty">No items in this lane.</div>'}
+            </div>
+          </article>
+        `;
+      }).join('') : `<div class="empty">${escapeHtml(emptyMessage)}</div>`;
     }
 
     function scrollToSection(id) {
