@@ -1175,6 +1175,41 @@
       margin-bottom: 12px;
     }
 
+    .assistant-dock-head-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .assistant-dock-toggle,
+    .mobile-collapse-toggle {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border-radius: 999px;
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .assistant-dock-toggle {
+      display: none;
+    }
+
+    .assistant-dock-body {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
     .assistant-primary strong {
       display: block;
       font-size: 1rem;
@@ -1403,6 +1438,28 @@
       box-shadow: var(--shadow-soft);
     }
 
+    .mobile-collapsible-content {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mobile-collapse-toggle {
+      display: none;
+      border-color: rgba(79, 70, 229, 0.14);
+      background: rgba(79, 70, 229, 0.08);
+      color: var(--primary);
+      min-height: 32px;
+      padding: 0 11px;
+    }
+
+    .mobile-collapse-label {
+      white-space: nowrap;
+    }
+
+    .mobile-collapsible.collapsed {
+      gap: 0;
+    }
+
     .rooms-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1492,7 +1549,7 @@
     @media (max-width: 1080px) {
       .app-shell { grid-template-columns: 1fr; }
       .sidebar { display: none; }
-      .main { padding: 18px 18px 120px; }
+      .main { padding: 18px 18px 210px; }
       .mobile-nav {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1512,14 +1569,33 @@
       }
       .topbar { flex-direction: column; align-items: stretch; }
       .top-actions { justify-content: flex-start; }
-      .assistant-dock { position: static; width: 100%; margin-top: 18px; }
-      .floating-action-stack { right: 18px; bottom: 92px; }
+      .assistant-dock {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 92px;
+        width: auto;
+        margin-top: 0;
+        padding: 14px;
+        border-radius: 22px;
+        z-index: 50;
+      }
+      .assistant-dock-toggle { display: inline-flex; }
+      .assistant-dock:not(.expanded) .assistant-dock-body { display: none; }
+      .assistant-dock:not(.expanded) .assistant-dock-head { margin-bottom: 0; }
+      .assistant-dock:not(.expanded) #assistant-dock-summary {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .floating-action-stack { right: 18px; bottom: 184px; }
       .quick-actions-panel { width: min(340px, calc(100vw - 24px)); }
       .kanban-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
-      .main { padding: 12px 12px 118px; }
+      .main { padding: 12px 12px 214px; }
       .grid-kpis { grid-template-columns: 1fr; }
       .search,
       .search-wrap { min-width: 100%; width: 100%; max-width: none; }
@@ -1577,11 +1653,21 @@
       .priority-badge { font-size: 0.76rem; padding: 6px 9px; }
       .task-row .task-actions { justify-content: flex-start; width: 100%; }
       .task-row .task-actions .btn { flex: 1 1 0; }
-      .assistant-dock { padding: 14px; border-radius: 20px; }
+      .assistant-dock { padding: 14px; border-radius: 20px; bottom: 86px; }
+      .assistant-dock-head { align-items: center; }
+      .assistant-dock-head > div:first-child { min-width: 0; }
+      .assistant-dock-summary,
+      #assistant-dock-summary { font-size: 0.82rem; }
       .assistant-metrics .mini-chip:nth-child(n+3),
       .assistant-actions .btn:nth-child(n+3) { display: none; }
       .mobile-tab { padding: 8px 6px; font-size: 0.68rem; }
-      .floating-action-stack { left: auto; right: 12px; bottom: 90px; justify-items: end; }
+      .mobile-collapse-toggle { display: inline-flex; }
+      .mobile-collapsible { scroll-margin-top: 20px; }
+      .mobile-collapsible .section-head { align-items: center; }
+      .mobile-collapsible.collapsed .mobile-collapsible-content { display: none; }
+      .mobile-collapsible.collapsed .section-subnote { display: none; }
+      .mobile-collapsible.collapsed { padding-bottom: 14px; }
+      .floating-action-stack { left: auto; right: 12px; bottom: 176px; justify-items: end; }
       .quick-actions-panel { width: min(320px, calc(100vw - 24px)); }
       .fab { width: 54px; height: 54px; justify-self: end; }
     }
@@ -1754,7 +1840,7 @@
       </section>
 
       <section class="focus-grid">
-        <article class="card">
+        <article class="card" id="focus-next">
           <div class="section-head">
             <div>
               <h3>What should happen next?</h3>
@@ -1854,17 +1940,22 @@
           <p id="assistant-dock-summary">Loading assistant guidance…</p>
         </div>
       </div>
-      <span class="pill assistant-status" id="assistant-dock-status">Loading…</span>
-    </div>
-    <div class="assistant-primary">
-      <div>
-        <strong id="assistant-primary-title">Loading next move…</strong>
-        <p id="assistant-primary-detail">Preparing AI recommendations…</p>
+      <div class="assistant-dock-head-actions">
+        <span class="pill assistant-status" id="assistant-dock-status">Loading…</span>
+        <button class="assistant-dock-toggle" id="assistant-dock-toggle" type="button" aria-expanded="false" onclick="toggleAssistantDock()">Open</button>
       </div>
-      <button class="btn small" type="button" onclick="openCommandPalette()">Cmd</button>
     </div>
-    <div class="assistant-metrics" id="assistant-metrics"></div>
-    <div class="assistant-actions" id="assistant-actions"></div>
+    <div class="assistant-dock-body" id="assistant-dock-body">
+      <div class="assistant-primary">
+        <div>
+          <strong id="assistant-primary-title">Loading next move…</strong>
+          <p id="assistant-primary-detail">Preparing AI recommendations…</p>
+        </div>
+        <button class="btn small" type="button" onclick="openCommandPalette()">Cmd</button>
+      </div>
+      <div class="assistant-metrics" id="assistant-metrics"></div>
+      <div class="assistant-actions" id="assistant-actions"></div>
+    </div>
   </div>
 
   <div class="floating-action-stack">
@@ -1893,13 +1984,28 @@
     const DATA_URL = './data/idiomex-os.json';
     const LOCAL_KEY = 'idiomex-os-local-v2';
 
+    const MOBILE_BREAKPOINT = 720;
+    const MOBILE_COLLAPSIBLE_SECTIONS = [
+      { id: 'automation', label: 'Products', defaultOpen: true },
+      { id: 'activity', label: 'Company Brain', defaultOpen: false },
+      { id: 'focus-next', label: 'Next move', defaultOpen: true },
+      { id: 'calendar', label: 'Rooms', defaultOpen: false },
+      { id: 'kanban', label: 'Outcome Pipeline', defaultOpen: false },
+      { id: 'crm-room', label: 'CRM Room', defaultOpen: true, group: 'rooms' },
+      { id: 'workforce-room', label: 'AI Workforce Room', defaultOpen: false, group: 'rooms' },
+      { id: 'knowledge-room', label: 'Knowledge Vault', defaultOpen: false, group: 'rooms' },
+      { id: 'finance-room', label: 'Finance & Reporting', defaultOpen: false, group: 'rooms' }
+    ];
+
     const state = {
       data: null,
       search: '',
       tasks: [],
       view: 'ceo',
       paletteQuery: '',
-      quickActionsOpen: false
+      quickActionsOpen: false,
+      assistantDockExpanded: false,
+      mobileSectionStates: {}
     };
 
     async function init() {
@@ -1909,6 +2015,7 @@
         const data = await response.json();
         state.data = data;
         state.tasks = mergeLocalTasks(data.tasks || []);
+        syncResponsiveState(true);
         bindEvents();
         render();
       } catch (error) {
@@ -1965,6 +2072,8 @@
         document.querySelectorAll('.mobile-tab').forEach(item => item.classList.remove('active'));
         tab.classList.add('active');
       });
+
+      window.addEventListener('resize', handleViewportChange);
     }
 
     function render() {
@@ -1986,6 +2095,7 @@
       renderAssistantDock();
       renderQuickActions();
       renderCommandPalette();
+      renderResponsiveUI();
     }
 
     function renderNav() {
@@ -2476,6 +2586,12 @@
       document.getElementById('fab-toggle').textContent = state.quickActionsOpen ? '×' : '+';
     }
 
+    function renderResponsiveUI() {
+      syncResponsiveState();
+      renderMobileCollapsibles();
+      renderAssistantDockState();
+    }
+
     function renderAssistantDock() {
       const dock = state.data.assistant_dock || {};
       const actions = dock.actions || [];
@@ -2549,6 +2665,115 @@
     function toggleQuickActions() {
       state.quickActionsOpen = !state.quickActionsOpen;
       renderQuickActions();
+    }
+
+    function handleViewportChange() {
+      syncResponsiveState();
+      renderResponsiveUI();
+    }
+
+    function syncResponsiveState(forceDefaults = false) {
+      if (!isMobileViewport()) {
+        return;
+      }
+      const nextState = { ...state.mobileSectionStates };
+      MOBILE_COLLAPSIBLE_SECTIONS.forEach(section => {
+        if (forceDefaults || !(section.id in nextState)) {
+          nextState[section.id] = !!section.defaultOpen;
+        }
+      });
+      state.mobileSectionStates = nextState;
+      if (forceDefaults) {
+        state.assistantDockExpanded = false;
+      }
+    }
+
+    function renderMobileCollapsibles() {
+      MOBILE_COLLAPSIBLE_SECTIONS.forEach(section => {
+        const card = document.getElementById(section.id);
+        if (!card) return;
+        const head = card.querySelector('.section-head');
+        if (!head) return;
+        const body = ensureMobileCollapsibleBody(card, head);
+        const mobile = isMobileViewport();
+        const isOpen = mobile ? !!state.mobileSectionStates[section.id] : true;
+        card.classList.toggle('mobile-collapsible', mobile);
+        card.classList.toggle('collapsed', mobile && !isOpen);
+        body.hidden = mobile && !isOpen;
+        const subnote = card.querySelector(':scope > .section-subnote');
+        if (subnote) subnote.hidden = mobile && !isOpen;
+
+        let toggle = head.querySelector('.mobile-collapse-toggle');
+        if (!toggle) {
+          toggle = document.createElement('button');
+          toggle.type = 'button';
+          toggle.className = 'mobile-collapse-toggle';
+          toggle.addEventListener('click', () => toggleMobileSection(section.id));
+          head.appendChild(toggle);
+        }
+        toggle.hidden = !mobile;
+        toggle.setAttribute('aria-controls', `${section.id}-body`);
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        toggle.innerHTML = `<span class="mobile-collapse-label">${isOpen ? 'Hide' : 'Open'} ${escapeHtml(section.label)}</span>`;
+      });
+    }
+
+    function ensureMobileCollapsibleBody(card, head) {
+      let body = card.querySelector(':scope > .mobile-collapsible-content');
+      if (!body) {
+        body = document.createElement('div');
+        body.className = 'mobile-collapsible-content';
+        body.id = `${card.id}-body`;
+        const nodes = [];
+        let sibling = head.nextElementSibling;
+        while (sibling) {
+          nodes.push(sibling);
+          sibling = sibling.nextElementSibling;
+        }
+        nodes.forEach(node => body.appendChild(node));
+        card.appendChild(body);
+      }
+      return body;
+    }
+
+    function toggleMobileSection(id) {
+      if (!isMobileViewport()) return;
+      const section = MOBILE_COLLAPSIBLE_SECTIONS.find(item => item.id === id);
+      if (!section) return;
+      const nextOpen = !state.mobileSectionStates[id];
+      if (section.group && nextOpen) {
+        MOBILE_COLLAPSIBLE_SECTIONS.filter(item => item.group === section.group).forEach(item => {
+          state.mobileSectionStates[item.id] = false;
+        });
+      }
+      state.mobileSectionStates[id] = nextOpen;
+      renderResponsiveUI();
+      if (nextOpen) {
+        requestAnimationFrame(() => scrollToSection(id));
+      }
+    }
+
+    function renderAssistantDockState() {
+      const dock = document.getElementById('assistant-dock');
+      const toggle = document.getElementById('assistant-dock-toggle');
+      if (!dock || !toggle) return;
+      const mobile = isMobileViewport();
+      const expanded = mobile ? !!state.assistantDockExpanded : true;
+      dock.classList.toggle('expanded', expanded);
+      toggle.hidden = !mobile;
+      toggle.textContent = expanded ? 'Hide' : 'Open';
+      toggle.setAttribute('aria-expanded', String(expanded));
+      toggle.setAttribute('aria-label', expanded ? 'Collapse assistant dock' : 'Expand assistant dock');
+    }
+
+    function toggleAssistantDock() {
+      if (!isMobileViewport()) return;
+      state.assistantDockExpanded = !state.assistantDockExpanded;
+      renderAssistantDockState();
+    }
+
+    function isMobileViewport() {
+      return window.innerWidth <= MOBILE_BREAKPOINT;
     }
 
     function closeQuickActions() {
@@ -2661,6 +2886,10 @@
     }
 
     function scrollToSection(id) {
+      if (isMobileViewport() && id in state.mobileSectionStates && !state.mobileSectionStates[id]) {
+        state.mobileSectionStates[id] = true;
+        renderResponsiveUI();
+      }
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
