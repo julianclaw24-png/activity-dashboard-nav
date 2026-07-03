@@ -1,39 +1,63 @@
 {
-  "generated_at": "2026-07-03T10:30:00+01:00",
+  "generated_at": "2026-07-03T11:15:00+01:00",
   "workspace": {
-    "name": "IDIOMEX OS V2",
-    "version": "2.1",
-    "subtitle": "Business Operating System \u00b7 Executive + Operator Views",
+    "name": "IDIOMEX OS V3",
+    "version": "3.0",
+    "subtitle": "Decision-first CEO cockpit",
     "owner": "Navod",
-    "welcome": "IDIOMEX OS V2 now separates strategic CEO decisions from execution-heavy COO operations.",
-    "status": "Version 2 upgraded with executive cockpit, richer CRM, and automation queue",
+    "welcome": "Open the OS, see the signal, and act.",
+    "status": "V3 now prioritises decisions, business health, and agent visibility over long report-style browsing",
     "sync_status": {
       "mode": "browser-local",
-      "note": "This V2 dashboard is accessible anywhere once hosted, but edits still stay in this browser until a backend such as Supabase is added."
+      "note": "This cockpit is accessible anywhere once hosted, but edits still stay in this browser until a backend such as Supabase is added."
     }
   },
   "navigation": [
     {
-      "section": "Core",
+      "section": "Home",
       "items": [
         "Dashboard",
-        "Leads & CRM",
-        "Projects",
-        "Tasks"
+        "Cockpit"
+      ]
+    },
+    {
+      "section": "Today",
+      "items": [
+        "Tasks",
+        "Calendar",
+        "Notifications"
+      ]
+    },
+    {
+      "section": "Sales",
+      "items": [
+        "Leads",
+        "CRM",
+        "Outreach",
+        "Clients"
       ]
     },
     {
       "section": "Operations",
       "items": [
+        "Projects",
         "Kanban",
-        "Calendar",
-        "Activity"
+        "Documents"
       ]
     },
     {
-      "section": "System",
+      "section": "Automation",
       "items": [
-        "Guides",
+        "AI Agents",
+        "Workflows",
+        "Knowledge Base"
+      ]
+    },
+    {
+      "section": "Analytics",
+      "items": [
+        "Reports",
+        "Finance",
         "Settings"
       ]
     }
@@ -130,8 +154,8 @@
   ],
   "lead_pipeline": {
     "summary": {
-      "headline": "Best current opportunity: MTD onboarding and quarterly-support automation.",
-      "note": "The strongest V2 CRM move is to track not just ideas, but offer, owner, close target, and blockers."
+      "headline": "Best current revenue move: approve the MTD offer and start accountant outreach.",
+      "note": "The CRM should help you decide who makes money next, not make you read long cards."
     },
     "stages": [
       {
@@ -385,7 +409,7 @@
     }
   ],
   "automation": {
-    "summary": "The goal for V2 is not to automate everything; it is to make repeat work visible, dependable, and easy to improve.",
+    "summary": "V3 keeps automation visible, but no longer lets it crowd out the decisions that matter on the first screen.",
     "items": [
       {
         "agent": "AI / tech newsletter",
@@ -423,24 +447,32 @@
   },
   "activity": [
     {
-      "time": "just now",
-      "title": "IDIOMEX OS V2 upgraded",
-      "detail": "Executive cockpit, automation queue, and richer CRM metadata added to the dashboard."
+      "type": "Lead replied",
+      "severity": "high",
+      "title": "Warm local interest needs a response",
+      "detail": "An accountant-facing opportunity is ready for same-day follow-up once pricing is approved.",
+      "time": "5 min ago"
     },
     {
-      "time": "10 min ago",
-      "title": "Cycle Matter moved deeper into onboarding",
-      "detail": "Focus narrowed to SOUL.md, knowledge docs, and realistic scenario testing."
+      "type": "Project milestone",
+      "severity": "medium",
+      "title": "Cycle Matter onboarding moved forward",
+      "detail": "The onboarding flow is close to reusable-template status but still needs the SOUL.md pass.",
+      "time": "18 min ago"
     },
     {
-      "time": "28 min ago",
-      "title": "Public dashboard deployment verified",
-      "detail": "GitHub Pages version confirmed reachable from anywhere."
+      "type": "Agent warning",
+      "severity": "high",
+      "title": "Backup agent needs verification",
+      "detail": "The GitHub backup flow should be checked so resilience stays trustworthy.",
+      "time": "42 min ago"
     },
     {
-      "time": "1 hr ago",
-      "title": "Hermes setup guide refined",
-      "detail": "Reusable setup path becoming a future productized service asset."
+      "type": "Deployment",
+      "severity": "low",
+      "title": "Dashboard V3 release in progress",
+      "detail": "The new cockpit-first operating system layer is being deployed to GitHub Pages.",
+      "time": "just now"
     }
   ],
   "focus": {
@@ -467,5 +499,158 @@
         ]
       }
     ]
-  }
+  },
+  "command_header": {
+    "day_label": "Friday",
+    "date_label": "03 July",
+    "business_health": "91%",
+    "momentum": "Excellent",
+    "primary_goal": "Finish Cycle Matter onboarding",
+    "recommended_after": "Recommended after that: publish the MTD offer and start outreach to 30 accountants."
+  },
+  "cockpit_metrics": [
+    {
+      "label": "Revenue Pipeline",
+      "value": "\u00a318,400",
+      "delta": "\u2191 12% this week",
+      "subvalue": "3 proposals within reach",
+      "tone": "green"
+    },
+    {
+      "label": "Leads Ready",
+      "value": "12",
+      "delta": "3 hot",
+      "subvalue": "2 offer-ready today",
+      "tone": "blue"
+    },
+    {
+      "label": "Projects",
+      "value": "5 active",
+      "delta": "2 need attention",
+      "subvalue": "Cycle Matter is the primary bet",
+      "tone": "purple"
+    },
+    {
+      "label": "AI Agents",
+      "value": "6 running",
+      "delta": "1 warning",
+      "subvalue": "Outreach agent waiting on fresh lead sheet",
+      "tone": "amber"
+    },
+    {
+      "label": "Today's Tasks",
+      "value": "8",
+      "delta": "3 high priority",
+      "subvalue": "2 due within 48h",
+      "tone": "red"
+    }
+  ],
+  "decision_centre": [
+    {
+      "priority": "red",
+      "title": "Finish Cycle Matter onboarding",
+      "impact": "\u00a33,000 potential",
+      "next_action": "Complete SOUL.md and lock the business knowledge structure today.",
+      "eta": "2h",
+      "owner": "Navod"
+    },
+    {
+      "priority": "amber",
+      "title": "Approve MTD offer pricing",
+      "impact": "\u00a31,500 setup + \u00a3250/mo",
+      "next_action": "Choose the final setup fee and monthly support anchor for the one-page offer.",
+      "eta": "45m",
+      "owner": "Navod"
+    },
+    {
+      "priority": "green",
+      "title": "Start outreach to 30 accountants",
+      "impact": "5 likely replies",
+      "next_action": "Use the shortlist and send the first focused outreach batch once the offer page is ready.",
+      "eta": "90m",
+      "owner": "Navod"
+    },
+    {
+      "priority": "slate",
+      "title": "Review 14 new leads",
+      "impact": "2 worth immediate follow-up",
+      "next_action": "Triage the fresh opportunities and promote only the highest-urgency leads into the CRM focus set.",
+      "eta": "30m",
+      "owner": "Navod"
+    }
+  ],
+  "ai_workforce": [
+    {
+      "name": "CEO Agent",
+      "status": "Working",
+      "mode": "Strategic command",
+      "note": "Tracking priorities, business health, and next decisions.",
+      "last_run": "Healthy"
+    },
+    {
+      "name": "Lead Hunter",
+      "status": "Working",
+      "mode": "Prospecting",
+      "note": "Continuously surfacing commercial opportunities and ranked leads.",
+      "last_run": "Fresh lead pass today"
+    },
+    {
+      "name": "Research Agent",
+      "status": "Running",
+      "mode": "On-demand research",
+      "note": "Ready to gather market and tool intelligence when needed.",
+      "last_run": "Available now"
+    },
+    {
+      "name": "Outreach Agent",
+      "status": "Waiting",
+      "mode": "Sequencing",
+      "note": "Paused until the next lead sheet and approved offer copy are ready.",
+      "last_run": "Awaiting input"
+    },
+    {
+      "name": "Newsletter Agent",
+      "status": "Working",
+      "mode": "Daily briefing",
+      "note": "Preparing regular AI and tooling summaries.",
+      "last_run": "08:00 UK schedule active"
+    },
+    {
+      "name": "Backup Agent",
+      "status": "Warning",
+      "mode": "Risk control",
+      "note": "Needs a quick check to confirm the latest GitHub backup completed cleanly.",
+      "last_run": "Verify last backup run"
+    }
+  ],
+  "notifications": [
+    {
+      "type": "Lead replied",
+      "severity": "high",
+      "title": "Warm local interest needs a response",
+      "detail": "An accountant-facing opportunity is ready for same-day follow-up once pricing is approved.",
+      "time": "5 min ago"
+    },
+    {
+      "type": "Project milestone",
+      "severity": "medium",
+      "title": "Cycle Matter onboarding moved forward",
+      "detail": "The onboarding flow is close to reusable-template status but still needs the SOUL.md pass.",
+      "time": "18 min ago"
+    },
+    {
+      "type": "Agent warning",
+      "severity": "high",
+      "title": "Backup agent needs verification",
+      "detail": "The GitHub backup flow should be checked so resilience stays trustworthy.",
+      "time": "42 min ago"
+    },
+    {
+      "type": "Deployment",
+      "severity": "low",
+      "title": "Dashboard V3 release in progress",
+      "detail": "The new cockpit-first operating system layer is being deployed to GitHub Pages.",
+      "time": "just now"
+    }
+  ]
 }
