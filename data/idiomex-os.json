@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T03:18:27+01:00",
+  "generated_at": "2026-07-07T11:30:55+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
     "version": "4.1",
@@ -43,7 +43,7 @@
   ],
   "command_header": {
     "day_label": "Today",
-    "date_label": "03 July",
+    "date_label": "07 July",
     "business_health": "🟢 Healthy",
     "momentum": "High",
     "primary_goal": "Finish Cycle Matter",
