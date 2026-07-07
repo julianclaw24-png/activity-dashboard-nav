@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T12:11:18+01:00",
+  "generated_at": "2026-07-07T12:18:15+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
     "version": "4.1",
@@ -46,15 +46,15 @@
     "date_label": "07 July",
     "business_health": "🟢 Healthy",
     "momentum": "High",
-    "primary_goal": "Finish Cycle Matter",
+    "primary_goal": "Turn Cycle Matter into the reference install",
     "recommended_after": "Use the dedicated rooms to go deeper without turning the homepage back into a long report."
   },
   "decision_centre": [
     {
       "priority": "red",
-      "title": "Finish Cycle Matter (highest leverage)",
-      "impact": "2h 15m",
-      "next_action": "Cycle Matter is blocked because knowledge docs are not finished. Complete the docs and unblock installation progress.",
+      "title": "Package Cycle Matter into a repeatable install",
+      "impact": "Template leverage",
+      "next_action": "The docs are complete and the agent has been tested. Capture the working setup, tighten the onboarding template, and turn the install into a reusable offer.",
       "eta": "Today",
       "owner": "Navod"
     },
@@ -188,10 +188,10 @@
         "speed_to_cash": "Already active",
         "recurring": "Medium-High",
         "owner": "Navod",
-        "target_close": "2026-07-06",
-        "next_action": "Finish knowledge docs and complete onboarding",
-        "blocker": "Knowledge docs are unfinished",
-        "notes": "Highest leverage because it becomes your install template.",
+        "target_close": "2026-07-07",
+        "next_action": "Capture tested setup and convert it into the reusable onboarding template",
+        "blocker": "No major blocker — docs complete and agent tested",
+        "notes": "Docs are complete and the live agent has been tested; the leverage move now is turning the install into the reference template.",
         "expected_value": "Template leverage",
         "probability": "Active install"
       }
@@ -200,17 +200,17 @@
   "projects": [
     {
       "name": "Cycle Matter",
-      "status": "In Progress",
-      "completion": 72,
+      "status": "Validation complete",
+      "completion": 92,
       "owner": "Navod",
       "track": "Business installation",
       "focus": "Knowledge → Testing → Training → Deployment workflow",
-      "next_milestone": "Finish knowledge docs and move into testing",
-      "blocker": "Knowledge docs unfinished",
+      "next_milestone": "Package the tested install into a reusable onboarding template",
+      "blocker": "No major blocker — docs complete and agent tested",
       "tasks_total": 5,
-      "tasks_done": 3,
-      "eta": "Today",
-      "next_step": "Finish docs, then enter testing immediately",
+      "tasks_done": 5,
+      "eta": "Ready for template capture",
+      "next_step": "Document what worked, tighten the template pack, and prepare the next client install faster",
       "template_value": "Reference install for AI business assistant onboarding"
     },
     {
@@ -248,12 +248,22 @@
     {
       "title": "Finish Cycle Matter knowledge docs",
       "project": "Cycle Matter",
-      "status": "doing",
+      "status": "done",
       "priority": "high",
       "owner": "Navod",
       "automation": "Unlocks testing and deployment",
-      "due": "2026-07-03",
-      "notes": "Highest leverage move today."
+      "due": "2026-07-07",
+      "notes": "Completed — docs finished and agent tested."
+    },
+    {
+      "title": "Package Cycle Matter into onboarding template",
+      "project": "Hermes onboarding productization",
+      "status": "todo",
+      "priority": "high",
+      "owner": "Navod",
+      "automation": "Turns live install into reusable delivery system",
+      "due": "2026-07-08",
+      "notes": "Docs are complete and the agent has been tested. Capture the working setup, onboarding pack, and validation steps."
     },
     {
       "title": "Send proposal to XYZ Accountants",
@@ -432,8 +442,8 @@
       },
       {
         "label": "Current Blocker",
-        "value": "Knowledge docs",
-        "note": "Cycle Matter cannot move cleanly into testing until the docs are finished."
+        "value": "Template capture",
+        "note": "Docs are complete and the agent has been tested. What matters now is preserving the working pattern so the next install is faster."
       },
       {
         "label": "Inbox Strategy",
@@ -443,11 +453,11 @@
     ],
     "recommendations": [
       {
-        "title": "Complete the Cycle Matter knowledge layer first",
-        "why": "This is the bottleneck between active work and a reusable onboarding system you can sell again.",
-        "do_now": "Finish the missing docs, then move straight into testing.",
-        "outcome": "Unblocks deployment and creates your future install template.",
-        "timebox": "2h 15m",
+        "title": "Turn Cycle Matter into the install template now",
+        "why": "The knowledge layer is finished and the agent has been tested, so the highest-leverage move is capturing the working pattern while it is fresh.",
+        "do_now": "Package the docs, setup decisions, guardrails, and validation steps into the reusable Hermes onboarding template and checklist.",
+        "outcome": "Your next business-agent install becomes faster, safer, and easier to sell.",
+        "timebox": "60–90m",
         "confidence": "High"
       },
       {
@@ -478,8 +488,8 @@
     "watchlist": [
       {
         "title": "Cycle Matter testing readiness",
-        "detail": "As soon as the docs are complete, the install should move into testing without another planning loop.",
-        "trigger": "Knowledge docs marked complete",
+        "detail": "Cycle Matter has moved past doc-completion risk. Watch whether the tested setup gets converted into a reusable onboarding asset immediately.",
+        "trigger": "Template pack drafted from tested install",
         "owner": "Navod"
       },
       {
@@ -532,7 +542,7 @@
       },
       {
         "title": "Cycle Matter is the template, not just the client",
-        "detail": "Every improvement here compounds because it becomes the reference install for future AI business assistant deals.",
+        "detail": "The docs are finished and the agent has been tested. The compounding move now is packaging the working setup into your standard install system.",
         "type": "Installation intelligence",
         "severity": "high",
         "time": "today"
@@ -561,8 +571,8 @@
     ],
     "brief_header": {
       "greeting": "Good morning, Navod.",
-      "summary": "Today is about leverage, not volume: finish Cycle Matter, send the strongest proposal, and design inbox intelligence as a filtered feed instead of raw mailbox access.",
-      "today_focus": "Complete Cycle Matter knowledge docs",
+      "summary": "Today is about leverage, not volume: use the finished Cycle Matter docs and tested agent as the basis for a repeatable install template, send the strongest proposal, and keep inbox intelligence gated.",
+      "today_focus": "Package Cycle Matter into the reference onboarding template",
       "risk": "Letting weaker leads fragment attention",
       "ignore": "12 lower-fit leads and raw inbox noise"
     }
@@ -570,11 +580,11 @@
   "focus": {
     "today": [
       {
-        "title": "Complete the Cycle Matter knowledge layer first",
-        "why": "This is the bottleneck between active work and a reusable onboarding system you can sell again.",
-        "do_now": "Finish the missing docs, then move straight into testing.",
-        "outcome": "Unblocks deployment and creates your future install template.",
-        "timebox": "2h 15m",
+        "title": "Package Cycle Matter into the reference onboarding template",
+        "why": "The bottleneck has moved. Docs are finished and the agent has been tested, so the leverage now is turning that success into a repeatable system.",
+        "do_now": "Capture the working setup, onboarding files, safety rules, and validation steps while the install is fresh.",
+        "outcome": "Future business-agent installs become faster and cleaner.",
+        "timebox": "60–90m",
         "confidence": "High"
       },
       {
