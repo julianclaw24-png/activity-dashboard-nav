@@ -2084,6 +2084,18 @@
           <div id="finance-metric-grid" class="finance-metric-grid"></div>
           <div id="finance-note-list" class="room-note-list"></div>
         </article>
+
+        <article class="card room-surface" id="email-room">
+          <div class="section-head">
+            <div>
+              <h3>Inbox Ops</h3>
+              <p>Email should arrive as intelligence, not noise. Gate read-only inbox access before it reaches the Brain.</p>
+            </div>
+            <span class="pill" id="email-room-pill">Loading…</span>
+          </div>
+          <p class="section-subnote" id="email-room-summary">Loading inbox ops summary…</p>
+          <div id="email-room-list" class="room-stack"></div>
+        </article>
       </section>
 
     </main>
@@ -2675,6 +2687,7 @@
       renderWorkforceRoom();
       renderKnowledgeRoom();
       renderFinanceRoom();
+      renderEmailRoom();
     }
 
     function renderCRMRoom() {
@@ -2774,6 +2787,30 @@
           </div>
         </article>
       `).join('') : '<div class="empty">No finance notes loaded.</div>';
+    }
+
+    function renderEmailRoom() {
+      const room = state.data.email_room || {};
+      const inboxes = filterItems(room.inboxes || [], ['name', 'mode', 'purpose', 'next_action', 'guardrail', 'owner']);
+      document.getElementById('email-room-pill').textContent = room.pill || `${inboxes.length} inbox lanes`;
+      document.getElementById('email-room-summary').textContent = room.summary || 'No inbox ops summary loaded.';
+      document.getElementById('email-room-list').innerHTML = inboxes.length ? inboxes.map(item => `
+        <article class="room-card">
+          <div class="room-card-top">
+            <div>
+              <h4>${escapeHtml(item.name || 'Inbox lane')}</h4>
+              <p>${escapeHtml(item.purpose || '')}</p>
+            </div>
+            <span class="status-badge status-${escapeHtml(String(item.status || '').toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(item.status || 'Planned')}</span>
+          </div>
+          <div class="mini-meta">
+            ${item.mode ? `<span class="mini-chip">Mode: ${escapeHtml(item.mode)}</span>` : ''}
+            ${item.next_action ? `<span class="mini-chip">Next: ${escapeHtml(item.next_action)}</span>` : ''}
+            ${item.guardrail ? `<span class="mini-chip">Guardrail: ${escapeHtml(item.guardrail)}</span>` : ''}
+            ${item.owner ? `<span class="mini-chip">Owner: ${escapeHtml(item.owner)}</span>` : ''}
+          </div>
+        </article>
+      `).join('') : '<div class="empty">No inbox lanes loaded.</div>';
     }
 
     function renderFocus() {
@@ -3075,6 +3112,7 @@
         'AI Workforce': 'workforce-room',
         'Knowledge': 'knowledge-room',
         'Finance': 'finance-room',
+        'Inbox Ops': 'email-room',
         'Marketing Lab': 'automation',
         'Opportunities': 'crm-room',
         'Products': 'automation',
@@ -3096,6 +3134,7 @@
         'AI Workforce': '⦿',
         'Knowledge': '⌘',
         'Finance': '£',
+        'Inbox Ops': '✉',
         'Marketing Lab': '➜',
         'Opportunities': '◎',
         'Products': '◫',
