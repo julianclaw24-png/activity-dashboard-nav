@@ -1,5 +1,8 @@
 const DATA_URL = './data/idiomex-os.json';
 const LOCAL_KEY = 'idiomex-os-local-v2';
+const REFRESH_INTERVAL_MS = 30000;
+const LIVE_TICK_MS = 15000;
+const LIVE_FEED_LIMIT = 8;
 
 const PAGE_CONFIG = {
   overview: {
@@ -57,20 +60,21 @@ const NAV_ITEMS = [
   { id: 'systems', href: './systems.html', label: 'Systems', icon: '□' }
 ];
 
-const state = { data: null, tasks: [], page: null };
+const state = { data: null, tasks: [], page: null, liveFeed: [], lastFetchedAt: null, refreshTimer: null, liveTickTimer: null };
 
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
   state.page = document.body.dataset.page || 'overview';
   document.body.classList.add('has-mobile-nav');
+  state.liveFeed = readLocalState().liveFeed || [];
   renderNavShell();
+  window.addEventListener('storage', handleStorageSync);
+  document.addEventListener('visibilitychange', handleVisibilityRefresh);
+  startLiveTick();
   try {
-    const response = await fetch(DATA_URL, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    state.data = await response.json();
-    state.tasks = mergeLocalTasks(state.data.tasks || []);
-    renderPage();
+    await refreshData({ initial: true });
+    startAutoRefresh();
   } catch (error) {
     console.error(error);
     const content = document.getElementById('page-content');
@@ -78,20 +82,92 @@ async function init() {
   }
 }
 
-function mergeLocalTasks(sourceTasks) {
-  const base = structuredClone(sourceTasks || []);
+function readLocalState() {
   try {
     const saved = JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}');
-    if (!Array.isArray(saved.tasks)) return base;
-    const savedMap = new Map(saved.tasks.map(task => [task.title, task]));
-    return base.map(task => savedMap.get(task.title) || task);
+    return typeof saved === 'object' && saved ? saved : {};
   } catch {
-    return base;
+    return {};
   }
 }
 
+function mergeLocalTasks(sourceTasks) {
+  const base = structuredClone(sourceTasks || []);
+  const saved = readLocalState();
+  if (!Array.isArray(saved.tasks)) return base;
+  const savedMap = new Map(saved.tasks.map(task => [task.title, task]));
+  return base.map(task => savedMap.get(task.title) || task);
+}
+
+function saveLocalState() {
+  localStorage.setItem(LOCAL_KEY, JSON.stringify({
+    tasks: state.tasks,
+    liveFeed: state.liveFeed,
+    saved_at: new Date().toISOString()
+  }));
+}
+
 function saveLocalTasks() {
-  localStorage.setItem(LOCAL_KEY, JSON.stringify({ tasks: state.tasks }));
+  saveLocalState();
+}
+
+async function refreshData(options = {}) {
+  const { initial = false, manual = false } = options;
+  const previousGeneratedAt = state.data?.generated_at;
+  const response = await fetch(DATA_URL, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  state.data = await response.json();
+  state.tasks = mergeLocalTasks(state.data.tasks || []);
+  state.lastFetchedAt = Date.now();
+  if (!initial && previousGeneratedAt && previousGeneratedAt !== state.data.generated_at) {
+    logLiveEvent('Mission Control refreshed', `Pulled a newer update from the dashboard data (${formatIsoDate(state.data.generated_at)}).`, 'blue', { render: false });
+  }
+  if (manual) {
+    logLiveEvent('Manual refresh complete', 'Mission Control pulled the latest dashboard state.', 'green', { render: false });
+  }
+  renderPage();
+}
+
+function startAutoRefresh() {
+  if (state.refreshTimer) clearInterval(state.refreshTimer);
+  state.refreshTimer = setInterval(() => {
+    if (document.hidden) return;
+    refreshData().catch(error => console.error(error));
+  }, REFRESH_INTERVAL_MS);
+}
+
+function startLiveTick() {
+  if (state.liveTickTimer) clearInterval(state.liveTickTimer);
+  state.liveTickTimer = setInterval(() => {
+    if (!state.data) return;
+    renderPage();
+  }, LIVE_TICK_MS);
+}
+
+function handleStorageSync(event) {
+  if (event.key !== LOCAL_KEY || !state.data) return;
+  const saved = readLocalState();
+  state.liveFeed = Array.isArray(saved.liveFeed) ? saved.liveFeed : [];
+  state.tasks = mergeLocalTasks(state.data.tasks || []);
+  renderPage();
+}
+
+function handleVisibilityRefresh() {
+  if (document.hidden || !state.data) return;
+  refreshData().catch(error => console.error(error));
+}
+
+function logLiveEvent(title, detail, tone = 'blue', options = {}) {
+  const entry = {
+    title,
+    detail,
+    tone,
+    timestamp: new Date().toISOString(),
+    source: 'local'
+  };
+  state.liveFeed = [entry, ...(state.liveFeed || [])].slice(0, LIVE_FEED_LIMIT);
+  saveLocalState();
+  if (options.render !== false) renderPage();
 }
 
 function renderNavShell() {
@@ -151,7 +227,7 @@ function renderPage() {
     weekly: renderWeekly,
     ceo: renderCEO,
   };
-  content.innerHTML = (renderers[state.page] || renderOverview)();
+  content.innerHTML = `${liveStatusBar()}${(renderers[state.page] || renderOverview)()}`;
 }
 
 function renderOverview() {
@@ -349,7 +425,7 @@ function renderTasks() {
       ${taskColumn('Waiting', waiting, 'Keep these out of the way.', 'blue')}
       ${taskColumn('Done', done, 'Recent completions.', 'green')}
     </section>
-    <p class="footer-note">Task changes save in this browser only.</p>
+    <p class="footer-note">Task changes update instantly, sync across tabs in this browser, and are folded into the live activity feed.</p>
   `;
 }
 
@@ -706,17 +782,33 @@ function taskSummary(task) {
 
 
 function recentActivityData() {
-  if (state.data.recent_activity) return state.data.recent_activity;
-  return { items: [] };
+  const remoteItems = state.data?.recent_activity?.items || [];
+  const localItems = (state.liveFeed || []).map(item => ({ ...item, source: 'local' }));
+  return { items: [...localItems, ...remoteItems].slice(0, LIVE_FEED_LIMIT) };
+}
+
+function liveStatusBar() {
+  const localCount = (state.liveFeed || []).length;
+  const syncLabel = state.lastFetchedAt ? `Synced ${relativeTimeFrom(state.lastFetchedAt)}` : 'Waiting for first sync';
+  return `
+    <section class="live-status-bar section-gap-compact">
+      <div class="live-status-copy">
+        <span class="live-dot"></span>
+        <strong>Live mode on</strong>
+        <p>${escapeHtml(syncLabel)} · Auto-refresh every ${Math.round(REFRESH_INTERVAL_MS / 1000)}s · ${localCount} local update${localCount === 1 ? '' : 's'} captured</p>
+      </div>
+      <button class="btn small" type="button" onclick="manualRefresh()">Refresh now</button>
+    </section>
+  `;
 }
 
 function timelineMarkup(items, emptyText) {
   if (!items?.length) return `<div class="empty">${escapeHtml(emptyText)}</div>`;
   return `<div class="timeline-list">${items.map(item => `
-    <article class="timeline-item ${item.tone ? `timeline-${escapeHtml(String(item.tone).toLowerCase())}` : ''}">
+    <article class="timeline-item ${item.tone ? `timeline-${escapeHtml(String(item.tone).toLowerCase())}` : ''} ${item.source === 'local' ? 'timeline-live' : ''}">
       <div class="timeline-item-top">
         <strong>${escapeHtml(item.title || '')}</strong>
-        ${item.time ? `<span class="timeline-time">${escapeHtml(item.time)}</span>` : ''}
+        ${activityTimeLabel(item) ? `<span class="timeline-time">${escapeHtml(activityTimeLabel(item))}</span>` : ''}
       </div>
       <p>${escapeHtml(item.detail || '')}</p>
     </article>
@@ -862,6 +954,25 @@ function priorityWeight(priority) {
   return { high: 0, medium: 1, low: 2 }[priority] ?? 3;
 }
 
+function activityTimeLabel(item) {
+  if (item?.timestamp) return relativeTimeFrom(item.timestamp);
+  return item?.time || '';
+}
+
+function relativeTimeFrom(value) {
+  const ts = typeof value === 'number' ? value : Date.parse(String(value || ''));
+  if (!Number.isFinite(ts)) return 'just now';
+  const diffSeconds = Math.max(0, Math.round((Date.now() - ts) / 1000));
+  if (diffSeconds < 10) return 'just now';
+  if (diffSeconds < 60) return `${diffSeconds}s ago`;
+  const diffMinutes = Math.round(diffSeconds / 60);
+  if (diffMinutes < 60) return `${diffMinutes}m ago`;
+  const diffHours = Math.round(diffMinutes / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.round(diffHours / 24);
+  return `${diffDays}d ago`;
+}
+
 function statusLabel(status) {
   return { today: 'Today', todo: 'Today', doing: 'Today', waiting: 'Waiting', done: 'Done' }[String(status || '').toLowerCase()] || capitalise(String(status || 'unknown'));
 }
@@ -914,7 +1025,13 @@ window.advanceTask = function advanceTask(index, direction) {
   const order = ['today', 'waiting', 'done'];
   const current = order.indexOf(currentStatus);
   const next = Math.max(0, Math.min(order.length - 1, current + direction));
-  state.tasks[index] = { ...task, status: order[next] };
+  const nextStatus = order[next];
+  state.tasks[index] = { ...task, status: nextStatus };
+  logLiveEvent(`Task moved: ${task.title}`, `${statusLabel(currentStatus)} → ${statusLabel(nextStatus)}${task.project ? ` · ${task.project}` : ''}`, nextStatus === 'done' ? 'green' : nextStatus === 'waiting' ? 'amber' : 'blue', { render: false });
   saveLocalTasks();
   renderPage();
+};
+
+window.manualRefresh = function manualRefresh() {
+  refreshData({ manual: true }).catch(error => console.error(error));
 };

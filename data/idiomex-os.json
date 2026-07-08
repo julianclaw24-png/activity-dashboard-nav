@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-08T15:20:32+00:00",
+  "generated_at": "2026-07-08T15:32:00+00:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.4",
+    "version": "4.5",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Phase 6 live: simpler homepage, activity timeline, and stronger CEO change tracking.",
+    "status": "Live layer enabled: auto-refresh, freshness indicators, and local activity updates now make Mission Control feel active.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -1452,6 +1452,12 @@
   },
   "recent_activity": {
     "items": [
+      {
+        "title": "Live layer turned on",
+        "detail": "Mission Control now auto-refreshes, shows sync freshness, and records local actions as they happen.",
+        "time": "Just now",
+        "tone": "blue"
+      },
       {
         "title": "Phase 6 cockpit cleanup shipped",
         "detail": "Homepage compressed further and recent activity now has its own timeline.",
