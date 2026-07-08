@@ -1675,6 +1675,89 @@
       margin-bottom: 6px;
     }
 
+    .simple-snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .simple-snapshot-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .simple-snapshot-card h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .simple-snapshot-card > p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .simple-snapshot-main {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .simple-snapshot-sub {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .simple-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .simple-list-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      padding: 12px 13px;
+    }
+
+    .simple-list-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.94rem;
+    }
+
+    .simple-list-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .simple-list-item.empty {
+      border-style: dashed;
+      text-align: center;
+      color: var(--muted);
+      background: transparent;
+    }
+
+    .minimal-hidden {
+      display: none !important;
+    }
+
+    #assistant-dock,
+    #command-palette,
+    #quick-actions-shell,
+    #command-shortcuts {
+      display: none !important;
+    }
+
     .room-surface .section-subnote {
       margin: -4px 0 14px;
       color: var(--muted);
@@ -1688,7 +1771,8 @@
       .executive-grid,
       .brain-subgrid,
       .brain-summary-grid,
-      .rooms-grid { grid-template-columns: 1fr; }
+      .rooms-grid,
+      .simple-snapshot-grid { grid-template-columns: 1fr; }
       .executive-cards { grid-template-columns: 1fr 1fr; }
       .executive-panels { grid-template-columns: 1fr; }
     }
@@ -1876,19 +1960,40 @@
             <input id="global-search" class="search" type="search" placeholder="Search anything..." />
             <span class="shortcut-hint">Ctrl+K</span>
           </div>
-          <button class="btn quick-command-btn" type="button" onclick="openCommandPalette()">Open command palette</button>
-          <button class="btn primary" id="primary-command-action" onclick="scrollToSection('tasks')">Continue Cycle Matter</button>
-          <a class="btn" href="./guide.html">Hermes guide</a>
+          <button class="btn primary" id="primary-command-action" onclick="scrollToSection('tasks')">Open needs doing</button>
         </div>
         <div class="command-shortcuts" id="command-shortcuts"></div>
+      </section>
+
+      <section class="simple-snapshot-grid" id="simple-overview">
+        <article class="simple-snapshot-card">
+          <h3>What’s going on</h3>
+          <p>The headline view.</p>
+          <div id="simple-now"></div>
+        </article>
+        <article class="simple-snapshot-card">
+          <h3>Needs doing</h3>
+          <p>The next few moves.</p>
+          <div id="simple-needs"></div>
+        </article>
+        <article class="simple-snapshot-card">
+          <h3>In progress</h3>
+          <p>Work currently moving.</p>
+          <div id="simple-progress"></div>
+        </article>
+        <article class="simple-snapshot-card" id="simple-done">
+          <h3>Done recently</h3>
+          <p>Proof that things are moving.</p>
+          <div id="simple-done-list"></div>
+        </article>
       </section>
 
       <section class="executive-grid">
         <article class="card executive-brief" id="executive">
           <div class="section-head">
             <div>
-              <h3>Mission Control</h3>
-              <p>It isn’t a chatbot. It isn’t a dashboard. It behaves like a business partner.</p>
+              <h3>What needs attention</h3>
+              <p>The key decisions and blockers to look at today.</p>
             </div>
             <span class="pill" id="decision-pill">Loading…</span>
           </div>
@@ -1916,8 +2021,8 @@
         <article class="card" id="dashboard">
           <div class="section-head">
             <div>
-              <h3>Opportunities</h3>
-              <p>Not CRM. Opportunities. Score what matters and ignore low-value noise.</p>
+              <h3>Sales pipeline</h3>
+              <p>The best opportunities worth attention right now.</p>
             </div>
             <span class="pill" id="lead-headline-pill">Loading…</span>
           </div>
@@ -1930,8 +2035,8 @@
         <article class="card" id="projects">
           <div class="section-head">
             <div>
-              <h3>Business Installations</h3>
-              <p>You do not run projects. You install systems into businesses.</p>
+              <h3>Projects in progress</h3>
+              <p>The active work, current status, and blockers.</p>
             </div>
             <span class="pill">Projects</span>
           </div>
@@ -1943,8 +2048,8 @@
         <article class="card" id="tasks">
           <div class="section-head">
             <div>
-              <h3>Immediate Moves</h3>
-              <p>The shortest high-leverage queue for today only.</p>
+              <h3>Needs doing</h3>
+              <p>The short list of next actions.</p>
             </div>
             <span class="pill" id="task-summary-pill">Loading…</span>
           </div>
@@ -1952,7 +2057,7 @@
         </article>
       </section>
 
-      <section class="analytics-grid">
+      <section class="analytics-grid minimal-hidden">
         <article class="card" id="automation">
           <div class="section-head">
             <div>
@@ -1997,7 +2102,7 @@
         </article>
       </section>
 
-      <section class="focus-grid">
+      <section class="focus-grid minimal-hidden">
         <article class="card" id="focus-next">
           <div class="section-head">
             <div>
@@ -2021,7 +2126,7 @@
         </article>
       </section>
 
-      <section class="deep-work-grid">
+      <section class="deep-work-grid minimal-hidden">
         <article class="card" id="kanban">
           <div class="section-head">
             <div>
@@ -2035,7 +2140,7 @@
         </article>
       </section>
 
-      <section class="rooms-grid">
+      <section class="rooms-grid minimal-hidden">
         <article class="card room-surface" id="crm-room">
           <div class="section-head">
             <div>
@@ -2250,44 +2355,39 @@
       if (!state.data) return;
       renderNav();
       renderTopbar();
-      renderCommandShortcuts();
+      renderSimpleSnapshot();
       renderKpis();
       renderExecutiveBrief();
-      renderAIWorkforce();
-      renderAutomation();
       renderLeads();
       renderProjects();
       renderPriorityTasks();
-      renderKanban();
-      renderActivity();
-      renderFocus();
-      renderDedicatedRooms();
-      renderAssistantDock();
-      renderQuickActions();
-      renderCommandPalette();
       renderResponsiveUI();
     }
 
     function renderNav() {
-      const navMarkup = (state.data.navigation || []).map((group, index) => `
+      const mainNav = [
+        { label: 'Overview', target: 'simple-overview', icon: '✦' },
+        { label: 'Attention', target: 'executive', icon: '!' },
+        { label: 'Sales', target: 'dashboard', icon: '◎' },
+        { label: 'Projects', target: 'projects', icon: '▣' },
+        { label: 'Needs doing', target: 'tasks', icon: '→' },
+        { label: 'Done recently', target: 'simple-done', icon: '✓' }
+      ];
+      const navMarkup = `
         <section>
-          <div class="nav-section-title">${escapeHtml(group.section)}</div>
+          <div class="nav-section-title">Today</div>
           <div class="nav-group">
-            ${group.items.map((item, itemIndex) => {
-              const target = navTarget(item);
-              const active = index === 0 && itemIndex === 0 ? 'active' : '';
-              return `<a class="nav-link ${active}" href="#${target}"><span class="nav-icon">${navIcon(item)}</span><span>${escapeHtml(item)}</span></a>`;
-            }).join('')}
+            ${mainNav.map((item, index) => `<a class="nav-link ${index === 0 ? 'active' : ''}" href="#${item.target}"><span class="nav-icon">${item.icon}</span><span>${escapeHtml(item.label)}</span></a>`).join('')}
           </div>
         </section>
-      `).join('');
+      `;
       document.getElementById('sidebar-nav').innerHTML = navMarkup;
       const mobileTabs = [
-        { label: 'Home', icon: '✦', target: 'executive' },
-        { label: 'Sales', icon: '◎', target: 'crm-room' },
+        { label: 'Home', icon: '✦', target: 'simple-overview' },
+        { label: 'Focus', icon: '!', target: 'executive' },
+        { label: 'Sales', icon: '◎', target: 'dashboard' },
         { label: 'Ops', icon: '▣', target: 'projects' },
-        { label: 'Brain', icon: '⌘', target: 'activity' },
-        { label: 'AI', icon: '⦿', target: 'workforce-room' }
+        { label: 'Tasks', icon: '→', target: 'tasks' }
       ];
       document.getElementById('mobile-nav').innerHTML = mobileTabs
         .map((item, index) => `<a class="mobile-tab ${index === 0 ? 'active' : ''}" href="#${item.target}"><span class="mobile-tab-icon">${item.icon}</span><span>${escapeHtml(item.label)}</span></a>`).join('');
@@ -2303,15 +2403,68 @@
       document.getElementById('command-day').textContent = header.day_label || 'Today';
       document.getElementById('command-date').textContent = header.date_label || workspace.generated_at || 'Today';
       document.getElementById('welcome-title').textContent = workspace.name || 'Workspace';
-      document.getElementById('welcome-copy').textContent = workspace.subtitle || workspace.welcome || 'Business command center';
+      document.getElementById('welcome-copy').textContent = workspace.status || workspace.subtitle || workspace.welcome || 'Business command center';
       document.getElementById('business-health').textContent = header.business_health || '--%';
       document.getElementById('command-momentum').textContent = `Momentum: ${header.momentum || 'Stable'}`;
       document.getElementById('primary-goal').textContent = header.primary_goal || primaryAction.title || 'No primary goal set.';
-      document.getElementById('recommended-next').textContent = header.recommended_after || primaryAction.why_now || workspace.welcome || 'Choose the next move.';
+      document.getElementById('recommended-next').textContent = primaryAction.why_now || header.recommended_after || workspace.welcome || 'Choose the next move.';
       if (primaryCommandButton) {
-        primaryCommandButton.textContent = primaryAction.cta || primaryAction.title || 'Continue current priority';
+        primaryCommandButton.textContent = primaryAction.cta || 'Open needs doing';
         primaryCommandButton.onclick = () => scrollToSection(primaryAction.target_section || 'tasks');
       }
+    }
+
+    function renderSimpleSnapshot() {
+      const header = state.data.command_header || {};
+      const leadPipeline = state.data.lead_pipeline || {};
+      const projects = state.data.projects || [];
+      const leads = (leadPipeline.leads || []).slice().sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+      const decisions = (state.data.decision_centre || []).slice(0, 3);
+      const pendingTasks = state.tasks
+        .filter(task => task.status !== 'done')
+        .slice()
+        .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')));
+      const activeProjects = projects.filter(project => !/done|complete|live/i.test(String(project.status || '')));
+      const completedProjects = projects.filter(project => /done|complete|live/i.test(String(project.status || '')));
+      const doneTasks = state.tasks.filter(task => task.status === 'done');
+      const blockers = activeProjects
+        .filter(project => project.blocker && !/no major blocker|no blocker|none/i.test(String(project.blocker || '')))
+        .slice(0, 2);
+
+      document.getElementById('simple-now').innerHTML = `
+        <strong class="simple-snapshot-main">${escapeHtml(header.primary_goal || 'No primary goal set.')}</strong>
+        <p class="simple-snapshot-sub">${escapeHtml(state.data.workspace?.status || 'Operating system online.')}</p>
+        <div class="simple-list">
+          <div class="simple-list-item"><strong>Business health</strong><p>${escapeHtml(header.business_health || 'Unknown')} · Momentum ${escapeHtml(header.momentum || 'Stable')}</p></div>
+          <div class="simple-list-item"><strong>Best sales opportunity</strong><p>${escapeHtml(leads[0]?.name || 'None loaded')} ${leads[0]?.next_action ? `· ${escapeHtml(leads[0].next_action)}` : ''}</p></div>
+          <div class="simple-list-item"><strong>Current blocker</strong><p>${escapeHtml(blockers[0]?.blocker || 'No major blocker right now.')}</p></div>
+        </div>
+      `;
+
+      document.getElementById('simple-needs').innerHTML = pendingTasks.length ? `
+        <div class="simple-list">
+          ${pendingTasks.slice(0, 3).map(task => `<div class="simple-list-item"><strong>${escapeHtml(task.title || 'Task')}</strong><p>${escapeHtml(task.project || 'General')} · ${escapeHtml(statusLabel(task.status || 'todo'))}${task.due ? ` · Due ${escapeHtml(task.due)}` : ''}</p></div>`).join('')}
+        </div>
+      ` : '<div class="simple-list-item empty">Nothing is queued right now.</div>';
+
+      document.getElementById('simple-progress').innerHTML = `
+        <strong class="simple-snapshot-main">${activeProjects.length} active project${activeProjects.length === 1 ? '' : 's'} · ${pendingTasks.length} open task${pendingTasks.length === 1 ? '' : 's'}</strong>
+        <p class="simple-snapshot-sub">${escapeHtml(leads.length ? `${Math.min(leads.length, 3)} sales opportunities in focus` : 'No active sales opportunities loaded.')}</p>
+        <div class="simple-list">
+          ${[...activeProjects.slice(0, 2).map(project => ({ title: project.name, detail: `${project.status || 'Active'}${project.next_step ? ` · ${project.next_step}` : ''}` })), ...decisions.slice(0, 1).map(item => ({ title: item.title, detail: item.next_action || item.impact || '' }))]
+            .map(item => `<div class="simple-list-item"><strong>${escapeHtml(item.title || 'In progress')}</strong><p>${escapeHtml(item.detail || 'Moving.')}</p></div>`).join('') || '<div class="simple-list-item empty">No active work loaded.</div>'}
+        </div>
+      `;
+
+      const doneItems = [
+        ...doneTasks.slice(0, 2).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${task.notes || 'Completed.'}` })),
+        ...completedProjects.slice(0, 1).map(project => ({ title: project.name, detail: `${project.status || 'Completed'} · ${project.next_milestone || project.next_step || 'Finished.'}` }))
+      ];
+      document.getElementById('simple-done-list').innerHTML = doneItems.length ? `
+        <div class="simple-list">
+          ${doneItems.map(item => `<div class="simple-list-item"><strong>${escapeHtml(item.title || 'Completed')}</strong><p>${escapeHtml(item.detail || 'Done.')}</p></div>`).join('')}
+        </div>
+      ` : '<div class="simple-list-item empty">Nothing marked done yet.</div>';
     }
 
     function renderExecutiveBrief() {
@@ -2554,20 +2707,24 @@
     }
 
     function renderPriorityTasks() {
-      const topTasks = filterItems(state.tasks, ['title', 'project', 'notes', 'owner'])
+      const topTasks = filterItems(state.tasks.filter(task => task.status !== 'done'), ['title', 'project', 'notes', 'owner'])
         .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')))
         .slice(0, 5);
       const doing = state.tasks.filter(task => task.status === 'doing').length;
       const todo = state.tasks.filter(task => task.status === 'todo').length;
       const done = state.tasks.filter(task => task.status === 'done').length;
       const high = state.tasks.filter(task => task.priority === 'high').length;
+      const todayIso = String(state.data.generated_at || '').slice(0, 10);
+      const dueSoon = todayIso
+        ? state.tasks.filter(task => task.status !== 'done' && task.due && String(task.due) <= todayIso).length
+        : state.tasks.filter(task => task.status !== 'done' && task.due).length;
       document.getElementById('task-summary-pill').textContent = `${doing} in progress`;
       document.getElementById('task-summary-grid').innerHTML = [
         `To do · ${todo}`,
         `Doing · ${doing}`,
-        `Done today · ${done}`,
+        `Done · ${done}`,
         `High priority · ${high}`,
-        `Due next 48h · ${state.tasks.filter(task => String(task.due || '') <= '2026-07-05').length}`,
+        `Due now · ${dueSoon}`,
         `Automation-linked · ${state.tasks.filter(task => task.automation).length}`
       ].map(label => `<span class="mini-chip">${escapeHtml(label)}</span>`).join('');
       document.getElementById('task-list').innerHTML = topTasks.length ? topTasks.map(task => `
