@@ -161,35 +161,22 @@ function renderOverview() {
   const overdue = overdueTasks();
   const dueSoon = dueSoonTasks();
   const blocked = blockedProjects();
-  const leads = topLeads();
   const decisions = state.data.decision_centre || [];
   const focusList = state.data.focus?.today || [];
   const mainItem = focusList[0] || decisions[0] || today[0] || {};
-  const weekly = weeklyReviewData();
-  const todayItems = [
-    ...today.slice(0, 2).map(task => ({ title: task.title, detail: taskSummary(task) })),
-    ...leads.slice(0, 1).map(lead => ({ title: lead.name, detail: shortText(lead.next_action || 'Next sales move.', 58) }))
-  ].slice(0, 3);
-  const waitingItems = waiting.slice(0, 3).map(task => ({
-    title: task.title,
-    detail: shortText(waitingOnText(task) || task.notes || task.project || 'Waiting.', 62)
-  }));
-  const doneItems = done.slice(0, 3).map(task => ({
-    title: task.title,
-    detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 52)}`
-  }));
-  const priorityBuckets = [
-    { title: 'Do now', detail: shortText(mainItem.do_now || mainItem.next_action || mainItem.notes || 'Choose the highest-leverage move.', 84), tone: 'red' },
-    { title: 'Do later', detail: waiting[0] ? shortText(waiting[0].title, 84) : 'Nothing intentionally waiting.', tone: 'blue' },
-    { title: 'Ignore today', detail: shortText((weekly.stop_doing || [])[0]?.title || state.data.company_brain?.ignore_for_now?.[0]?.title || 'Keep low-conviction work out of the way.', 84), tone: 'green' }
-  ];
-
+  const activity = recentActivityData();
+  const blockedLabel = blocked[0]?.name || waiting[0]?.title || 'Nothing blocked right now.';
+  const blockedDetail = blocked[0]
+    ? shortText(blocked[0].blocker || 'Blocked.', 84)
+    : waiting[0]
+      ? shortText(waitingOnText(waiting[0]) || waiting[0].notes || 'Queued for later.', 84)
+      : 'No live blockers.';
   return `
-    <section class="action-strip">
+    <section class="action-strip overview-phase6-strip">
       ${actionCard(
         'Primary action',
         mainItem.title || 'No main action loaded.',
-        shortText(mainItem.do_now || mainItem.next_action || mainItem.notes || 'Nothing urgent is loaded right now.', 122),
+        shortText(mainItem.do_now || mainItem.next_action || mainItem.notes || 'Nothing urgent is loaded right now.', 124),
         [
           mainItem.timebox ? chip(mainItem.timebox, 'amber') : '',
           mainItem.confidence ? chip(mainItem.confidence, 'green') : '',
@@ -200,54 +187,25 @@ function renderOverview() {
         'red'
       )}
       <div class="action-strip-side">
-        ${actionMiniCard('Deadline watch', overdue[0] ? overdue[0].title : (dueSoon[0] ? dueSoon[0].title : 'No deadline pressure right now.'), overdue[0] ? dueLabel(overdue[0]) : (dueSoon[0] ? dueLabel(dueSoon[0]) : 'Clear'), overdue[0] ? 'red' : 'amber')}
-        ${actionMiniCard('Waiting on', waiting[0] ? waiting[0].title : (blocked[0]?.name || 'Nothing blocked right now.'), waiting[0] ? shortText(waitingOnText(waiting[0]) || waiting[0].notes || 'Queued for later.', 72) : shortText(blocked[0]?.blocker || 'No live blockers.', 72), waiting[0] || blocked[0] ? 'blue' : 'green')}
+        ${actionMiniCard("What's going on", shortText(state.data.command_header?.primary_goal || 'No primary goal set', 56), shortText(state.data.workspace?.status || 'Operating system online.', 82), 'blue')}
+        ${actionMiniCard('Need-to-know', overdue[0] ? overdue[0].title : (dueSoon[0] ? dueSoon[0].title : 'No deadline pressure right now.'), overdue[0] ? dueLabel(overdue[0]) : (dueSoon[0] ? dueLabel(dueSoon[0]) : 'Clear'), overdue[0] ? 'red' : 'amber')}
       </div>
     </section>
 
-    <section class="stats-grid stats-grid-4 section-gap">
-      ${statCard('Now', shortText(state.data.command_header?.primary_goal || 'No primary goal set', 52), shortText(state.data.workspace?.status || 'Operating system online.', 64), 'red')}
-      ${statCard('Today', `${today.length} focus`, today[0] ? shortText(today[0].title, 60) : 'Nothing queued.', 'amber')}
-      ${statCard('Waiting', `${waiting.length} queued`, waiting[0] ? shortText(waiting[0].title, 60) : 'Nothing waiting.', 'blue')}
-      ${statCard('Done', `${done.length} complete`, done[0] ? shortText(done[0].title, 60) : 'Nothing marked done.', 'green')}
-    </section>
-
-    <section class="grid-3 section-gap decision-buckets">
-      ${priorityBuckets.map(bucket => `<article class="card bucket-card bucket-${bucket.tone}"><h3>${escapeHtml(bucket.title)}</h3><p>${escapeHtml(bucket.detail)}</p></article>`).join('')}
-    </section>
-
-    <section class="grid-3 section-gap">
-      ${featurePanel('Today', `
-        ${focusBlock(
-          mainItem.title || 'No top item loaded.',
-          shortText(mainItem.outcome || mainItem.do_now || mainItem.next_action || 'Nothing urgent is loaded right now.', 108),
-          [
-            mainItem.timebox ? chip(mainItem.timebox, 'amber') : '',
-            dueSoon[0] ? chip(dueLabel(dueSoon[0]), 'amber') : '',
-            blocked.length ? chip(`${blocked.length} blocked projects`, 'purple') : ''
-          ].join('')
-        )}
-        ${miniList(todayItems, 'Nothing open right now.')}
-      `)}
-      ${featurePanel('Waiting', `
-        ${miniList(waitingItems, 'Nothing is waiting right now.')}
-      `)}
-      ${featurePanel('Done', `
-        ${miniList(doneItems, 'No recent wins logged yet.')}
-      `)}
+    <section class="grid-4 section-gap overview-snapshot-grid">
+      ${summaryListCard("What's going on", [{ title: shortText(state.data.command_header?.primary_goal || 'No primary goal set', 54), detail: shortText(state.data.workspace?.status || 'Operating system online.', 84) }], 'No current state loaded.', 'blue')}
+      ${summaryListCard('Needs doing now', today.slice(0, 3).map(task => ({ title: task.title, detail: taskSummary(task) })), 'Nothing queued right now.', 'red')}
+      ${summaryListCard('Waiting / blocked', [{ title: blockedLabel, detail: blockedDetail }], 'Nothing waiting right now.', blocked.length || waiting.length ? 'amber' : 'green')}
+      ${summaryListCard('Done recently', done.slice(0, 3).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 56)}` })), 'No recent wins logged yet.', 'green')}
     </section>
 
     <section class="grid-2 section-gap">
-      ${panel('Weekly review', `
-        ${miniList((weekly.this_week || []).slice(0, 3).map(item => ({
-          title: item.title,
-          detail: shortText(item.detail || item.why || '', 88)
-        })), 'No weekly priorities loaded.')}
-      `)}
-      ${panel('Risks to watch', listMarkup((weekly.risks || []).slice(0, 3).map(item => ({
-        title: item.title,
-        detail: shortText(item.detail || item.trigger || '', 88)
-      })), 'No active risks loaded.'))}
+      ${panel('Recent activity', timelineMarkup(activity.items || [], 'No activity loaded yet.'))}
+      ${panel('Where to look next', listMarkup([
+        { title: 'CEO briefing', detail: 'Read priorities, risks, decisions, and changes since yesterday.' },
+        { title: 'Tasks', detail: overdue.length ? `${overdue.length} overdue still need movement.` : `${today.length} today and ${waiting.length} waiting.` },
+        { title: 'Workforce', detail: activity.items[0] ? shortText(activity.items[0].detail || 'Agent activity is moving.', 90) : 'Review run history and agent alerts.' }
+      ], 'No next steps loaded.'))}
     </section>
 
     <section class="section-gap quick-access-shell">
@@ -258,13 +216,12 @@ function renderOverview() {
         </div>
       </div>
       <div class="launcher-grid launcher-grid-compact">
-        ${launcherCard('./ceo.html', 'Daily CEO brief', 'Priorities, risks, wins, and decisions.', 'red', `${(ceoBriefData().priorities || []).length} priorities`)}
+        ${launcherCard('./ceo.html', 'Daily CEO brief', 'Priorities, risks, wins, decisions, and changes.', 'red', `${(ceoBriefData().priorities || []).length} priorities`)}
         ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
-        ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${leads.length} leads`)}
+        ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${topLeads().length} leads`)}
         ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${activeProjects().length} active`)}
         ${launcherCard('./tasks.html', 'Tasks', 'Today, waiting, done.', 'amber', `${today.length} today`)}
-        ${launcherCard('./guide.html', 'Weekly review', 'Wins, risks, and priorities.', 'green', `${(weekly.this_week || []).length} priorities`)}
-        ${launcherCard('./brain.html', 'Brain', 'Briefings and recs.', 'green', `${(state.data.company_brain?.recommendations || []).length} recs`)}
+        ${launcherCard('./workforce.html', 'Workforce', 'Runs, queue, and alerts.', 'green', `${(agentActivityData().recent_runs || []).length} runs`)}
       </div>
     </section>
   `;
@@ -435,6 +392,7 @@ function renderCEO() {
   const done = brief.done_recently || [];
   const checks = brief.next_checks || [];
   const score = brief.scoreboard || [];
+  const changes = brief.changes_since_yesterday || [];
   const chips = [
     brief.date_label ? chip(brief.date_label, 'blue') : '',
     priorities[0]?.timebox ? chip(priorities[0].timebox, 'amber') : '',
@@ -456,26 +414,27 @@ function renderCEO() {
       })), 'No priorities loaded.'))}
     </section>
     <section class="grid-2 section-gap">
-      ${panel('Key decisions today', listMarkup(decisions.map(item => ({
-        title: item.title,
-        detail: shortText(`${item.detail || item.next_action || ''}${item.owner ? ` · ${item.owner}` : ''}`, 100)
-      })), 'No decisions loaded.'))}
+      ${panel('Changes since yesterday', timelineMarkup(changes, 'No change log loaded.'))}
       ${panel('Done recently', listMarkup(done.map(item => ({
         title: item.title,
         detail: shortText(`${item.detail || ''}${item.time ? ` · ${item.time}` : ''}`, 100)
       })), 'Nothing completed yet.'))}
     </section>
     <section class="grid-2 section-gap">
-      ${panel('Wins', listMarkup(wins.map(item => ({
+      ${panel('Key decisions today', listMarkup(decisions.map(item => ({
         title: item.title,
-        detail: shortText(item.detail || '', 100)
-      })), 'No wins loaded.'))}
+        detail: shortText(`${item.detail || item.next_action || ''}${item.owner ? ` · ${item.owner}` : ''}`, 100)
+      })), 'No decisions loaded.'))}
       ${panel('Risks to watch', listMarkup(risks.map(item => ({
         title: item.title,
         detail: shortText(`${item.detail || ''}${item.trigger ? ` · Trigger: ${item.trigger}` : ''}`, 100)
       })), 'No risks loaded.'))}
     </section>
-    <section class="section-gap">
+    <section class="grid-2 section-gap">
+      ${panel('Wins', listMarkup(wins.map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || '', 100)
+      })), 'No wins loaded.'))}
       ${panel('Next checks', listMarkup(checks.map(item => ({
         title: item.title,
         detail: shortText(`${item.detail || ''}${item.when ? ` · ${item.when}` : ''}`, 104)
@@ -745,6 +704,25 @@ function taskSummary(task) {
 }
 
 
+
+function recentActivityData() {
+  if (state.data.recent_activity) return state.data.recent_activity;
+  return { items: [] };
+}
+
+function timelineMarkup(items, emptyText) {
+  if (!items?.length) return `<div class="empty">${escapeHtml(emptyText)}</div>`;
+  return `<div class="timeline-list">${items.map(item => `
+    <article class="timeline-item ${item.tone ? `timeline-${escapeHtml(String(item.tone).toLowerCase())}` : ''}">
+      <div class="timeline-item-top">
+        <strong>${escapeHtml(item.title || '')}</strong>
+        ${item.time ? `<span class="timeline-time">${escapeHtml(item.time)}</span>` : ''}
+      </div>
+      <p>${escapeHtml(item.detail || '')}</p>
+    </article>
+  `).join('')}</div>`;
+}
+
 function ceoBriefData() {
   if (state.data.daily_ceo_briefing) return state.data.daily_ceo_briefing;
   return {
@@ -756,7 +734,8 @@ function ceoBriefData() {
     risks: blockedProjects().slice(0, 3).map(project => ({ title: project.name, detail: project.blocker || 'Blocked.' })),
     done_recently: doneTasks().slice(0, 3).map(task => ({ title: task.title, detail: task.notes || 'Completed.' })),
     next_checks: [],
-    scoreboard: []
+    scoreboard: [],
+    changes_since_yesterday: (state.data.recent_activity?.items || []).slice(0, 3)
   };
 }
 

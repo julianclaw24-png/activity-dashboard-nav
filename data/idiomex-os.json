@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-08T16:18:15+01:00",
+  "generated_at": "2026-07-08T15:20:32+00:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.3",
+    "version": "4.4",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Cleaner OS with CEO briefing and agent run history.",
+    "status": "Phase 6 live: simpler homepage, activity timeline, and stronger CEO change tracking.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -1227,31 +1227,31 @@
   "daily_ceo_briefing": {
     "date_label": "08 July",
     "business_health": "Healthy",
-    "headline": "Finish the leverage moves before opening new loops.",
-    "summary": "Today is about capturing the Cycle Matter install into a reusable template, sending the live proposal, and keeping lower-value work out of sight.",
+    "headline": "Know what moved, then push the next leverage move.",
+    "summary": "Today is still about the template and the proposal, but Phase 6 now makes movement clearer: what changed, what finished, and what still needs owner action.",
     "scoreboard": [
       {
         "label": "Main move",
         "value": "Cycle Matter template",
-        "note": "Turn the validated install into the repeatable onboarding pack.",
+        "note": "Still the highest-leverage asset to capture.",
         "tone": "red"
       },
       {
         "label": "Revenue move",
         "value": "XYZ proposal",
-        "note": "Strongest near-term cash opportunity still open.",
+        "note": "Still waiting for the owner send-off.",
         "tone": "amber"
       },
       {
-        "label": "Business health",
-        "value": "Healthy",
-        "note": "Core systems are online and moving.",
-        "tone": "green"
+        "label": "Fresh movement",
+        "value": "5 updates",
+        "note": "Recent activity timeline now shows what changed.",
+        "tone": "blue"
       },
       {
         "label": "Agent pressure",
         "value": "1 alert",
-        "note": "One workforce bottleneck needs owner attention.",
+        "note": "One owner-dependent bottleneck remains.",
         "tone": "purple"
       }
     ],
@@ -1353,6 +1353,32 @@
         "detail": "Review whether any workforce bottlenecks still need owner input.",
         "when": "End of day"
       }
+    ],
+    "changes_since_yesterday": [
+      {
+        "title": "Homepage became more scan-first",
+        "detail": "The overview now answers what is happening, what needs doing, what is waiting, and what got done without extra reading.",
+        "time": "Today",
+        "tone": "blue"
+      },
+      {
+        "title": "CEO page now shows movement, not just state",
+        "detail": "You can now see what changed since yesterday before reading the rest of the briefing.",
+        "time": "Today",
+        "tone": "purple"
+      },
+      {
+        "title": "Proposal is still the owner-dependent revenue move",
+        "detail": "Sales prep is ready, but the send itself still needs Navod action.",
+        "time": "15 min ago",
+        "tone": "amber"
+      },
+      {
+        "title": "Cycle Matter shifted from delivery into productization",
+        "detail": "The live install is no longer the question; packaging it into the reference template is.",
+        "time": "Today",
+        "tone": "red"
+      }
     ]
   },
   "agent_activity": {
@@ -1421,6 +1447,40 @@
         "title": "Inbox Triage Agent is still planned, not live",
         "detail": "Email intelligence remains a design lane until the n8n gate is defined.",
         "owner": "Inbox Triage Agent"
+      }
+    ]
+  },
+  "recent_activity": {
+    "items": [
+      {
+        "title": "Phase 6 cockpit cleanup shipped",
+        "detail": "Homepage compressed further and recent activity now has its own timeline.",
+        "time": "Just now",
+        "tone": "blue"
+      },
+      {
+        "title": "CEO briefing upgraded",
+        "detail": "The briefing now calls out what changed since yesterday instead of repeating static priorities only.",
+        "time": "Just now",
+        "tone": "purple"
+      },
+      {
+        "title": "Sales prep ready for owner send-off",
+        "detail": "The XYZ Accountants proposal remains the fastest near-term cash move.",
+        "time": "15 min ago",
+        "tone": "amber"
+      },
+      {
+        "title": "Research lane stayed focused",
+        "detail": "Three accountant-aligned opportunities remain the strongest shortlist.",
+        "time": "25 min ago",
+        "tone": "green"
+      },
+      {
+        "title": "Cycle Matter remains the leverage move",
+        "detail": "The install is validated; the value now is turning it into a reusable onboarding template.",
+        "time": "Today",
+        "tone": "red"
       }
     ]
   }
