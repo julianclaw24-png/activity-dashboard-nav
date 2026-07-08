@@ -129,50 +129,50 @@ function renderPage() {
 }
 
 function renderOverview() {
-  const pending = pendingTasks();
-  const doing = doingTasks();
+  const today = todayTasks();
+  const waiting = waitingTasks();
   const done = doneTasks();
   const active = activeProjects();
-  const completed = completedProjects();
   const leads = topLeads();
   const decisions = state.data.decision_centre || [];
-  const thisWeekItems = [
-    ...active.slice(0, 2).map(project => ({ title: project.name, detail: shortText(project.next_step || project.next_milestone || project.focus || project.status, 78) })),
-    ...leads.slice(0, 1).map(lead => ({ title: lead.name, detail: shortText(lead.next_action || lead.notes || 'Follow up next.', 78) }))
+  const mainItem = decisions[0] || today[0] || {};
+  const todayItems = [
+    ...today.slice(0, 2).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${task.priority || 'medium'}` })),
+    ...leads.slice(0, 1).map(lead => ({ title: lead.name, detail: shortText(lead.next_action || 'Next sales move.', 58) }))
   ].slice(0, 3);
+  const waitingItems = [
+    ...waiting.slice(0, 3).map(task => ({ title: task.title, detail: shortText(task.notes || task.project || 'Waiting.', 62) }))
+  ];
   const doneItems = [
-    ...done.slice(0, 2).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 58)}` })),
-    ...completed.slice(0, 1).map(project => ({ title: project.name, detail: shortText(project.status || 'Completed', 58) }))
-  ].slice(0, 3);
+    ...done.slice(0, 3).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 52)}` }))
+  ];
 
   return `
-    <section class="stats-grid">
-      ${statCard('Now', shortText(state.data.command_header?.primary_goal || 'No primary goal set', 52), shortText(state.data.workspace?.status || 'Operating system online.', 64))}
-      ${statCard('Tasks', `${pending.length} open`, pending[0] ? shortText(`${pending[0].title} · ${pending[0].project}`, 64) : 'Nothing queued.')}
-      ${statCard('Projects', `${active.length} active`, active[0] ? shortText(`${active[0].name} · ${active[0].status}`, 64) : 'No active work.')}
-      ${statCard('Done', `${done.length} complete`, done[0] ? shortText(`${done[0].title} · ${done[0].project}`, 64) : (completed[0] ? shortText(`${completed[0].name} · ${completed[0].status}`, 64) : 'Nothing marked done.'))}
+    <section class="stats-grid stats-grid-4">
+      ${statCard('Now', shortText(state.data.command_header?.primary_goal || 'No primary goal set', 52), shortText(state.data.workspace?.status || 'Operating system online.', 64), 'red')}
+      ${statCard('Today', `${today.length} focus`, today[0] ? shortText(today[0].title, 60) : 'Nothing queued.', 'amber')}
+      ${statCard('Waiting', `${waiting.length} queued`, waiting[0] ? shortText(waiting[0].title, 60) : 'Nothing waiting.', 'blue')}
+      ${statCard('Done', `${done.length} complete`, done[0] ? shortText(done[0].title, 60) : 'Nothing marked done.', 'green')}
     </section>
 
     <section class="grid-3 section-gap">
       ${featurePanel('Today', `
         ${focusBlock(
-          decisions[0]?.title || pending[0]?.title || 'No top item loaded.',
-          shortText(decisions[0]?.next_action || pending[0]?.notes || 'Nothing urgent is loaded right now.', 108),
+          mainItem.title || 'No top item loaded.',
+          shortText(mainItem.next_action || mainItem.notes || 'Nothing urgent is loaded right now.', 108),
           [
-            decisions[0]?.impact ? chip(decisions[0].impact, badgeTone(decisions[0].priority || 'red')) : '',
-            pending[0]?.due ? chip(`Due ${pending[0].due}`) : '',
-            doing.length ? chip(`${doing.length} doing`, 'blue') : ''
+            mainItem.impact ? chip(mainItem.impact, 'red') : '',
+            today[0]?.due ? chip(`Due ${today[0].due}`, 'amber') : '',
+            active.length ? chip(`${active.length} active projects`, 'purple') : ''
           ].join('')
         )}
-        ${miniList(pending.slice(0, 3).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${statusLabel(task.status || 'todo')}` })), 'Nothing open right now.')}
+        ${miniList(todayItems, 'Nothing open right now.')}
       `)}
-      ${featurePanel('This week', `
-        ${miniList(thisWeekItems, 'No active weekly work loaded.')}
-        <div class="compact-note">Focus on delivery, proposal movement, and one clear next step per lane.</div>
+      ${featurePanel('Waiting', `
+        ${miniList(waitingItems, 'Nothing is waiting right now.')}
       `)}
       ${featurePanel('Done', `
         ${miniList(doneItems, 'No recent wins logged yet.')}
-        <div class="compact-note">Keep this short. It is proof of progress, not the main workspace.</div>
       `)}
     </section>
 
@@ -180,16 +180,16 @@ function renderOverview() {
       <div class="section-head">
         <div>
           <h3>Open one area</h3>
-          <p>Go straight to the page you want.</p>
+          <p>Go straight to the page you need.</p>
         </div>
       </div>
       <div class="launcher-grid launcher-grid-compact">
-        ${launcherCard('./attention.html', 'Attention', 'Top decisions and blockers.', badgeTone(decisionPriority()), `${decisions.length} items`)}
-        ${launcherCard('./sales.html', 'Sales', 'Best opportunities only.', 'blue', `${leads.length} leads`)}
-        ${launcherCard('./projects.html', 'Projects', 'Active delivery work.', 'purple', `${active.length} active`)}
-        ${launcherCard('./tasks.html', 'Tasks', 'The next actions only.', 'amber', `${pending.length} open`)}
-        ${launcherCard('./brain.html', 'Brain', 'Briefings and recommendations.', 'green', `${(state.data.company_brain?.recommendations || []).length} recs`)}
-        ${launcherCard('./workforce.html', 'Workforce', 'Agent health and load.', 'purple', `${(state.data.ai_workforce || []).length} agents`)}
+        ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
+        ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${leads.length} leads`)}
+        ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${active.length} active`)}
+        ${launcherCard('./tasks.html', 'Tasks', 'Today, waiting, done.', 'amber', `${today.length} today`)}
+        ${launcherCard('./brain.html', 'Brain', 'Briefings and recs.', 'green', `${(state.data.company_brain?.recommendations || []).length} recs`)}
+        ${launcherCard('./workforce.html', 'Workforce', 'Agent health.', 'purple', `${(state.data.ai_workforce || []).length} agents`)}
       </div>
     </section>
   `;
@@ -280,35 +280,23 @@ function renderProjects() {
 }
 
 function renderTasks() {
-  const tasks = pendingTasks();
-  const doing = doingTasks().length;
-  const todo = state.tasks.filter(task => task.status === 'todo').length;
-  const done = doneTasks().length;
-  const high = state.tasks.filter(task => task.priority === 'high' && task.status !== 'done').length;
+  const today = todayTasks();
+  const waiting = waitingTasks();
+  const done = doneTasks();
+  const high = state.tasks.filter(task => isTodayStatus(task.status) && task.priority === 'high').length;
   return `
-    <section class="stats-grid">
-      ${statCard('To do', String(todo), 'Not started yet.')}
-      ${statCard('Doing', String(doing), 'Already moving.')}
-      ${statCard('Done', String(done), 'Completed in this browser.')}
-      ${statCard('High priority', String(high), 'Worth attention first.')}
+    <section class="stats-grid stats-grid-4">
+      ${statCard('Today', String(today.length), 'Do these now.', 'red')}
+      ${statCard('Waiting', String(waiting.length), 'Queued for later.', 'blue')}
+      ${statCard('Done', String(done.length), 'Completed here.', 'green')}
+      ${statCard('High priority', String(high), 'The most urgent work.', 'amber')}
     </section>
-    <section class="section-gap">
-      ${panel('Open queue', tasks.length ? `<div class="list">${tasks.map(task => `
-        <div class="list-item">
-          <strong>${escapeHtml(task.title)}</strong>
-          <p>${escapeHtml(shortText(`${task.project || 'General'} · ${statusLabel(task.status || 'todo')}${task.due ? ` · Due ${task.due}` : ''}`, 88))}</p>
-          <div class="chip-row" style="margin-top:10px;">
-            ${chip(capitalise(task.priority || 'medium'), badgeTone(task.priority || 'blue'))}
-            ${task.automation ? chip(shortText(task.automation, 34)) : ''}
-          </div>
-          <div class="task-actions">
-            <button class="btn small" onclick="advanceTask(${indexOfTask(task.title)}, -1)">Back</button>
-            <button class="btn small primary" onclick="advanceTask(${indexOfTask(task.title)}, 1)">Forward</button>
-          </div>
-        </div>
-      `).join('')}</div>` : '<div class="empty">No open tasks right now.</div>')}
-      <p class="footer-note">Task changes save in this browser only.</p>
+    <section class="grid-3 section-gap task-board">
+      ${taskColumn('Today', today, 'Do these now.', 'red')}
+      ${taskColumn('Waiting', waiting, 'Keep these out of the way.', 'blue')}
+      ${taskColumn('Done', done, 'Recent completions.', 'green')}
     </section>
+    <p class="footer-note">Task changes save in this browser only.</p>
   `;
 }
 
@@ -402,15 +390,58 @@ function renderSystems() {
   `;
 }
 
-function pendingTasks() {
+function taskColumn(title, tasks, note, tone) {
+  const items = tasks.length ? `<div class="list">${tasks.map(task => `
+    <div class="list-item task-card ${taskUrgencyClass(task)}">
+      <strong>${escapeHtml(task.title)}</strong>
+      <p>${escapeHtml(shortText(`${task.project || 'General'}${task.due ? ` · ${task.due}` : ''}`, 80))}</p>
+      <div class="chip-row" style="margin-top:10px;">
+        ${chip(capitalise(task.priority || 'medium'), badgeTone(task.priority || tone))}
+        ${task.automation ? chip(shortText(task.automation, 30)) : ''}
+      </div>
+      <div class="task-actions">
+        <button class="btn small" onclick="advanceTask(${indexOfTask(task.title)}, -1)">Back</button>
+        <button class="btn small primary" onclick="advanceTask(${indexOfTask(task.title)}, 1)">Forward</button>
+      </div>
+    </div>
+  `).join('')}</div>` : '<div class="empty">Nothing here.</div>';
+  return `<article class="card board-column"><div class="section-head"><div><h3>${escapeHtml(title)}</h3><p>${escapeHtml(note)}</p></div>${chip(`${tasks.length}`, tone)}</div>${items}</article>`;
+}
+
+function todayTasks() {
   return state.tasks
-    .filter(task => task.status !== 'done')
+    .filter(task => isTodayStatus(task.status))
     .slice()
     .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')));
 }
 
+function waitingTasks() {
+  return state.tasks
+    .filter(task => isWaitingStatus(task.status))
+    .slice()
+    .sort((a, b) => priorityWeight(a.priority) - priorityWeight(b.priority) || String(a.due || '').localeCompare(String(b.due || '')));
+}
+
+function isTodayStatus(status) {
+  return ['today', 'todo', 'doing'].includes(String(status || '').toLowerCase());
+}
+
+function isWaitingStatus(status) {
+  return ['waiting'].includes(String(status || '').toLowerCase());
+}
+
+function taskUrgencyClass(task) {
+  if ((task.priority || '').toLowerCase() === 'high') return 'urgent';
+  if ((task.priority || '').toLowerCase() === 'medium') return 'warm';
+  return 'cool';
+}
+
+function pendingTasks() {
+  return [...todayTasks(), ...waitingTasks()];
+}
+
 function doingTasks() {
-  return state.tasks.filter(task => task.status === 'doing');
+  return state.tasks.filter(task => String(task.status || '').toLowerCase() === 'doing');
 }
 
 function doneTasks() {
@@ -433,8 +464,9 @@ function decisionPriority() {
   return (state.data.decision_centre || [])[0]?.priority || 'blue';
 }
 
-function statCard(title, value, note) {
-  return `<article class="stat"><h3>${escapeHtml(title)}</h3><span class="stat-value">${escapeHtml(value)}</span><p class="metric-note">${escapeHtml(note)}</p></article>`;
+function statCard(title, value, note, tone = '') {
+  const toneClass = tone ? ` stat-${tone}` : '';
+  return `<article class="stat${toneClass}"><h3>${escapeHtml(title)}</h3><span class="stat-value">${escapeHtml(value)}</span><p class="metric-note">${escapeHtml(note)}</p></article>`;
 }
 
 function panel(title, inner) {
@@ -483,7 +515,7 @@ function priorityWeight(priority) {
 }
 
 function statusLabel(status) {
-  return { todo: 'To do', doing: 'Doing', done: 'Done' }[status] || capitalise(String(status || 'unknown'));
+  return { today: 'Today', todo: 'Today', doing: 'Today', waiting: 'Waiting', done: 'Done' }[String(status || '').toLowerCase()] || capitalise(String(status || 'unknown'));
 }
 
 function capitalise(value) {
@@ -529,8 +561,10 @@ function indexOfTask(title) {
 window.advanceTask = function advanceTask(index, direction) {
   const task = state.tasks[index];
   if (!task) return;
-  const order = ['todo', 'doing', 'done'];
-  const current = order.indexOf(task.status || 'todo');
+  const normalized = String(task.status || 'today').toLowerCase();
+  const currentStatus = normalized === 'todo' ? 'today' : normalized === 'doing' ? 'today' : normalized;
+  const order = ['today', 'waiting', 'done'];
+  const current = order.indexOf(currentStatus);
   const next = Math.max(0, Math.min(order.length - 1, current + direction));
   state.tasks[index] = { ...task, status: order[next] };
   saveLocalTasks();

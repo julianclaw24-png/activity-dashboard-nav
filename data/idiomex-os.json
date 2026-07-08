@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-07-08T11:54:47+01:00",
+  "generated_at": "2026-07-08T12:07:34+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
     "version": "4.1",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
-    "welcome": "It isn’t a chatbot. It isn’t a dashboard. It behaves like a business partner.",
-    "status": "Decision-first operating system with command layer, company brain, dedicated rooms, and guarded inbox intelligence",
+    "welcome": "Runs the business in one place.",
+    "status": "Decision-first OS with focused pages.",
     "sync_status": {
       "mode": "browser-local",
-      "note": "This cockpit is accessible anywhere once hosted, but edits still stay in this browser until a backend such as Supabase is added."
+      "note": "Hosted anywhere, but edits still save in this browser."
     }
   },
   "navigation": [
@@ -47,14 +47,14 @@
     "business_health": "🟢 Healthy",
     "momentum": "High",
     "primary_goal": "Turn Cycle Matter into the reference install",
-    "recommended_after": "Use the dedicated rooms to go deeper without turning the homepage back into a long report."
+    "recommended_after": "Open one page and stay focused."
   },
   "decision_centre": [
     {
       "priority": "red",
       "title": "Package Cycle Matter into a repeatable install",
       "impact": "Template leverage",
-      "next_action": "The docs are complete and the agent has been tested. Capture the working setup, tighten the onboarding template, and turn the install into a reusable offer.",
+      "next_action": "Capture the working setup and turn it into the install template.",
       "eta": "Today",
       "owner": "Navod"
     },
@@ -62,7 +62,7 @@
       "priority": "green",
       "title": "Send proposal to XYZ Accountants",
       "impact": "£2,300 this week",
-      "next_action": "Move the strongest accountant opportunity into proposal now instead of spreading effort across low-conviction leads.",
+      "next_action": "Send the strongest proposal now instead of spreading attention.",
       "eta": "35m",
       "owner": "Navod"
     },
@@ -70,7 +70,7 @@
       "priority": "slate",
       "title": "Ignore the remaining 12 leads until tomorrow",
       "impact": "Attention preserved",
-      "next_action": "You have 14 leads. Ignore 11. Contact the 3 with the clearest path to cash and momentum.",
+      "next_action": "Ignore the weak leads and keep focus on the top 3.",
       "eta": "Instant",
       "owner": "Navod"
     }
@@ -253,61 +253,61 @@
       "owner": "Navod",
       "automation": "Unlocks testing and deployment",
       "due": "2026-07-07",
-      "notes": "Completed — docs finished and agent tested."
+      "notes": "Docs finished and agent tested."
     },
     {
       "title": "Package Cycle Matter into onboarding template",
       "project": "Hermes onboarding productization",
-      "status": "todo",
+      "status": "today",
       "priority": "high",
       "owner": "Navod",
       "automation": "Turns live install into reusable delivery system",
       "due": "2026-07-08",
-      "notes": "Docs are complete and the agent has been tested. Capture the working setup, onboarding pack, and validation steps."
+      "notes": "Turn the live install into the reusable template."
     },
     {
       "title": "Send proposal to XYZ Accountants",
       "project": "Sales HQ",
-      "status": "todo",
+      "status": "today",
       "priority": "high",
       "owner": "Navod",
       "automation": "Proposal template ready",
       "due": "2026-07-03",
-      "notes": "Most immediate revenue action."
+      "notes": "Fastest revenue move."
     },
     {
       "title": "Ignore the remaining 12 leads until tomorrow",
       "project": "Mission Control",
-      "status": "todo",
+      "status": "waiting",
       "priority": "medium",
       "owner": "Navod",
       "automation": "Preserve attention",
       "due": "2026-07-03",
-      "notes": "Do not let low-conviction opportunities steal focus."
+      "notes": "Keep weak leads out of sight today."
     },
     {
       "title": "Define synced opportunity schema",
       "project": "IDIOMEX Mission Control",
-      "status": "todo",
+      "status": "waiting",
       "priority": "medium",
       "owner": "Navod",
       "automation": "Backend-ready contract",
       "due": "2026-07-06",
-      "notes": "Prepare for true cross-device sync."
+      "notes": "Prepare the sync-ready data model."
     },
     {
       "title": "Define n8n email intake spec",
       "project": "IDIOMEX Mission Control",
-      "status": "todo",
+      "status": "waiting",
       "priority": "medium",
       "owner": "Navod",
       "automation": "Read-only inbox triage",
       "due": "2026-07-05",
-      "notes": "Decide filters, escalation rules, and summary payload before wiring Hermes into inbox workflows."
+      "notes": "Set filters and escalation rules."
     }
   ],
   "products": {
-    "summary": "IDIOMEX sells products that install systems into businesses. Each product should have revenue, clients, templates, proposals, ROI, and documentation.",
+    "summary": "Products first. Each offer should turn into revenue and repeatable delivery.",
     "items": [
       {
         "name": "AI Business Assistant",
@@ -316,7 +316,7 @@
         "revenue": "£0–£3k setup",
         "clients": "1 live install",
         "roi": "Reduces admin + speeds replies",
-        "next_action": "Turn Cycle Matter into the reference implementation."
+        "next_action": "Make Cycle Matter the reference install."
       },
       {
         "name": "Booking Platform",
@@ -325,7 +325,7 @@
         "revenue": "£2k–£6k",
         "clients": "Prospect-led",
         "roi": "Captures bookings and operational data",
-        "next_action": "Keep as a targeted product line, not a generic service."
+        "next_action": "Keep this as a targeted offer."
       },
       {
         "name": "Website + Automation",
@@ -334,7 +334,7 @@
         "revenue": "£1.5k–£4k",
         "clients": "Multiple potential fits",
         "roi": "Improves conversion and reduces admin",
-        "next_action": "Package with AI workflows rather than selling brochure sites."
+        "next_action": "Package it with AI workflows."
       },
       {
         "name": "Custom Software",
@@ -343,7 +343,7 @@
         "revenue": "£5k+",
         "clients": "Case-by-case",
         "roi": "Creates durable operational advantage",
-        "next_action": "Only pursue when tied to clear recurring or strategic upside."
+        "next_action": "Only pursue strategic fits."
       }
     ]
   },
@@ -422,8 +422,8 @@
     }
   ],
   "company_brain": {
-    "headline": "The Company Brain protects attention, surfaces leverage, and tells you what to do next.",
-    "thesis": "Do not read everything. Decide faster. Protect the work that moves revenue, delivery, and repeatability.",
+    "headline": "The Brain protects focus and shows the next move.",
+    "thesis": "Decide faster. Ignore more. Focus on revenue, delivery, and repeatability.",
     "summary_cards": [
       {
         "label": "Primary Move",
@@ -454,8 +454,8 @@
     "recommendations": [
       {
         "title": "Turn Cycle Matter into the install template now",
-        "why": "The knowledge layer is finished and the agent has been tested, so the highest-leverage move is capturing the working pattern while it is fresh.",
-        "do_now": "Package the docs, setup decisions, guardrails, and validation steps into the reusable Hermes onboarding template and checklist.",
+        "why": "The knowledge layer is finished and the agent has been tested, so the highest-leverage move is capturing the working pat",
+        "do_now": "Package the docs, setup decisions, guardrails, and validation steps into the reusable Hermes onboard",
         "outcome": "Your next business-agent install becomes faster, safer, and easier to sell.",
         "timebox": "60–90m",
         "confidence": "High"
@@ -478,8 +478,8 @@
       },
       {
         "title": "Build inbox intelligence as a gated feed, not a raw mailbox",
-        "why": "For a business companion, inbox noise and full-mailbox exposure are both liabilities. The OS should receive only the emails that matter.",
-        "do_now": "Use n8n to classify, filter, and forward lead, supplier, complaint, and urgent owner-review emails into Hermes.",
+        "why": "For a business companion, inbox noise and full-mailbox exposure are both liabilities. The OS should receive only the ema",
+        "do_now": "Use n8n to classify, filter, and forward lead, supplier, complaint, and urgent owner-review emails i",
         "outcome": "Safer read-only email visibility with cleaner daily briefings and better escalation control.",
         "timebox": "45m design / later implementation",
         "confidence": "High"
@@ -488,25 +488,25 @@
     "watchlist": [
       {
         "title": "Cycle Matter testing readiness",
-        "detail": "Cycle Matter has moved past doc-completion risk. Watch whether the tested setup gets converted into a reusable onboarding asset immediately.",
+        "detail": "Watch whether the tested setup becomes a reusable onboarding asset.",
         "trigger": "Template pack drafted from tested install",
         "owner": "Navod"
       },
       {
         "title": "MTD accountant offer clarity",
-        "detail": "The shortlist stays strong only if the offer page and positioning stay sharp and specific.",
+        "detail": "Keep the offer page and positioning sharp.",
         "trigger": "Proposal and offer copy finalised",
         "owner": "Marketing Agent"
       },
       {
         "title": "Repeatable onboarding asset",
-        "detail": "Every delivery improvement should be converted into a template, playbook, or case study asset.",
+        "detail": "Turn delivery wins into templates and playbooks.",
         "trigger": "Cycle Matter milestone completed",
         "owner": "Developer Agent"
       },
       {
         "title": "Inbox intelligence design",
-        "detail": "When email arrives, only the messages that affect revenue, delivery, complaints, or owner decisions should reach Mission Control.",
+        "detail": "Only revenue, delivery, and escalation emails should reach Mission Control.",
         "trigger": "n8n email flow drafted",
         "owner": "Inbox Triage Agent"
       }
@@ -514,13 +514,13 @@
     "ignore_for_now": [
       {
         "title": "Broad lead list cleanup",
-        "detail": "Do not reorganise or research the lower-quality lead pool today.",
+        "detail": "Do not touch the lower-quality lead pool today.",
         "until": "Tomorrow morning",
         "reason": "No immediate cash upside"
       },
       {
         "title": "Extra Mission Control polish",
-        "detail": "Avoid UI tinkering that does not improve revenue, delivery, or repeatability this afternoon.",
+        "detail": "Avoid UI tweaks that do not improve leverage.",
         "until": "After Cycle Matter and proposal are done",
         "reason": "Looks like work, not leverage"
       }
@@ -528,7 +528,7 @@
     "briefing": [
       {
         "title": "Good morning, Navod.",
-        "detail": "The Company Brain says today is not about doing more. It is about finishing the two moves that create leverage: Cycle Matter and the XYZ proposal.",
+        "detail": "The Company Brain says today is not about doing more. It is about finishing the two moves that create leverage",
         "type": "Morning brief",
         "severity": "high",
         "time": "now"
@@ -542,7 +542,7 @@
       },
       {
         "title": "Cycle Matter is the template, not just the client",
-        "detail": "The docs are finished and the agent has been tested. The compounding move now is packaging the working setup into your standard install system.",
+        "detail": "The docs are finished and the agent has been tested. The compounding move now is packaging the working setup i",
         "type": "Installation intelligence",
         "severity": "high",
         "time": "today"
@@ -563,7 +563,7 @@
       },
       {
         "title": "Inbox should enter through a gate, not a side door",
-        "detail": "Mission Control now assumes read-only email will be handled through n8n first, so the Company Brain receives filtered signals rather than full mailbox noise.",
+        "detail": "Mission Control now assumes read-only email will be handled through n8n first, so the Company Brain receives f",
         "type": "Inbox intelligence",
         "severity": "medium",
         "time": "today"
@@ -571,7 +571,7 @@
     ],
     "brief_header": {
       "greeting": "Good morning, Navod.",
-      "summary": "Today is about leverage, not volume: use the finished Cycle Matter docs and tested agent as the basis for a repeatable install template, send the strongest proposal, and keep inbox intelligence gated.",
+      "summary": "Focus on the template, the proposal, and keeping weak leads out of the way.",
       "today_focus": "Package Cycle Matter into the reference onboarding template",
       "risk": "Letting weaker leads fragment attention",
       "ignore": "12 lower-fit leads and raw inbox noise"
@@ -814,7 +814,7 @@
   },
   "crm_room": {
     "pill": "3 strongest accounts",
-    "summary": "This room holds only the accounts that deserve active attention now. Everything else stays out of sight.",
+    "summary": "This room holds only the accounts that deserve active attention now. Everything else stays out ",
     "accounts": [
       {
         "name": "XYZ Accountants",
@@ -936,7 +936,7 @@
   },
   "finance_room": {
     "pill": "4 finance signals",
-    "summary": "Finance gets its own room so pipeline, recurring potential, and operating discipline stay visible.",
+    "summary": "Finance gets its own room so pipeline, recurring potential, and operating discipline stay visib",
     "metrics": [
       {
         "label": "Weighted pipeline",
@@ -980,26 +980,26 @@
   },
   "mission_control": {
     "primary_action": {
-      "title": "Finish Cycle Matter knowledge docs",
-      "why_now": "Cycle Matter has the highest leverage today because finishing the docs unblocks testing and turns the install into a reusable template.",
-      "impact": "2h 15m",
+      "title": "Package Cycle Matter template",
+      "why_now": "This turns a working install into a repeatable delivery system.",
+      "impact": "Template leverage",
       "timebox": "Today",
-      "outcome": "Unblock testing and create the reference install playbook.",
+      "outcome": "A reusable install pack for the next client.",
       "owner": "Navod",
-      "cta": "Continue Cycle Matter",
+      "cta": "Open projects",
       "target_section": "projects"
     },
     "secondary_actions": [
       {
         "title": "Send XYZ Accountants proposal",
-        "detail": "Highest-probability near-term revenue move once Cycle Matter momentum is protected.",
+        "detail": "Best near-term revenue move once the main install work is protected.",
         "impact": "£2.3k week potential",
         "timebox": "35m",
         "target_section": "dashboard"
       },
       {
         "title": "Keep 12 lower-fit leads out of sight",
-        "detail": "Preserve attention by revisiting the weak leads tomorrow instead of fragmenting today.",
+        "detail": "Keep weak leads out of sight until tomorrow.",
         "impact": "Focus protected",
         "timebox": "Instant",
         "target_section": "activity"
@@ -1095,13 +1095,13 @@
   },
   "email_room": {
     "pill": "n8n-first / read-only",
-    "summary": "Inbox Ops is the guardrail room for email. Read-only email should enter Mission Control through n8n filters, not raw mailbox browsing by default.",
+    "summary": "Inbox Ops is the guardrail room for email. Read-only email should enter Mission Control through",
     "inboxes": [
       {
         "name": "Lead intake lane",
         "status": "Planned",
         "mode": "n8n → Hermes",
-        "purpose": "Only forward high-fit lead emails, quote requests, and revenue opportunities into the Company Brain.",
+        "purpose": "Only forward high-fit lead emails, quote requests, and revenue opportunities into the Company B",
         "next_action": "Define filters for sender, keywords, urgency, and service fit.",
         "guardrail": "Ignore newsletters, low-fit enquiries, and generic noise.",
         "owner": "Navod"
@@ -1110,7 +1110,7 @@
         "name": "Urgent owner review lane",
         "status": "Planned",
         "mode": "n8n → Hermes",
-        "purpose": "Escalate complaints, incidents, legal/compliance-sensitive messages, and anything that needs owner attention.",
+        "purpose": "Escalate complaints, incidents, legal/compliance-sensitive messages, and anything that needs ow",
         "next_action": "Create a priority tag and send these into the CEO/COO topic only.",
         "guardrail": "Never auto-commit, never auto-send, never claim approval.",
         "owner": "CEO Agent"
@@ -1120,7 +1120,7 @@
         "status": "Planned",
         "mode": "n8n → Hermes",
         "purpose": "Surface operational blockers that affect fulfilment, scheduling, stock, or delivery.",
-        "next_action": "Define which suppliers and operational keywords should trigger a Mission Control alert.",
+        "next_action": "Define which suppliers and operational keywords should trigger a Missi",
         "guardrail": "Summarise the blocker, do not dump the full inbox into the dashboard.",
         "owner": "Operations Agent"
       },
@@ -1128,7 +1128,7 @@
         "name": "Direct mailbox access",
         "status": "Deferred",
         "mode": "Hermes direct",
-        "purpose": "Reserved for later only if the business truly needs interactive mailbox search or thread inspection.",
+        "purpose": "Reserved for later only if the business truly needs interactive mailbox search or thread inspec",
         "next_action": "Keep deferred until the filtered workflow proves insufficient.",
         "guardrail": "Broader exposure and trust requirement than the n8n-first design.",
         "owner": "Navod"
