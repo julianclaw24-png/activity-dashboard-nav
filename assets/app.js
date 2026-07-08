@@ -4,7 +4,7 @@ const LOCAL_KEY = 'idiomex-os-local-v2';
 const PAGE_CONFIG = {
   overview: {
     title: 'Overview',
-    description: 'Today at a glance.'
+    description: 'See what matters now.'
   },
   attention: {
     title: 'Attention',
@@ -16,11 +16,11 @@ const PAGE_CONFIG = {
   },
   projects: {
     title: 'Projects',
-    description: 'Active work, progress, and blockers.'
+    description: 'Active work, progress, blockers, and due risk.'
   },
   tasks: {
     title: 'Tasks',
-    description: 'The next actions only.'
+    description: 'What to do now, what is waiting, and what is done.'
   },
   brain: {
     title: 'Brain',
@@ -33,6 +33,10 @@ const PAGE_CONFIG = {
   systems: {
     title: 'Systems',
     description: 'Products, knowledge, finance, and inbox ops.'
+  },
+  weekly: {
+    title: 'Weekly Review',
+    description: 'A clean weekly reset: wins, risks, priorities, and what to stop.'
   }
 };
 
@@ -42,10 +46,10 @@ const NAV_ITEMS = [
   { id: 'sales', href: './sales.html', label: 'Sales', icon: '◎' },
   { id: 'projects', href: './projects.html', label: 'Projects', icon: '▣' },
   { id: 'tasks', href: './tasks.html', label: 'Tasks', icon: '→' },
+  { id: 'weekly', href: './guide.html', label: 'Weekly', icon: '☰' },
   { id: 'brain', href: './brain.html', label: 'Brain', icon: '⌘' },
   { id: 'workforce', href: './workforce.html', label: 'Workforce', icon: '⦿' },
-  { id: 'systems', href: './systems.html', label: 'Systems', icon: '□' },
-  { id: 'guide', href: './guide.html', label: 'Guide', icon: '?' }
+  { id: 'systems', href: './systems.html', label: 'Systems', icon: '□' }
 ];
 
 const state = { data: null, tasks: [], page: null };
@@ -54,6 +58,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
   state.page = document.body.dataset.page || 'overview';
+  document.body.classList.add('has-mobile-nav');
   renderNavShell();
   try {
     const response = await fetch(DATA_URL, { cache: 'no-store' });
@@ -85,11 +90,25 @@ function saveLocalTasks() {
 }
 
 function renderNavShell() {
-  const nav = document.getElementById('sidebar-nav');
-  if (!nav) return;
-  nav.innerHTML = NAV_ITEMS.map(item => {
+  const navMarkup = NAV_ITEMS.map(item => {
     const active = item.id === state.page ? 'active' : '';
-    return `<a class="nav-link ${active}" href="${item.href}"><span class="nav-icon">${item.icon}</span><span>${escapeHtml(item.label)}</span></a>`;
+    return `<a class="nav-link ${active}" href="${item.href}" aria-current="${active ? 'page' : 'false'}"><span class="nav-icon">${item.icon}</span><span>${escapeHtml(item.label)}</span></a>`;
+  }).join('');
+
+  const sidebarNav = document.getElementById('sidebar-nav');
+  if (sidebarNav) sidebarNav.innerHTML = navMarkup;
+
+  let mobileNav = document.getElementById('mobile-bottom-nav');
+  if (!mobileNav) {
+    mobileNav = document.createElement('nav');
+    mobileNav.id = 'mobile-bottom-nav';
+    mobileNav.className = 'mobile-bottom-nav';
+    mobileNav.setAttribute('aria-label', 'Mobile navigation');
+    document.body.appendChild(mobileNav);
+  }
+  mobileNav.innerHTML = NAV_ITEMS.map(item => {
+    const active = item.id === state.page ? 'active' : '';
+    return `<a class="mobile-nav-link ${active}" href="${item.href}" aria-current="${active ? 'page' : 'false'}"><span class="mobile-nav-icon">${item.icon}</span><span class="mobile-nav-label">${escapeHtml(item.label)}</span></a>`;
   }).join('');
 }
 
@@ -124,6 +143,7 @@ function renderPage() {
     brain: renderBrain,
     workforce: renderWorkforce,
     systems: renderSystems,
+    weekly: renderWeekly,
   };
   content.innerHTML = (renderers[state.page] || renderOverview)();
 }
@@ -132,38 +152,73 @@ function renderOverview() {
   const today = todayTasks();
   const waiting = waitingTasks();
   const done = doneTasks();
-  const active = activeProjects();
+  const overdue = overdueTasks();
+  const dueSoon = dueSoonTasks();
+  const blocked = blockedProjects();
   const leads = topLeads();
   const decisions = state.data.decision_centre || [];
-  const mainItem = decisions[0] || today[0] || {};
+  const focusList = state.data.focus?.today || [];
+  const mainItem = focusList[0] || decisions[0] || today[0] || {};
+  const weekly = weeklyReviewData();
   const todayItems = [
-    ...today.slice(0, 2).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${task.priority || 'medium'}` })),
+    ...today.slice(0, 2).map(task => ({ title: task.title, detail: taskSummary(task) })),
     ...leads.slice(0, 1).map(lead => ({ title: lead.name, detail: shortText(lead.next_action || 'Next sales move.', 58) }))
   ].slice(0, 3);
-  const waitingItems = [
-    ...waiting.slice(0, 3).map(task => ({ title: task.title, detail: shortText(task.notes || task.project || 'Waiting.', 62) }))
-  ];
-  const doneItems = [
-    ...done.slice(0, 3).map(task => ({ title: task.title, detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 52)}` }))
+  const waitingItems = waiting.slice(0, 3).map(task => ({
+    title: task.title,
+    detail: shortText(waitingOnText(task) || task.notes || task.project || 'Waiting.', 62)
+  }));
+  const doneItems = done.slice(0, 3).map(task => ({
+    title: task.title,
+    detail: `${task.project || 'General'} · ${shortText(task.notes || 'Done.', 52)}`
+  }));
+  const priorityBuckets = [
+    { title: 'Do now', detail: shortText(mainItem.do_now || mainItem.next_action || mainItem.notes || 'Choose the highest-leverage move.', 84), tone: 'red' },
+    { title: 'Do later', detail: waiting[0] ? shortText(waiting[0].title, 84) : 'Nothing intentionally waiting.', tone: 'blue' },
+    { title: 'Ignore today', detail: shortText((weekly.stop_doing || [])[0]?.title || state.data.company_brain?.ignore_for_now?.[0]?.title || 'Keep low-conviction work out of the way.', 84), tone: 'green' }
   ];
 
   return `
-    <section class="stats-grid stats-grid-4">
+    <section class="action-strip">
+      ${actionCard(
+        'Primary action',
+        mainItem.title || 'No main action loaded.',
+        shortText(mainItem.do_now || mainItem.next_action || mainItem.notes || 'Nothing urgent is loaded right now.', 122),
+        [
+          mainItem.timebox ? chip(mainItem.timebox, 'amber') : '',
+          mainItem.confidence ? chip(mainItem.confidence, 'green') : '',
+          overdue.length ? chip(`${overdue.length} overdue`, 'red') : chip('No overdue tasks', 'green')
+        ].join(''),
+        './tasks.html',
+        'Open tasks',
+        'red'
+      )}
+      <div class="action-strip-side">
+        ${actionMiniCard('Deadline watch', overdue[0] ? overdue[0].title : (dueSoon[0] ? dueSoon[0].title : 'No deadline pressure right now.'), overdue[0] ? dueLabel(overdue[0]) : (dueSoon[0] ? dueLabel(dueSoon[0]) : 'Clear'), overdue[0] ? 'red' : 'amber')}
+        ${actionMiniCard('Waiting on', waiting[0] ? waiting[0].title : (blocked[0]?.name || 'Nothing blocked right now.'), waiting[0] ? shortText(waitingOnText(waiting[0]) || waiting[0].notes || 'Queued for later.', 72) : shortText(blocked[0]?.blocker || 'No live blockers.', 72), waiting[0] || blocked[0] ? 'blue' : 'green')}
+      </div>
+    </section>
+
+    <section class="stats-grid stats-grid-4 section-gap">
       ${statCard('Now', shortText(state.data.command_header?.primary_goal || 'No primary goal set', 52), shortText(state.data.workspace?.status || 'Operating system online.', 64), 'red')}
       ${statCard('Today', `${today.length} focus`, today[0] ? shortText(today[0].title, 60) : 'Nothing queued.', 'amber')}
       ${statCard('Waiting', `${waiting.length} queued`, waiting[0] ? shortText(waiting[0].title, 60) : 'Nothing waiting.', 'blue')}
       ${statCard('Done', `${done.length} complete`, done[0] ? shortText(done[0].title, 60) : 'Nothing marked done.', 'green')}
     </section>
 
+    <section class="grid-3 section-gap decision-buckets">
+      ${priorityBuckets.map(bucket => `<article class="card bucket-card bucket-${bucket.tone}"><h3>${escapeHtml(bucket.title)}</h3><p>${escapeHtml(bucket.detail)}</p></article>`).join('')}
+    </section>
+
     <section class="grid-3 section-gap">
       ${featurePanel('Today', `
         ${focusBlock(
           mainItem.title || 'No top item loaded.',
-          shortText(mainItem.next_action || mainItem.notes || 'Nothing urgent is loaded right now.', 108),
+          shortText(mainItem.outcome || mainItem.do_now || mainItem.next_action || 'Nothing urgent is loaded right now.', 108),
           [
-            mainItem.impact ? chip(mainItem.impact, 'red') : '',
-            today[0]?.due ? chip(`Due ${today[0].due}`, 'amber') : '',
-            active.length ? chip(`${active.length} active projects`, 'purple') : ''
+            mainItem.timebox ? chip(mainItem.timebox, 'amber') : '',
+            dueSoon[0] ? chip(dueLabel(dueSoon[0]), 'amber') : '',
+            blocked.length ? chip(`${blocked.length} blocked projects`, 'purple') : ''
           ].join('')
         )}
         ${miniList(todayItems, 'Nothing open right now.')}
@@ -176,6 +231,19 @@ function renderOverview() {
       `)}
     </section>
 
+    <section class="grid-2 section-gap">
+      ${panel('Weekly review', `
+        ${miniList((weekly.this_week || []).slice(0, 3).map(item => ({
+          title: item.title,
+          detail: shortText(item.detail || item.why || '', 88)
+        })), 'No weekly priorities loaded.')}
+      `)}
+      ${panel('Risks to watch', listMarkup((weekly.risks || []).slice(0, 3).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || item.trigger || '', 88)
+      })), 'No active risks loaded.'))}
+    </section>
+
     <section class="section-gap quick-access-shell">
       <div class="section-head">
         <div>
@@ -186,10 +254,10 @@ function renderOverview() {
       <div class="launcher-grid launcher-grid-compact">
         ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
         ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${leads.length} leads`)}
-        ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${active.length} active`)}
+        ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${activeProjects().length} active`)}
         ${launcherCard('./tasks.html', 'Tasks', 'Today, waiting, done.', 'amber', `${today.length} today`)}
+        ${launcherCard('./guide.html', 'Weekly review', 'Wins, risks, and priorities.', 'green', `${(weekly.this_week || []).length} priorities`)}
         ${launcherCard('./brain.html', 'Brain', 'Briefings and recs.', 'green', `${(state.data.company_brain?.recommendations || []).length} recs`)}
-        ${launcherCard('./workforce.html', 'Workforce', 'Agent health.', 'purple', `${(state.data.ai_workforce || []).length} agents`)}
       </div>
     </section>
   `;
@@ -254,10 +322,18 @@ function renderSales() {
 
 function renderProjects() {
   const projects = state.data.projects || [];
+  const blocked = blockedProjects().length;
+  const healthy = projects.filter(project => !hasMeaningfulBlocker(project)).length;
   return `
-    <section class="grid-2">
+    <section class="stats-grid stats-grid-4">
+      ${statCard('Active', String(activeProjects().length), 'Projects still moving.', 'blue')}
+      ${statCard('Blocked', String(blocked), blocked ? 'Needs attention.' : 'No active blockers.', blocked ? 'red' : 'green')}
+      ${statCard('Healthy', String(healthy), 'Clear next steps.', 'green')}
+      ${statCard('Completed', String(completedProjects().length), 'Live or done.', 'amber')}
+    </section>
+    <section class="grid-2 section-gap">
       ${projects.map(project => `
-        <article class="card">
+        <article class="card ${hasMeaningfulBlocker(project) ? 'project-blocked' : ''}">
           <div class="section-head">
             <div>
               <h3>${escapeHtml(project.name)}</h3>
@@ -268,9 +344,13 @@ function renderProjects() {
           <span class="metric-value">${escapeHtml(String(project.completion || 0))}%</span>
           <p class="metric-note">${escapeHtml(shortText(project.focus || 'No focus set.', 88))}</p>
           <div class="progress-bar"><span style="width:${Number(project.completion || 0)}%"></span></div>
+          <div class="chip-row project-chip-row" style="margin-top:12px;">
+            ${project.eta ? chip(project.eta, 'amber') : ''}
+            ${hasMeaningfulBlocker(project) ? chip('Blocked', 'red') : chip('Clear next step', 'green')}
+          </div>
           <div class="list project-detail-list" style="margin-top:14px;">
             <div class="list-item"><strong>Next milestone</strong><p>${escapeHtml(shortText(project.next_milestone || 'None set.', 84))}</p></div>
-            <div class="list-item"><strong>Blocker</strong><p>${escapeHtml(shortText(project.blocker || 'No blocker noted.', 84))}</p></div>
+            <div class="list-item ${hasMeaningfulBlocker(project) ? 'list-item-alert' : ''}"><strong>Blocker</strong><p>${escapeHtml(shortText(project.blocker || 'No blocker noted.', 84))}</p></div>
             <div class="list-item"><strong>Next step</strong><p>${escapeHtml(shortText(project.next_step || 'No next step set.', 84))}</p></div>
           </div>
         </article>
@@ -283,13 +363,22 @@ function renderTasks() {
   const today = todayTasks();
   const waiting = waitingTasks();
   const done = doneTasks();
-  const high = state.tasks.filter(task => isTodayStatus(task.status) && task.priority === 'high').length;
+  const overdue = overdueTasks();
+  const dueSoon = dueSoonTasks();
   return `
     <section class="stats-grid stats-grid-4">
       ${statCard('Today', String(today.length), 'Do these now.', 'red')}
+      ${statCard('Overdue', String(overdue.length), overdue.length ? 'Needs clearing first.' : 'Nothing overdue.', overdue.length ? 'red' : 'green')}
       ${statCard('Waiting', String(waiting.length), 'Queued for later.', 'blue')}
       ${statCard('Done', String(done.length), 'Completed here.', 'green')}
-      ${statCard('High priority', String(high), 'The most urgent work.', 'amber')}
+    </section>
+    <section class="panel section-gap task-summary-panel">
+      <div class="section-head"><div><h3>What needs movement</h3><p>See the tasks that are late, due soon, or waiting on something else.</p></div></div>
+      <div class="grid-3 task-summary-grid">
+        ${summaryListCard('Overdue', overdue.slice(0, 3).map(task => ({ title: task.title, detail: dueLabel(task) })), 'Nothing overdue.', 'red')}
+        ${summaryListCard('Due soon', dueSoon.slice(0, 3).map(task => ({ title: task.title, detail: dueLabel(task) })), 'No near-term deadlines.', 'amber')}
+        ${summaryListCard('Waiting on', waiting.slice(0, 3).map(task => ({ title: task.title, detail: shortText(waitingOnText(task) || task.notes || 'Queued for later.', 72) })), 'Nothing intentionally waiting.', 'blue')}
+      </div>
     </section>
     <section class="grid-3 section-gap task-board">
       ${taskColumn('Today', today, 'Do these now.', 'red')}
@@ -390,14 +479,64 @@ function renderSystems() {
   `;
 }
 
+function renderWeekly() {
+  const weekly = weeklyReviewData();
+  return `
+    <section class="grid-2">
+      ${featurePanel('This week', `
+        ${focusBlock(
+          weekly.headline || 'Weekly review',
+          shortText(weekly.summary || 'Focus on the highest-leverage work and keep distractions out.', 120),
+          [
+            weekly.theme ? chip(weekly.theme, 'purple') : '',
+            weekly.score ? chip(weekly.score, 'green') : ''
+          ].join('')
+        )}
+        ${miniList((weekly.this_week || []).map(item => ({
+          title: item.title,
+          detail: shortText(item.detail || item.why || '', 92)
+        })), 'No weekly priorities loaded.')}
+      `)}
+      ${featurePanel('Wins', miniList((weekly.wins || []).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || '', 92)
+      })), 'No wins logged yet.'))}
+    </section>
+    <section class="grid-2 section-gap">
+      ${panel('Risks', listMarkup((weekly.risks || []).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || item.trigger || '', 94)
+      })), 'No active risks loaded.'))}
+      ${panel('Stop doing', listMarkup((weekly.stop_doing || []).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || item.until || '', 94)
+      })), 'Nothing needs to be cut right now.'))}
+    </section>
+    <section class="grid-2 section-gap">
+      ${panel('Keep an eye on', listMarkup((weekly.watch || []).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || item.trigger || '', 94)
+      })), 'No watch items loaded.'))}
+      ${panel('Next reset questions', listMarkup((weekly.review_questions || []).map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || '', 94)
+      })), 'No review prompts loaded.'))}
+    </section>
+  `;
+}
+
 function taskColumn(title, tasks, note, tone) {
   const items = tasks.length ? `<div class="list">${tasks.map(task => `
-    <div class="list-item task-card ${taskUrgencyClass(task)}">
-      <strong>${escapeHtml(task.title)}</strong>
+    <div class="list-item task-card ${taskUrgencyClass(task)} ${taskTimingClass(task)}">
+      <div class="task-card-top">
+        <strong>${escapeHtml(task.title)}</strong>
+        ${dueBadge(task)}
+      </div>
       <p>${escapeHtml(shortText(`${task.project || 'General'}${task.due ? ` · ${task.due}` : ''}`, 80))}</p>
       <div class="chip-row" style="margin-top:10px;">
         ${chip(capitalise(task.priority || 'medium'), badgeTone(task.priority || tone))}
         ${task.automation ? chip(shortText(task.automation, 30)) : ''}
+        ${waitingOnText(task) ? chip(shortText(waitingOnText(task), 28), 'blue') : ''}
       </div>
       <div class="task-actions">
         <button class="btn small" onclick="advanceTask(${indexOfTask(task.title)}, -1)">Back</button>
@@ -448,6 +587,95 @@ function doneTasks() {
   return state.tasks.filter(task => task.status === 'done');
 }
 
+function overdueTasks() {
+  return pendingTasks().filter(task => taskDueState(task).state === 'overdue');
+}
+
+function dueSoonTasks() {
+  return pendingTasks().filter(task => {
+    const state = taskDueState(task).state;
+    return state === 'today' || state === 'soon';
+  });
+}
+
+function blockedProjects() {
+  return (state.data.projects || []).filter(hasMeaningfulBlocker);
+}
+
+function hasMeaningfulBlocker(project) {
+  const blocker = String(project?.blocker || '').trim().toLowerCase();
+  if (!blocker) return false;
+  return !/^no major blocker|^no blocker|^none/.test(blocker);
+}
+
+function waitingOnText(task) {
+  return task.waiting_on || task.waitingOn || '';
+}
+
+function taskDueState(task) {
+  if (!task?.due) return { state: 'none', days: null };
+  const due = isoDateOnly(task.due);
+  const ref = todayKey();
+  if (!due || !ref) return { state: 'none', days: null };
+  const dueDate = new Date(`${due}T00:00:00Z`);
+  const refDate = new Date(`${ref}T00:00:00Z`);
+  const diffDays = Math.round((dueDate - refDate) / 86400000);
+  if (diffDays < 0) return { state: 'overdue', days: Math.abs(diffDays) };
+  if (diffDays === 0) return { state: 'today', days: 0 };
+  if (diffDays <= 2) return { state: 'soon', days: diffDays };
+  return { state: 'upcoming', days: diffDays };
+}
+
+function taskTimingClass(task) {
+  const state = taskDueState(task).state;
+  if (state === 'overdue') return 'is-overdue';
+  if (state === 'today' || state === 'soon') return 'is-due-soon';
+  return '';
+}
+
+function dueBadge(task) {
+  const label = dueLabel(task);
+  if (!label) return '';
+  const state = taskDueState(task).state;
+  const tone = state === 'overdue' ? 'red' : state === 'today' || state === 'soon' ? 'amber' : 'blue';
+  return chip(label, tone);
+}
+
+function dueLabel(task) {
+  const due = taskDueState(task);
+  if (due.state === 'overdue') return `Overdue ${due.days}d`;
+  if (due.state === 'today') return 'Due today';
+  if (due.state === 'soon') return `Due in ${due.days}d`;
+  if (due.state === 'upcoming') return `Due ${isoDateOnly(task.due)}`;
+  return task?.due ? `Due ${isoDateOnly(task.due)}` : '';
+}
+
+function taskSummary(task) {
+  return shortText(`${task.project || 'General'}${task.due ? ` · ${dueLabel(task)}` : ''}`, 72);
+}
+
+function weeklyReviewData() {
+  if (state.data.weekly_review) return state.data.weekly_review;
+  return {
+    headline: 'Weekly review',
+    summary: 'Keep the highest-leverage work moving and remove low-value distractions.',
+    this_week: todayTasks().slice(0, 3).map(task => ({ title: task.title, detail: taskSummary(task) })),
+    wins: doneTasks().slice(0, 3).map(task => ({ title: task.title, detail: task.notes || 'Completed.' })),
+    risks: blockedProjects().slice(0, 3).map(project => ({ title: project.name, detail: project.blocker || 'Blocked.' })),
+    stop_doing: (state.data.company_brain?.ignore_for_now || []).slice(0, 3),
+    watch: (state.data.company_brain?.watchlist || []).slice(0, 3),
+    review_questions: []
+  };
+}
+
+function isoDateOnly(value) {
+  const match = String(value || '').match(/\d{4}-\d{2}-\d{2}/);
+  return match ? match[0] : '';
+}
+
+function todayKey() {
+  return isoDateOnly(state.data?.generated_at) || new Date().toISOString().slice(0, 10);
+}
 function activeProjects() {
   return (state.data.projects || []).filter(project => !/done|complete|live/i.test(String(project.status || '')));
 }
@@ -462,6 +690,32 @@ function topLeads() {
 
 function decisionPriority() {
   return (state.data.decision_centre || [])[0]?.priority || 'blue';
+}
+
+function summaryListCard(title, items, emptyText, tone = 'blue') {
+  return `<article class="summary-list-card summary-${tone}"><h3>${escapeHtml(title)}</h3>${miniList(items, emptyText)}</article>`;
+}
+
+function actionCard(label, title, detail, chips = '', href = './tasks.html', cta = 'Open', tone = 'red') {
+  return `
+    <article class="card action-card action-${tone}">
+      <span class="hero-meta-label">${escapeHtml(label)}</span>
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(detail)}</p>
+      ${chips ? `<div class="chip-row">${chips}</div>` : ''}
+      <div class="action-cta-row"><a class="btn primary" href="${href}">${escapeHtml(cta)}</a></div>
+    </article>
+  `;
+}
+
+function actionMiniCard(label, title, detail, tone = 'blue') {
+  return `
+    <article class="card action-mini-card action-mini-${tone}">
+      <span class="hero-meta-label">${escapeHtml(label)}</span>
+      <strong>${escapeHtml(title)}</strong>
+      <p>${escapeHtml(detail)}</p>
+    </article>
+  `;
 }
 
 function statCard(title, value, note, tone = '') {

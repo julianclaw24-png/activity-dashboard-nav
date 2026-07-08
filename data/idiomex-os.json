@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-08T12:17:54+01:00",
+  "generated_at": "2026-07-08T12:32:16+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.1",
+    "version": "4.2",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Decision-first OS with focused pages.",
+    "status": "Decision-first OS with mobile dock and weekly review.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -47,7 +47,7 @@
     "business_health": "🟢 Healthy",
     "momentum": "High",
     "primary_goal": "Turn Cycle Matter into the reference install",
-    "recommended_after": "Open one page and stay focused."
+    "recommended_after": "Open the primary action, clear overdue items, then move on."
   },
   "decision_centre": [
     {
@@ -283,7 +283,8 @@
       "owner": "Navod",
       "automation": "Preserve attention",
       "due": "2026-07-03",
-      "notes": "Keep weak leads out of sight today."
+      "notes": "Keep weak leads out of sight today.",
+      "waiting_on": "Tomorrow morning re-rank"
     },
     {
       "title": "Define synced opportunity schema",
@@ -293,7 +294,8 @@
       "owner": "Navod",
       "automation": "Backend-ready contract",
       "due": "2026-07-06",
-      "notes": "Prepare the sync-ready data model."
+      "notes": "Prepare the sync-ready data model.",
+      "waiting_on": "Phase 5 backend scope"
     },
     {
       "title": "Define n8n email intake spec",
@@ -303,7 +305,8 @@
       "owner": "Navod",
       "automation": "Read-only inbox triage",
       "due": "2026-07-05",
-      "notes": "Set filters and escalation rules."
+      "notes": "Set filters and escalation rules.",
+      "waiting_on": "Inbox rule decisions"
     }
   ],
   "products": {
@@ -1132,6 +1135,92 @@
         "next_action": "Keep deferred until the filtered workflow proves insufficient.",
         "guardrail": "Broader exposure and trust requirement than the n8n-first design.",
         "owner": "Navod"
+      }
+    ]
+  },
+  "weekly_review": {
+    "headline": "Keep leverage high and noise low.",
+    "summary": "This week is about turning current wins into repeatable systems while keeping attention on revenue and delivery.",
+    "theme": "Template leverage",
+    "score": "Good week if template + proposal move",
+    "this_week": [
+      {
+        "title": "Package Cycle Matter into the onboarding template",
+        "detail": "Capture the exact working setup, files, guardrails, and validation flow while the install is still fresh."
+      },
+      {
+        "title": "Send the XYZ Accountants proposal",
+        "detail": "Prioritise the clearest path to near-term revenue before starting new outreach."
+      },
+      {
+        "title": "Define the inbox gate",
+        "detail": "Decide which email events reach Mission Control so the OS only sees actionable signals."
+      }
+    ],
+    "wins": [
+      {
+        "title": "Cycle Matter docs completed",
+        "detail": "The knowledge layer is complete and ready to be turned into a repeatable onboarding asset."
+      },
+      {
+        "title": "Agent validated in live use",
+        "detail": "The current install has moved beyond theory, which makes it much easier to templatise."
+      },
+      {
+        "title": "Hermes backup remains healthy",
+        "detail": "Core business operating data is still protected and current."
+      }
+    ],
+    "risks": [
+      {
+        "title": "Proposal delay",
+        "detail": "If the proposal slips again, the fastest revenue move this week weakens."
+      },
+      {
+        "title": "Attention fragmentation",
+        "detail": "Lower-fit leads and extra UI polishing can quietly steal momentum from the two real priorities."
+      },
+      {
+        "title": "Inbox noise entering too early",
+        "detail": "Raw mailbox visibility before triage rules are defined would reduce clarity inside Mission Control."
+      }
+    ],
+    "stop_doing": [
+      {
+        "title": "Do not touch weak leads today",
+        "detail": "Keep the wider lead list out of sight until the top opportunities move."
+      },
+      {
+        "title": "Do not over-polish the OS",
+        "detail": "Only ship changes that make the dashboard more actionable or easier to operate."
+      }
+    ],
+    "watch": [
+      {
+        "title": "Cycle Matter reference-install quality",
+        "detail": "Watch whether the install pack is good enough to become the default template."
+      },
+      {
+        "title": "MTD/accountant offer clarity",
+        "detail": "The sales lane stays strong only if the offer and proposal stay sharp and simple."
+      },
+      {
+        "title": "Inbox intelligence design",
+        "detail": "Review whether n8n routing rules are tight enough before exposing more signals."
+      }
+    ],
+    "review_questions": [
+      {
+        "title": "What created leverage this week?",
+        "detail": "Look for moves that became reusable, not just moves that felt busy."
+      },
+      {
+        "title": "What is still waiting on a decision?",
+        "detail": "Surface the blocked items that need owner input so they do not sit silently."
+      },
+      {
+        "title": "What should be intentionally ignored next week?",
+        "detail": "Protect attention by cutting low-conviction work before it re-enters the queue."
       }
     ]
   }
