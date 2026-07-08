@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-08T12:47:57+01:00",
+  "generated_at": "2026-07-08T11:50:05+00:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.2",
+    "version": "4.3",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Decision-first OS with mobile dock and weekly review.",
+    "status": "Cleaner OS with CEO briefing and agent run history.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -1221,6 +1221,206 @@
       {
         "title": "What should be intentionally ignored next week?",
         "detail": "Protect attention by cutting low-conviction work before it re-enters the queue."
+      }
+    ]
+  },
+  "daily_ceo_briefing": {
+    "date_label": "08 July",
+    "business_health": "Healthy",
+    "headline": "Finish the leverage moves before opening new loops.",
+    "summary": "Today is about capturing the Cycle Matter install into a reusable template, sending the live proposal, and keeping lower-value work out of sight.",
+    "scoreboard": [
+      {
+        "label": "Main move",
+        "value": "Cycle Matter template",
+        "note": "Turn the validated install into the repeatable onboarding pack.",
+        "tone": "red"
+      },
+      {
+        "label": "Revenue move",
+        "value": "XYZ proposal",
+        "note": "Strongest near-term cash opportunity still open.",
+        "tone": "amber"
+      },
+      {
+        "label": "Business health",
+        "value": "Healthy",
+        "note": "Core systems are online and moving.",
+        "tone": "green"
+      },
+      {
+        "label": "Agent pressure",
+        "value": "1 alert",
+        "note": "One workforce bottleneck needs owner attention.",
+        "tone": "purple"
+      }
+    ],
+    "priorities": [
+      {
+        "title": "Package Cycle Matter into the onboarding template",
+        "detail": "Capture the working setup, files, guardrails, and verification steps while the install is still fresh.",
+        "timebox": "60–90m"
+      },
+      {
+        "title": "Send the XYZ Accountants proposal",
+        "detail": "Get the strongest revenue move out before starting new outreach.",
+        "timebox": "35m"
+      },
+      {
+        "title": "Keep weak leads and inbox noise out of sight",
+        "detail": "Protect attention so the day does not turn into reactive work.",
+        "timebox": "All day"
+      }
+    ],
+    "decisions": [
+      {
+        "title": "Template first, polish second",
+        "detail": "Do not spend more time decorating the OS until the reusable onboarding pack is captured.",
+        "owner": "Navod"
+      },
+      {
+        "title": "Proposal before prospecting",
+        "detail": "A live proposal beats more list-building today.",
+        "owner": "Sales Agent"
+      },
+      {
+        "title": "Inbox stays gated through n8n",
+        "detail": "Keep raw mailbox access out of Mission Control and only pass filtered signals through.",
+        "owner": "Inbox Triage Agent"
+      }
+    ],
+    "wins": [
+      {
+        "title": "Cycle Matter docs are complete",
+        "detail": "The knowledge layer is no longer the bottleneck."
+      },
+      {
+        "title": "Hermes backup is healthy",
+        "detail": "Core Hermes data protection is current and stable."
+      },
+      {
+        "title": "Mission Control now has a cleaner operating surface",
+        "detail": "The OS is moving toward scan-first usage instead of document-style reading."
+      }
+    ],
+    "risks": [
+      {
+        "title": "Weak leads fragment attention",
+        "detail": "The lower-fit lead pool will steal time unless it stays hidden.",
+        "trigger": "Opening broad outreach before the proposal is sent"
+      },
+      {
+        "title": "Template capture gets delayed",
+        "detail": "If the install pattern is not documented now, future onboarding will stay slower and messier.",
+        "trigger": "More UI work before template capture"
+      },
+      {
+        "title": "Inbox visibility expands too early",
+        "detail": "Raw email noise will dilute the company brain if gating rules are not designed first.",
+        "trigger": "Mailbox access before n8n filters are defined"
+      }
+    ],
+    "done_recently": [
+      {
+        "title": "Cycle Matter knowledge docs finished",
+        "detail": "The core client context is ready and tested.",
+        "time": "Yesterday"
+      },
+      {
+        "title": "Mobile-first Mission Control cleanup shipped",
+        "detail": "Bottom navigation and stronger action surfaces are live.",
+        "time": "Earlier today"
+      },
+      {
+        "title": "Weekly review page added",
+        "detail": "The OS now has a dedicated weekly reset instead of mixing it into the homepage.",
+        "time": "Earlier today"
+      }
+    ],
+    "next_checks": [
+      {
+        "title": "Check template pack draft",
+        "detail": "Confirm the onboarding pack captures setup, safety rules, and validation.",
+        "when": "After the first 90m block"
+      },
+      {
+        "title": "Check proposal sent status",
+        "detail": "Do not end the day with the proposal still sitting in draft.",
+        "when": "Before lunch"
+      },
+      {
+        "title": "Check agent alert queue",
+        "detail": "Review whether any workforce bottlenecks still need owner input.",
+        "when": "End of day"
+      }
+    ]
+  },
+  "agent_activity": {
+    "summary": "A clean run log for what agents just did, what is queued next, and what needs owner attention.",
+    "recent_runs": [
+      {
+        "agent": "Developer Agent",
+        "status": "Completed",
+        "job": "Ship cleaner Mission Control surfaces",
+        "finished": "just now",
+        "outcome": "Overview repetition removed and CEO/run-history layer added."
+      },
+      {
+        "agent": "CEO Agent",
+        "status": "Completed",
+        "job": "Re-rank today's highest-leverage moves",
+        "finished": "10 min ago",
+        "outcome": "Cycle Matter template and XYZ proposal remain the top 2 moves."
+      },
+      {
+        "agent": "Sales Agent",
+        "status": "In progress",
+        "job": "Prepare XYZ Accountants proposal send pack",
+        "finished": "15 min ago",
+        "outcome": "Pricing and offer framing are ready for owner send-off."
+      },
+      {
+        "agent": "Research Agent",
+        "status": "Completed",
+        "job": "Watch MTD-aligned opportunities",
+        "finished": "25 min ago",
+        "outcome": "Three high-fit accountant opportunities remain the strongest lane."
+      },
+      {
+        "agent": "Finance Agent",
+        "status": "Completed",
+        "job": "Check backup and pipeline health",
+        "finished": "today",
+        "outcome": "Backup healthy and revenue pipeline intact."
+      }
+    ],
+    "queue": [
+      {
+        "title": "Inbox gating spec",
+        "detail": "Inbox Triage Agent to map the n8n-first routing rules for actionable email only.",
+        "when": "Later today"
+      },
+      {
+        "title": "Opportunity schema draft",
+        "detail": "Developer Agent to define the backend-ready synced opportunity model.",
+        "when": "This week"
+      },
+      {
+        "title": "Template case-study pass",
+        "detail": "Marketing Agent to turn Cycle Matter into sellable proof once the pack exists.",
+        "when": "After template capture"
+      }
+    ],
+    "alerts": [
+      {
+        "title": "Proposal still depends on owner send-off",
+        "detail": "Sales prep is ready, but Navod still needs to press send on the live proposal.",
+        "owner": "Navod"
+      },
+      {
+        "title": "Inbox Triage Agent is still planned, not live",
+        "detail": "Email intelligence remains a design lane until the n8n gate is defined.",
+        "owner": "Inbox Triage Agent"
       }
     ]
   }

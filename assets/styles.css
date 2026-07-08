@@ -643,3 +643,5 @@ button, input { font: inherit; }
     border-radius: 18px;
   }
 }
+
+body:not([data-page="overview"]) .hero { display: none; }

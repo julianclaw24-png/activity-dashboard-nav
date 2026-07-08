@@ -37,11 +37,16 @@ const PAGE_CONFIG = {
   weekly: {
     title: 'Weekly Review',
     description: 'A clean weekly reset: wins, risks, priorities, and what to stop.'
+  },
+  ceo: {
+    title: 'Daily CEO Briefing',
+    description: 'The clean daily brief: priorities, decisions, risks, wins, and what moved.'
   }
 };
 
 const NAV_ITEMS = [
   { id: 'overview', href: './index.html', label: 'Overview', icon: '✦' },
+  { id: 'ceo', href: './ceo.html', label: 'CEO', icon: '♛' },
   { id: 'attention', href: './attention.html', label: 'Attention', icon: '!' },
   { id: 'sales', href: './sales.html', label: 'Sales', icon: '◎' },
   { id: 'projects', href: './projects.html', label: 'Projects', icon: '▣' },
@@ -144,6 +149,7 @@ function renderPage() {
     workforce: renderWorkforce,
     systems: renderSystems,
     weekly: renderWeekly,
+    ceo: renderCEO,
   };
   content.innerHTML = (renderers[state.page] || renderOverview)();
 }
@@ -252,6 +258,7 @@ function renderOverview() {
         </div>
       </div>
       <div class="launcher-grid launcher-grid-compact">
+        ${launcherCard('./ceo.html', 'Daily CEO brief', 'Priorities, risks, wins, and decisions.', 'red', `${(ceoBriefData().priorities || []).length} priorities`)}
         ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
         ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${leads.length} leads`)}
         ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${activeProjects().length} active`)}
@@ -419,12 +426,79 @@ function renderBrain() {
   `;
 }
 
+function renderCEO() {
+  const brief = ceoBriefData();
+  const priorities = brief.priorities || [];
+  const decisions = brief.decisions || [];
+  const wins = brief.wins || [];
+  const risks = brief.risks || [];
+  const done = brief.done_recently || [];
+  const checks = brief.next_checks || [];
+  const score = brief.scoreboard || [];
+  const chips = [
+    brief.date_label ? chip(brief.date_label, 'blue') : '',
+    priorities[0]?.timebox ? chip(priorities[0].timebox, 'amber') : '',
+    brief.business_health ? chip(brief.business_health, badgeTone(brief.business_health)) : ''
+  ].join('');
+  return `
+    <section class="stats-grid stats-grid-4">
+      ${score.map(item => statCard(item.label || 'Metric', String(item.value || '—'), shortText(item.note || '', 58), badgeTone(item.tone || item.value || 'blue'))).join('')}
+    </section>
+    <section class="grid-2 section-gap">
+      ${featurePanel('Daily brief', focusBlock(
+        brief.headline || 'No CEO briefing loaded.',
+        shortText(brief.summary || 'Nothing loaded yet.', 132),
+        chips
+      ))}
+      ${featurePanel('Top priorities', miniList(priorities.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || item.why || ''}${item.timebox ? ` · ${item.timebox}` : ''}`, 96)
+      })), 'No priorities loaded.'))}
+    </section>
+    <section class="grid-2 section-gap">
+      ${panel('Key decisions today', listMarkup(decisions.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || item.next_action || ''}${item.owner ? ` · ${item.owner}` : ''}`, 100)
+      })), 'No decisions loaded.'))}
+      ${panel('Done recently', listMarkup(done.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || ''}${item.time ? ` · ${item.time}` : ''}`, 100)
+      })), 'Nothing completed yet.'))}
+    </section>
+    <section class="grid-2 section-gap">
+      ${panel('Wins', listMarkup(wins.map(item => ({
+        title: item.title,
+        detail: shortText(item.detail || '', 100)
+      })), 'No wins loaded.'))}
+      ${panel('Risks to watch', listMarkup(risks.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || ''}${item.trigger ? ` · Trigger: ${item.trigger}` : ''}`, 100)
+      })), 'No risks loaded.'))}
+    </section>
+    <section class="section-gap">
+      ${panel('Next checks', listMarkup(checks.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || ''}${item.when ? ` · ${item.when}` : ''}`, 104)
+      })), 'No next checks loaded.'))}
+    </section>
+  `;
+}
+
 function renderWorkforce() {
   const workforce = state.data.ai_workforce || [];
   const room = state.data.workforce_room || {};
+  const activity = agentActivityData();
+  const online = workforce.filter(agent => /(online|active|healthy)/i.test(String(agent.status || ''))).length;
+  const planned = workforce.filter(agent => /(planned|design|tbd)/i.test(String(agent.status || '') + ' ' + String(agent.performance || ''))).length;
+  const alerts = activity.alerts || [];
+  const recentRuns = activity.recent_runs || [];
+  const queue = activity.queue || [];
   return `
-    <section class="stats-grid">
-      ${workforce.map(agent => `<article class="stat"><h3>${escapeHtml(agent.name)}</h3><span class="stat-value">${escapeHtml(agent.status || 'Unknown')}</span><p class="metric-note">${escapeHtml(shortText(agent.current_job || agent.mode || '', 52))}</p></article>`).join('')}
+    <section class="stats-grid stats-grid-4">
+      ${statCard('Online', `${online}/${workforce.length || 0}`, 'Agents currently available.', online === workforce.length ? 'green' : 'amber')}
+      ${statCard('Planned', String(planned), planned ? 'Still not fully live.' : 'Everything mapped is live.', planned ? 'purple' : 'green')}
+      ${statCard('Alerts', String(alerts.length), alerts[0] ? shortText(alerts[0].title, 54) : 'No agent alerts.', alerts.length ? 'red' : 'green')}
+      ${statCard('Recent runs', String(recentRuns.length), recentRuns[0] ? shortText(recentRuns[0].job || recentRuns[0].outcome || 'Recent run logged.', 54) : 'No runs logged.', 'blue')}
     </section>
     <section class="grid-2 section-gap">
       ${panel('Agent health', listMarkup(workforce.map(agent => ({
@@ -435,6 +509,22 @@ function renderWorkforce() {
         title: agent.name,
         detail: shortText(`${agent.intervention || 'No intervention'}${agent.current_focus ? ` · ${agent.current_focus}` : ''}`, 96)
       })), 'No workforce items loaded.'))}
+    </section>
+    <section class="grid-2 section-gap">
+      ${panel('Run history', listMarkup(recentRuns.map(run => ({
+        title: `${run.agent} · ${run.status || 'Run logged'}`,
+        detail: shortText(`${run.job || ''}${run.finished ? ` · ${run.finished}` : ''}${run.outcome ? ` · ${run.outcome}` : ''}`, 104)
+      })), 'No agent runs logged.'))}
+      ${panel('Next up', listMarkup(queue.map(item => ({
+        title: item.title || item.agent || 'Queued work',
+        detail: shortText(`${item.detail || item.job || ''}${item.when ? ` · ${item.when}` : ''}`, 104)
+      })), 'No queued runs loaded.'))}
+    </section>
+    <section class="section-gap">
+      ${panel('Agent alerts', listMarkup(alerts.map(item => ({
+        title: item.title,
+        detail: shortText(`${item.detail || ''}${item.owner ? ` · ${item.owner}` : ''}`, 104)
+      })), 'No alerts right now.'))}
     </section>
   `;
 }
@@ -652,6 +742,31 @@ function dueLabel(task) {
 
 function taskSummary(task) {
   return shortText(`${task.project || 'General'}${task.due ? ` · ${dueLabel(task)}` : ''}`, 72);
+}
+
+
+function ceoBriefData() {
+  if (state.data.daily_ceo_briefing) return state.data.daily_ceo_briefing;
+  return {
+    headline: state.data.command_header?.primary_goal || 'Daily CEO briefing',
+    summary: state.data.workspace?.status || 'No briefing loaded.',
+    priorities: todayTasks().slice(0, 3).map(task => ({ title: task.title, detail: taskSummary(task) })),
+    decisions: (state.data.decision_centre || []).slice(0, 3).map(item => ({ title: item.title, detail: item.next_action || item.impact || '' })),
+    wins: doneTasks().slice(0, 3).map(task => ({ title: task.title, detail: task.notes || 'Completed.' })),
+    risks: blockedProjects().slice(0, 3).map(project => ({ title: project.name, detail: project.blocker || 'Blocked.' })),
+    done_recently: doneTasks().slice(0, 3).map(task => ({ title: task.title, detail: task.notes || 'Completed.' })),
+    next_checks: [],
+    scoreboard: []
+  };
+}
+
+function agentActivityData() {
+  if (state.data.agent_activity) return state.data.agent_activity;
+  return {
+    recent_runs: [],
+    queue: [],
+    alerts: []
+  };
 }
 
 function weeklyReviewData() {
