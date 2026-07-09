@@ -740,3 +740,29 @@ body:not([data-page="overview"]) .hero { display: none; }
     align-items: stretch;
   }
 }
+
+
+.lead-card-blocked {
+  border-color: #fecaca;
+}
+
+.lead-chip-row {
+  margin-top: 10px;
+}
+
+.lead-primary-grid,
+.lead-detail-grid {
+  align-items: stretch;
+}
+
+.list-item-action {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+@media (max-width: 1080px) {
+  .lead-detail-grid,
+  .lead-primary-grid {
+    grid-template-columns: 1fr;
+  }
+}

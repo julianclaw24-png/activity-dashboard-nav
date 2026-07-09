@@ -17,6 +17,10 @@ const PAGE_CONFIG = {
     title: 'Sales',
     description: 'Best opportunities and next moves.'
   },
+  leads: {
+    title: 'Leads',
+    description: 'Everything important about each lead in one place.'
+  },
   projects: {
     title: 'Projects',
     description: 'Active work, progress, blockers, and due risk.'
@@ -52,6 +56,7 @@ const NAV_ITEMS = [
   { id: 'ceo', href: './ceo.html', label: 'CEO', icon: '♛' },
   { id: 'attention', href: './attention.html', label: 'Attention', icon: '!' },
   { id: 'sales', href: './sales.html', label: 'Sales', icon: '◎' },
+  { id: 'leads', href: './leads.html', label: 'Leads', icon: '◌' },
   { id: 'projects', href: './projects.html', label: 'Projects', icon: '▣' },
   { id: 'tasks', href: './tasks.html', label: 'Tasks', icon: '→' },
   { id: 'weekly', href: './guide.html', label: 'Weekly', icon: '☰' },
@@ -219,6 +224,7 @@ function renderPage() {
     overview: renderOverview,
     attention: renderAttention,
     sales: renderSales,
+    leads: renderLeads,
     projects: renderProjects,
     tasks: renderTasks,
     brain: renderBrain,
@@ -295,6 +301,7 @@ function renderOverview() {
         ${launcherCard('./ceo.html', 'Daily CEO brief', 'Priorities, risks, wins, decisions, and changes.', 'red', `${(ceoBriefData().priorities || []).length} priorities`)}
         ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
         ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${topLeads().length} leads`)}
+        ${launcherCard('./leads.html', 'Leads', 'Lead memory and context.', 'purple', `${topLeads().length} dossiers`)}
         ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${activeProjects().length} active`)}
         ${launcherCard('./tasks.html', 'Tasks', 'Today, waiting, done.', 'amber', `${today.length} today`)}
         ${launcherCard('./workforce.html', 'Workforce', 'Runs, queue, and alerts.', 'green', `${(agentActivityData().recent_runs || []).length} runs`)}
@@ -356,6 +363,27 @@ function renderSales() {
           `).join('')}
         </div>
       `)}
+    </section>
+    <section class="section-gap">
+      ${panel('Lead memory', `<div class="list"><div class="list-item"><strong>Open the Leads page</strong><p>Use the new Leads page for richer context, fit notes, blockers, source, and follow-up detail on every lead.</p><div class="action-cta-row"><a class="btn small primary" href="./leads.html">Open Leads</a></div></div></div>`)}
+    </section>
+  `;
+}
+
+function renderLeads() {
+  const leads = topLeads();
+  const hot = leads.filter(lead => /(hot|active)/i.test(String(lead.health || '') + ' ' + String(lead.stage || ''))).length;
+  const blocked = leads.filter(lead => hasMeaningfulLeadBlocker(lead)).length;
+  const proposals = leads.filter(lead => /proposal/i.test(String(lead.stage || ''))).length;
+  return `
+    <section class="stats-grid stats-grid-4">
+      ${statCard('Total leads', String(leads.length), 'Tracked in Mission Control.', 'blue')}
+      ${statCard('Hot', String(hot), hot ? 'Strong immediate attention.' : 'No hot leads right now.', hot ? 'red' : 'green')}
+      ${statCard('Proposal stage', String(proposals), proposals ? 'Closest to cash.' : 'Nothing at proposal stage.', proposals ? 'amber' : 'blue')}
+      ${statCard('Blocked', String(blocked), blocked ? 'Need unblock or follow-up.' : 'No material blockers.', blocked ? 'red' : 'green')}
+    </section>
+    <section class="grid-2 section-gap">
+      ${leads.map(lead => leadCard(lead)).join('')}
     </section>
   `;
 }
@@ -647,6 +675,61 @@ function renderWeekly() {
         detail: shortText(item.detail || '', 94)
       })), 'No review prompts loaded.'))}
     </section>
+  `;
+}
+
+function hasMeaningfulLeadBlocker(lead) {
+  const blocker = String(lead?.blocker || '').trim().toLowerCase();
+  if (!blocker) return false;
+  return !/^no major blocker|^no blocker|^none/.test(blocker);
+}
+
+function leadSummaryLine(lead) {
+  return shortText(`${lead.buyer || 'Lead'}${lead.company_size ? ` · ${lead.company_size}` : ''}${lead.expected_value ? ` · ${lead.expected_value}` : ''}`, 92);
+}
+
+function leadDetailItem(label, value, tone = '') {
+  if (!value) return '';
+  const toneClass = tone ? ` list-item-${tone}` : '';
+  return `<div class="list-item${toneClass}"><strong>${escapeHtml(label)}</strong><p>${escapeHtml(shortText(String(value), 220))}</p></div>`;
+}
+
+function leadCard(lead) {
+  const chips = [
+    chip(lead.stage || 'Unknown', badgeTone(lead.health || 'blue')),
+    lead.health ? chip(lead.health, badgeTone(lead.health)) : '',
+    lead.expected_value ? chip(lead.expected_value, 'green') : '',
+    lead.probability ? chip(lead.probability, 'amber') : ''
+  ].join('');
+  return `
+    <article class="card lead-card ${hasMeaningfulLeadBlocker(lead) ? 'lead-card-blocked' : ''}">
+      <div class="section-head">
+        <div>
+          <h3>${escapeHtml(lead.name || 'Unnamed lead')}</h3>
+          <p>${escapeHtml(leadSummaryLine(lead))}</p>
+        </div>
+        ${chip(lead.owner || 'Navod', 'blue')}
+      </div>
+      <div class="chip-row lead-chip-row">${chips}</div>
+      <div class="lead-primary-grid section-gap">
+        ${leadDetailItem('Next action', lead.next_action, 'action')}
+        ${leadDetailItem('Blocker', lead.blocker || 'No blocker noted.', hasMeaningfulLeadBlocker(lead) ? 'alert' : '')}
+      </div>
+      <div class="grid-2 section-gap lead-detail-grid">
+        ${leadDetailItem('Offer', lead.offer)}
+        ${leadDetailItem('Why this lead fits', lead.why_fit)}
+        ${leadDetailItem('Pain / need', lead.pain_point)}
+        ${leadDetailItem('Decision maker', lead.decision_maker)}
+        ${leadDetailItem('Last touch', lead.last_touch)}
+        ${leadDetailItem('Target close', lead.target_close)}
+        ${leadDetailItem('Source', lead.source)}
+        ${leadDetailItem('Website / location', `${lead.website || ''}${lead.location ? ` · ${lead.location}` : ''}`.trim())}
+      </div>
+      <div class="list section-gap">
+        ${leadDetailItem('Context notes', lead.notes)}
+        ${leadDetailItem('What to remember', lead.memory_note)}
+      </div>
+    </article>
   `;
 }
 

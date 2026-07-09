@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-09T09:23:05+01:00",
+  "generated_at": "2026-07-08T23:55:00+00:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.5",
+    "version": "4.6",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Live layer enabled: Cycle Matter onboarding template is now packaged and pushed, with the proposal and follow-on growth moves next.",
+    "status": "Live layer enabled: leads now have a dedicated page with richer context, blockers, and next actions.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -157,7 +157,16 @@
         "blocker": "Proposal not sent yet",
         "notes": "Most immediate path to revenue this week.",
         "expected_value": "£2,300",
-        "probability": "70%"
+        "probability": "70%",
+        "company_size": "Local practice",
+        "decision_maker": "Owner / partner",
+        "pain_point": "Needs a cleaner MTD onboarding and repeatable support delivery.",
+        "why_fit": "Warmest path to cash and strongest short-term conversion opportunity.",
+        "last_touch": "Proposal prepared; waiting to send.",
+        "source": "Warm relationship / active conversation",
+        "website": "Add URL",
+        "location": "UK",
+        "memory_note": "Treat this as the fastest revenue move until sent or explicitly closed."
       },
       {
         "name": "MTD accountant shortlist",
@@ -175,7 +184,16 @@
         "blocker": "Offer copy needs final tightening",
         "notes": "High-conviction opportunity set; do not dilute attention.",
         "expected_value": "£4,800 pipeline",
-        "probability": "55%"
+        "probability": "55%",
+        "company_size": "Small accountant/bookkeeper firms",
+        "decision_maker": "Practice owner",
+        "pain_point": "Need help operationalising MTD compliance and ongoing support.",
+        "why_fit": "High-fit niche with repeatable demand and recurring revenue potential.",
+        "last_touch": "Research and prioritisation complete; offer page still tightening.",
+        "source": "Focused outbound shortlist",
+        "website": "Shortlist set",
+        "location": "UK",
+        "memory_note": "Only contact the top 3 once the offer is sharp; do not dilute attention."
       },
       {
         "name": "Cycle Matter follow-on installation",
@@ -193,7 +211,16 @@
         "blocker": "No major blocker — docs complete and agent tested",
         "notes": "Docs are complete and the live agent has been tested; the leverage move now is turning the install into the reference template.",
         "expected_value": "Template leverage",
-        "probability": "Active install"
+        "probability": "Active install",
+        "company_size": "Existing client",
+        "decision_maker": "Owner team",
+        "pain_point": "Needs repeatable onboarding and business-agent operations clarity.",
+        "why_fit": "Already validated and now useful as productised proof for future installs.",
+        "last_touch": "Template packaged and pushed to GitHub.",
+        "source": "Existing client installation",
+        "website": "Internal client context",
+        "location": "Internal / active account",
+        "memory_note": "Leverage this as proof, template value, and future onboarding speed-up — not just delivery work."
       }
     ]
   },
@@ -1452,6 +1479,12 @@
   },
   "recent_activity": {
     "items": [
+      {
+        "title": "Leads page added to Mission Control",
+        "detail": "Lead dossiers now sit on their own page with fit, blockers, decision-maker context, and next moves.",
+        "time": "Just now",
+        "tone": "purple"
+      },
       {
         "title": "Cycle Matter template packaged and pushed",
         "detail": "The onboarding template is now captured in GitHub, making future installs cleaner and faster.",
