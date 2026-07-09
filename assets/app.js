@@ -720,10 +720,14 @@ function leadCard(lead) {
         ${leadDetailItem('Why this lead fits', lead.why_fit)}
         ${leadDetailItem('Pain / need', lead.pain_point)}
         ${leadDetailItem('Decision maker', lead.decision_maker)}
+        ${leadDetailItem('Contact person', lead.contact_name)}
+        ${leadDetailItem('Email', lead.email)}
+        ${leadDetailItem('Phone', lead.phone)}
+        ${leadDetailItem('Location', lead.location)}
+        ${leadDetailItem('Website', lead.website)}
         ${leadDetailItem('Last touch', lead.last_touch)}
         ${leadDetailItem('Target close', lead.target_close)}
         ${leadDetailItem('Source', lead.source)}
-        ${leadDetailItem('Website / location', `${lead.website || ''}${lead.location ? ` · ${lead.location}` : ''}`.trim())}
       </div>
       <div class="list section-gap">
         ${leadDetailItem('Context notes', lead.notes)}

@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-08T23:55:00+00:00",
+  "generated_at": "2026-07-09T08:49:58+00:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
-    "version": "4.6",
+    "version": "4.6.1",
     "subtitle": "The operating system that runs AI-first service businesses.",
     "owner": "Navod",
     "welcome": "Runs the business in one place.",
-    "status": "Live layer enabled: leads now have a dedicated page with richer context, blockers, and next actions.",
+    "status": "Lead dossiers now include structured contact and location fields for quicker follow-up.",
     "sync_status": {
       "mode": "browser-local",
       "note": "Hosted anywhere, but edits still save in this browser."
@@ -164,9 +164,12 @@
         "why_fit": "Warmest path to cash and strongest short-term conversion opportunity.",
         "last_touch": "Proposal prepared; waiting to send.",
         "source": "Warm relationship / active conversation",
-        "website": "Add URL",
-        "location": "UK",
-        "memory_note": "Treat this as the fastest revenue move until sent or explicitly closed."
+        "website": "Add website",
+        "location": "United Kingdom",
+        "memory_note": "Treat this as the fastest revenue move until sent or explicitly closed.",
+        "contact_name": "Managing partner",
+        "email": "Add email",
+        "phone": "Add phone"
       },
       {
         "name": "MTD accountant shortlist",
@@ -191,9 +194,12 @@
         "why_fit": "High-fit niche with repeatable demand and recurring revenue potential.",
         "last_touch": "Research and prioritisation complete; offer page still tightening.",
         "source": "Focused outbound shortlist",
-        "website": "Shortlist set",
-        "location": "UK",
-        "memory_note": "Only contact the top 3 once the offer is sharp; do not dilute attention."
+        "website": "Add shortlist websites",
+        "location": "United Kingdom",
+        "memory_note": "Only contact the top 3 once the offer is sharp; do not dilute attention.",
+        "contact_name": "Top 3 shortlist owners",
+        "email": "Add top lead email",
+        "phone": "Add top lead phone"
       },
       {
         "name": "Cycle Matter follow-on installation",
@@ -218,9 +224,12 @@
         "why_fit": "Already validated and now useful as productised proof for future installs.",
         "last_touch": "Template packaged and pushed to GitHub.",
         "source": "Existing client installation",
-        "website": "Internal client context",
-        "location": "Internal / active account",
-        "memory_note": "Leverage this as proof, template value, and future onboarding speed-up — not just delivery work."
+        "website": "Internal / existing relationship",
+        "location": "Client account",
+        "memory_note": "Leverage this as proof, template value, and future onboarding speed-up — not just delivery work.",
+        "contact_name": "Cycle Matter owner team",
+        "email": "Internal contact",
+        "phone": "Internal contact"
       }
     ]
   },
@@ -1480,6 +1489,12 @@
   "recent_activity": {
     "items": [
       {
+        "title": "Lead contact fields added",
+        "detail": "Leads now show contact person, email, phone, website, and location as first-class fields.",
+        "time": "Just now",
+        "tone": "blue"
+      },
+      {
         "title": "Leads page added to Mission Control",
         "detail": "Lead dossiers now sit on their own page with fit, blockers, decision-maker context, and next moves.",
         "time": "Just now",
@@ -1520,12 +1535,6 @@
         "detail": "Three accountant-aligned opportunities remain the strongest shortlist.",
         "time": "25 min ago",
         "tone": "green"
-      },
-      {
-        "title": "Cycle Matter remains the leverage move",
-        "detail": "The install is validated; the value now is turning it into a reusable onboarding template.",
-        "time": "Today",
-        "tone": "red"
       }
     ]
   }
