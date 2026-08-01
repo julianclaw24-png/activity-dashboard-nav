@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T23:55:34+01:00",
+  "generated_at": "2026-08-02T00:25:37+01:00",
   "workspace": {
     "name": "IDIOMEX MISSION CONTROL",
     "version": "4.6.1",
@@ -43,7 +43,7 @@
   ],
   "command_header": {
     "day_label": "Today",
-    "date_label": "01 August",
+    "date_label": "02 August",
     "business_health": "🟢 Healthy",
     "momentum": "High",
     "primary_goal": "Turn Cycle Matter into the reference install",
