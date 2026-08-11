@@ -373,17 +373,22 @@ function renderSales() {
 function renderLeads() {
   const leads = topLeads();
   const totals = leadTotals();
+  const master = masterLeads();
   const blocked = leads.filter(lead => hasMeaningfulLeadBlocker(lead)).length;
   const proposals = leads.filter(lead => /proposal/i.test(String(lead.stage || ''))).length;
+  const researched = master.filter(lead => /researched/.test(String(lead.research_status || '').toLowerCase())).length;
   return `
     <section class="stats-grid stats-grid-4">
       ${statCard('Total leads', String(totals.total), 'Tracked in the master pipeline.', 'blue')}
       ${statCard('Active dossiers', String(totals.active), totals.total > totals.active ? 'Only the strongest leads are expanded below.' : 'All tracked leads are expanded below.', totals.total > totals.active ? 'purple' : 'green')}
       ${statCard('Proposal stage', String(proposals), proposals ? 'Closest to cash.' : 'Nothing at proposal stage.', proposals ? 'amber' : 'blue')}
-      ${statCard('Blocked', String(blocked), blocked ? 'Need unblock or follow-up.' : 'No material blockers.', blocked ? 'red' : 'green')}
+      ${statCard('Researched', String(researched), researched ? 'Fully researched prospects in the sheet.' : 'No researched prospects loaded.', researched ? 'green' : 'blue')}
     </section>
     <section class="grid-2 section-gap">
       ${leads.map(lead => leadCard(lead)).join('')}
+    </section>
+    <section class="section-gap">
+      ${panel('Master lead sheet', master.length ? `<div class="list">${master.map(masterLeadRow).join('')}</div>` : '<div class="empty">No master lead sheet loaded.</div>')}
     </section>
   `;
 }
@@ -737,6 +742,23 @@ function leadCard(lead) {
   `;
 }
 
+function masterLeadRow(lead) {
+  const headline = `${lead.area || 'Area unknown'}${lead.category ? ` · ${lead.category}` : ''}${lead.lead_score ? ` · score ${lead.lead_score}` : ''}`;
+  return `
+    <div class="list-item">
+      <strong>#${escapeHtml(String(lead.rank || '?'))} ${escapeHtml(lead.name || 'Unnamed lead')}</strong>
+      <p>${escapeHtml(shortText(headline, 120))}</p>
+      <p>${escapeHtml(shortText(lead.reason || lead.website_status || 'No notes loaded.', 220))}</p>
+      <div class="chip-row" style="margin-top:10px;">
+        ${lead.website_status ? chip(lead.website_status, /no standalone/i.test(String(lead.website_status)) ? 'green' : 'amber') : ''}
+        ${lead.research_status ? chip(lead.research_status, /researched-but-excluded/i.test(String(lead.research_status)) ? 'amber' : /researched/i.test(String(lead.research_status)) ? 'blue' : 'purple') : ''}
+        ${lead.confidence ? chip(lead.confidence, /high/.test(String(lead.confidence)) ? 'green' : 'amber') : ''}
+        ${lead.phone ? chip(lead.phone) : ''}
+      </div>
+    </div>
+  `;
+}
+
 function taskColumn(title, tasks, note, tone) {
   const items = tasks.length ? `<div class="list">${tasks.map(task => `
     <div class="list-item task-card ${taskUrgencyClass(task)} ${taskTimingClass(task)}">
@@ -959,6 +981,10 @@ function completedProjects() {
 
 function topLeads() {
   return (state.data.lead_pipeline?.leads || []).slice().sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+}
+
+function masterLeads() {
+  return (state.data.lead_pipeline?.master_leads || []).slice().sort((a, b) => Number(a.rank || 9999) - Number(b.rank || 9999));
 }
 
 function leadTotals() {
