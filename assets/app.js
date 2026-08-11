@@ -300,8 +300,8 @@ function renderOverview() {
       <div class="launcher-grid launcher-grid-compact">
         ${launcherCard('./ceo.html', 'Daily CEO brief', 'Priorities, risks, wins, decisions, and changes.', 'red', `${(ceoBriefData().priorities || []).length} priorities`)}
         ${launcherCard('./attention.html', 'Attention', 'Top decisions.', badgeTone(decisionPriority()), `${decisions.length} items`)}
-        ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${topLeads().length} leads`)}
-        ${launcherCard('./leads.html', 'Leads', 'Lead memory and context.', 'purple', `${topLeads().length} dossiers`)}
+        ${launcherCard('./sales.html', 'Sales', 'Best opportunities.', 'blue', `${topLeads().length} active`)}
+        ${launcherCard('./leads.html', 'Leads', 'Lead memory and context.', 'purple', `${leadTotals().total} total · ${leadTotals().active} active`)}
         ${launcherCard('./projects.html', 'Projects', 'Active delivery.', 'purple', `${activeProjects().length} active`)}
         ${launcherCard('./tasks.html', 'Tasks', 'Today, waiting, done.', 'amber', `${today.length} today`)}
         ${launcherCard('./workforce.html', 'Workforce', 'Runs, queue, and alerts.', 'green', `${(agentActivityData().recent_runs || []).length} runs`)}
@@ -372,13 +372,13 @@ function renderSales() {
 
 function renderLeads() {
   const leads = topLeads();
-  const hot = leads.filter(lead => /(hot|active)/i.test(String(lead.health || '') + ' ' + String(lead.stage || ''))).length;
+  const totals = leadTotals();
   const blocked = leads.filter(lead => hasMeaningfulLeadBlocker(lead)).length;
   const proposals = leads.filter(lead => /proposal/i.test(String(lead.stage || ''))).length;
   return `
     <section class="stats-grid stats-grid-4">
-      ${statCard('Total leads', String(leads.length), 'Tracked in Mission Control.', 'blue')}
-      ${statCard('Hot', String(hot), hot ? 'Strong immediate attention.' : 'No hot leads right now.', hot ? 'red' : 'green')}
+      ${statCard('Total leads', String(totals.total), 'Tracked in the master pipeline.', 'blue')}
+      ${statCard('Active dossiers', String(totals.active), totals.total > totals.active ? 'Only the strongest leads are expanded below.' : 'All tracked leads are expanded below.', totals.total > totals.active ? 'purple' : 'green')}
       ${statCard('Proposal stage', String(proposals), proposals ? 'Closest to cash.' : 'Nothing at proposal stage.', proposals ? 'amber' : 'blue')}
       ${statCard('Blocked', String(blocked), blocked ? 'Need unblock or follow-up.' : 'No material blockers.', blocked ? 'red' : 'green')}
     </section>
@@ -959,6 +959,15 @@ function completedProjects() {
 
 function topLeads() {
   return (state.data.lead_pipeline?.leads || []).slice().sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+}
+
+function leadTotals() {
+  const active = topLeads().length;
+  const configured = Number(state.data?.lead_pipeline?.total_count || 0);
+  return {
+    active,
+    total: configured > 0 ? configured : active
+  };
 }
 
 function decisionPriority() {
